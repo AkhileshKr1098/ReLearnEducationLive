@@ -1,0 +1,193 @@
+<mat-sidenav-container class="container-fluid">
+
+    <mat-sidenav #sidebar mode="side" opened>
+        <div class="sidebar_top_logo_area">
+            <img src="../../../assets/icon/logo_app.png" alt="">
+        </div>
+        <div class="sidebar_menu_area">
+
+
+            <button class="btn" routerLink="/admin/home" [ngClass]="{'active':activeButton ===1}" (click)="setActive(1)"
+                routerLinkActive="active">
+                <mat-icon>dashboard</mat-icon>
+                Dashboard
+            </button>
+
+            <!-- Account  -->
+
+
+            <!-- Registrations  -->
+            <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#register" aria-expanded="true"
+                aria-controls="collapseExample" (click)="regToggle()" [ngClass]="{'active':activeButton ===3}"
+                (click)="setActive(3)" routerLinkActive="active">
+                <mat-icon>account_circle</mat-icon>
+                Student
+                <mat-icon style="float: right;"
+                    [@rotateIcon]="isOpen2 ? 'open' : 'closed'">keyboard_arrow_left</mat-icon>
+            </button>
+
+            <div class="collapse" id="register">
+                <button class="options" routerLink="studentlist" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    All Student
+                </button>
+                <!-- <button class="options" routerLink="studentlist" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    All Student
+                </button> -->
+            </div>
+
+
+
+            <!-- Master Data  -->
+            <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#masterData"
+                aria-expanded="true" aria-controls="collapseExample" (click)="mdtoggle()"
+                [ngClass]="{'active':activeButton ===5}" (click)="setActive(5)" routerLinkActive="active">
+                <mat-icon>perm_data_setting</mat-icon>
+                Master Data
+                <mat-icon style="float: right;"
+                    [@rotateIcon]="isOpen3 ? 'open' : 'closed'">keyboard_arrow_left</mat-icon>
+            </button>
+            <div class="collapse" id="masterData" routerLinkActive="active">
+                <button class="options" routerLink="week" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Weeks
+                </button>
+                <button class="options" routerLink="day" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Day`s
+                </button>
+                <button class="options" routerLink="classes" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Class
+                </button>
+                <button class="options" routerLink="units" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Unit
+                </button>
+
+                <button class="options" routerLink="topics" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Topic
+                </button>
+
+                <!-- <button class="options" routerLink="subtopics" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Sub Topic
+                </button> -->
+
+                <button class="options" routerLink="question" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Question
+                </button>
+            </div>
+
+            <!-- Faculty  -->
+            <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#faculty" aria-expanded="true"
+                aria-controls="collapseExample" (click)="fttoggle()" [ngClass]="{'active':activeButton ===6}"
+                (click)="setActive(6)" routerLinkActive="active">
+                <mat-icon>face</mat-icon>
+                Faculty
+                <mat-icon style="float: right;"
+                    [@rotateIcon]="isOpen4 ? 'open' : 'closed'">keyboard_arrow_left</mat-icon>
+            </button>
+            <div class="collapse" id="faculty">
+                <button class="options" routerLink="faculty_profile" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Profile
+                </button>
+
+                <button class="options" routerLink="faculty_profile" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Faculty List
+                </button>
+
+            </div>
+
+
+
+            <!-- Class Schedule  -->
+            <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#schedule" aria-expanded="true"
+                aria-controls="collapseExample" (click)="cstoggle()" [ngClass]="{'active':activeButton ===8}"
+                (click)="setActive(8)" routerLinkActive="active">
+                <mat-icon>schedule</mat-icon>
+                Class Schedule
+                <mat-icon style="float: right;"
+                    [@rotateIcon]="isOpen6 ? 'open' : 'closed'">keyboard_arrow_left</mat-icon>
+            </button>
+            <div class="collapse" id="schedule">
+                <button class="options" routerLink="class_days" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Class Days
+                </button>
+                <button class="options" routerLink="class_timing" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Class Timing
+                </button>
+            </div>
+
+            <!-- Inventory  -->
+            <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#inventory" aria-expanded="true"
+                aria-controls="collapseExample" (click)="intogge()" [ngClass]="{'active':activeButton ===9}"
+                (click)="setActive(9)" routerLinkActive="active">
+                <mat-icon>recent_actors</mat-icon>
+                Report
+                <mat-icon style="float: right;"
+                    [@rotateIcon]="isOpen7 ? 'open' : 'closed'">keyboard_arrow_left</mat-icon>
+            </button>
+            <div class="collapse" id="inventory">
+                <button class="options" routerLink="inventory_products" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Student Report
+                </button>
+                <button class="options" routerLink="inventory_categories" routerLinkActive="active">
+                    <mat-icon>arrow_right_alt</mat-icon>
+                    Class report
+                </button>
+            </div>
+
+
+
+        </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+        <mat-toolbar class="dashboard_top_head">
+            <button mat-icon-button (click)="sidebar.toggle()"> <mat-icon>menu</mat-icon>
+            </button>
+            <div class="top_head_details_area">
+                <div class="icons_area">
+                    <div class="icons">
+                    </div>
+
+                    <div class="icons">
+                        <!-- <mat-icon> chat_bubble_outline</mat-icon> -->
+                    </div>
+                    <div class="icons">
+                        <!-- <mat-icon> call</mat-icon> -->
+                    </div>
+                    <div class="icons">
+                        <!-- <mat-icon>school</mat-icon> -->
+                        <button mat-icon-button> <mat-icon>notifications_none</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="user_details_with_login_icon" (click)="openProfileDialog()">
+                    <div class="user_icon">
+                        <img src="../../../assets/icon/profile.jpeg" alt="">
+                    </div>
+                    <div class="user_name">Mr. ABC </div>
+                    <div class="user_title">
+                        <h3>Admin</h3>
+                    </div>
+                </div>
+            </div>
+        </mat-toolbar>
+
+        <div class="main">
+            <router-outlet></router-outlet>
+        </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

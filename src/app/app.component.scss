@@ -1,0 +1,318 @@
+@use '@angular/material' as mat;
+
+.dashboard {
+  font-family: 'Roboto', sans-serif;
+  background-color: mat.get-color-from-palette(mat.$gray-palette, 50);
+  padding: 2rem;
+  color: mat.get-color-from-palette(mat.$gray-palette, 800);
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: transparent;
+    height: auto;
+    margin-bottom: 2rem;
+
+    .greeting {
+      h1 {
+        font-size: 1.75rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+
+        span {
+          font-weight: 700;
+        }
+      }
+
+      p {
+        color: mat.get-color-from-palette(mat.$gray-palette, 600);
+        font-size: 0.875rem;
+        line-height: 1.5;
+      }
+    }
+
+    .xp-card {
+      padding: 1rem;
+
+      .mat-card-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .xp-info {
+        display: flex;
+        flex-direction: column;
+
+        .xp-amount {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: mat.get-color-from-palette(mat.$indigo-palette, 500);
+        }
+
+        .xp-label {
+          font-size: 0.75rem;
+          color: mat.get-color-from-palette(mat.$gray-palette, 600);
+        }
+      }
+
+      .xp-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+  }
+
+  .main-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+
+    .left-column {
+      .today-course, .your-class {
+        h2 {
+          font-size: 1.25rem;
+          font-weight: 500;
+          margin-bottom: 1rem;
+        }
+      }
+
+      .course-card {
+        margin-bottom: 1rem;
+
+        .mat-card-content {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .course-icon {
+          font-size: 1.5rem;
+          background-color: mat.get-color-from-palette(mat.$gray-palette, 100);
+          width: 3rem;
+          height: 3rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 0.75rem;
+        }
+
+        .course-info {
+          flex: 1;
+
+          h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+          }
+
+          .course-stats {
+            display: flex;
+            gap: 1rem;
+            color: mat.get-color-from-palette(mat.$gray-palette, 600);
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+          }
+
+          .mat-progress-bar {
+            height: 0.5rem;
+            border-radius: 0.25rem;
+          }
+        }
+
+        .course-progress {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: mat.get-color-from-palette(mat.$green-palette, 500);
+        }
+
+        .course-actions {
+          display: flex;
+          gap: 0.5rem;
+        }
+      }
+
+      .your-class {
+        .mat-button-toggle-group {
+          margin-bottom: 1rem;
+        }
+
+        .class-card {
+          .mat-card-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+          }
+
+          .class-icon {
+            font-size: 1.5rem;
+            background-color: mat.get-color-from-palette(mat.$green-palette, 50);
+            color: mat.get-color-from-palette(mat.$green-palette, 500);
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.75rem;
+          }
+
+          .class-info {
+            flex: 1;
+
+            h3 {
+              font-size: 1rem;
+              font-weight: 500;
+              margin-bottom: 0.25rem;
+            }
+
+            .class-stats {
+              display: flex;
+              gap: 1rem;
+              color: mat.get-color-from-palette(mat.$gray-palette, 600);
+              font-size: 0.75rem;
+            }
+          }
+        }
+      }
+    }
+
+    .right-column {
+      .profile-section {
+        margin-bottom: 1.5rem;
+
+        .profile-header {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1rem;
+
+          .profile-image {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 0.75rem;
+            object-fit: cover;
+          }
+
+          .profile-info {
+            h3 {
+              font-size: 1.125rem;
+              font-weight: 500;
+              margin-bottom: 0.25rem;
+            }
+
+            p {
+              color: mat.get-color-from-palette(mat.$gray-palette, 600);
+              font-size: 0.875rem;
+            }
+          }
+        }
+
+        .mat-divider {
+          margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+          display: flex;
+          justify-content: space-around;
+          text-align: center;
+
+          .stat {
+            .number {
+              font-size: 1.5rem;
+              font-weight: 700;
+              color: mat.get-color-from-palette(mat.$indigo-palette, 500);
+              display: block;
+            }
+
+            .label {
+              font-size: 0.875rem;
+              color: mat.get-color-from-palette(mat.$gray-palette, 600);
+            }
+          }
+        }
+      }
+
+      .action-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+
+        .action-card {
+          color: white;
+
+          h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+          }
+
+          p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+          }
+
+          &.consultation {
+            background-color: mat.get-color-from-palette(mat.$amber-palette, 500);
+          }
+
+          &.target {
+            background-color: mat.get-color-from-palette(mat.$pink-palette, 500);
+          }
+        }
+      }
+
+      .learning-activity {
+        .activity-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+
+          h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+          }
+
+          .activity-legend {
+            display: flex;
+            gap: 1rem;
+
+            .legend-item {
+              display: flex;
+              align-items: center;
+              gap: 0.25rem;
+              font-size: 0.75rem;
+              color: mat.get-color-from-palette(mat.$gray-palette, 600);
+
+              .dot {
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 50%;
+
+                &.materials {
+                  background-color: mat.get-color-from-palette(mat.$purple-palette, 400);
+                }
+
+                &.exams {
+                  background-color: mat.get-color-from-palette(mat.$pink-palette, 400);
+                }
+              }
+            }
+          }
+
+          .mat-form-field {
+            width: 120px;
+          }
+        }
+
+        .activity-chart {
+          height: 200px;
+          // You would typically integrate a charting library here
+          // For example, using ng2-charts or ngx-charts
+        }
+      }
+    }
+  }
+}
+

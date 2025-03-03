@@ -1,0 +1,61 @@
+<div id="wrapper">
+  <mat-toolbar class="custom-toolbar">
+    <img src="assets/icon/logo_app.png" alt="Logo" class="logo" />
+
+    <nav class="nav-links">
+      <button mat-button routerLink="/english/dashboard" routerLinkActive="active-link">Dashboard</button>
+      <button mat-button routerLink="/english/weeks" routerLinkActive="active-link">My Week</button>
+      <button mat-button routerLink="/report" routerLinkActive="active-link">My Report</button>
+      <button mat-button routerLink="/class-diary" routerLinkActive="active-link">Class Diary</button>
+      <button mat-button routerLink="/syllabus" routerLinkActive="active-link">Syllabus</button>
+      <button mat-button routerLink="/join-class" routerLinkActive="active-link">Join Class</button>
+    </nav>
+
+    <!-- mobile menu code start from here  -->
+
+    <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+      aria-controls="offcanvasExample">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">RELEARN &nbsp;MENU</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <button mat-button routerLink="dashboard" routerLinkActive="active-link">Dashboard</button>
+        <button mat-button routerLink="/english/weeks" routerLinkActive="active-link">My Week</button>
+        <button mat-button routerLink="/report" routerLinkActive="active-link">My Report</button>
+        <button mat-button routerLink="/class-diary" routerLinkActive="active-link">Class Diary</button>
+        <button mat-button routerLink="/syllabus" routerLinkActive="active-link">Syllabus</button>
+        <button mat-button routerLink="/join-class" routerLinkActive="active-link">Join Class</button>
+        <button mat-button routerLink="/join-class" routerLinkActive="active-link">Profile</button>
+        <button mat-button routerLink="/join-class" routerLinkActive="active-link">Settings</button>
+        <button mat-button routerLink="/" routerLinkActive="active-link">Logout</button>
+      </div>
+    </div>
+
+    <!-- mobile menu code end here  -->
+
+    <div class="status">
+      <span>Status: <strong>Active</strong></span>
+      <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-btn">
+        Mr. John Doe <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+    </div>
+
+    <mat-menu #profileMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon> Profile
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon> Settings
+      </button>
+      <button mat-menu-item routerLink="/">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+  <router-outlet></router-outlet>
+</div>

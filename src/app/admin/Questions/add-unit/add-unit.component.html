@@ -1,0 +1,31 @@
+<div class="registration_form" [formGroup]="unitForm">
+    <div class="form_head">
+        <h3>Add Unit</h3>
+        <p mat-dialog-close>
+            <mat-icon>cancel</mat-icon>
+        </p>
+    </div>
+
+    <div class="form_area">
+
+
+        <div class="form-floating mb-2">
+            <select class="form-select" id="gender" formControlName="class_id_fk">
+                <option *ngFor="let cls of classe" [value]="cls.id">{{cls.class}}</option>
+
+            </select>
+            <label for="gender">Classes</label>
+        </div>
+
+        <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="unti" placeholder="Enter Unit" formControlName="unit">
+            <label for="unit">Unit </label>
+        </div>
+    </div>
+
+    <div class="btn_area">
+        <button type="button" class="btn btn-danger" id="cancel" mat-dialog-close>Cancel</button>
+        <button type="button" class="btn btn-primary" id="submit"
+            (click)="edit_data? updateForm(): submitForm()">{{edit_data?'Update':'Submit'}}</button>
+    </div>
+</div>

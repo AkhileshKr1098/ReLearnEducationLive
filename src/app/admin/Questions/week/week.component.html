@@ -1,0 +1,42 @@
+<div class="registration_box">
+    <div class="registration_table_area">
+        <div class="header_title">
+            <div class="title">All Weeks</div>
+            <div class="add_btn">
+                <button type="button" class="btn btn-danger" (click)="addNew()">+ Add New</button>
+            </div>
+            <div class="search_box">
+                <input class="form-control" type="search" (keyup)="onSearch($event)" placeholder="Search..."
+                    aria-label="default input example">
+            </div>
+        </div>
+
+        <table class="table table-striped" style="text-align: center;">
+            <thead>
+                <tr>
+                    <th scope="col">S.N.</th>
+                    <th scope="col">Week </th>
+
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of FilterWeeks; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{item.week_num}}</td>
+
+                    <td>
+                        <button mat-icon-button (click)="onEdit(item)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="delete_application(item)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</div>

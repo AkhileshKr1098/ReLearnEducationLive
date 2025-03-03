@@ -1,0 +1,144 @@
+#wrapper {
+  width: 100%;
+  height: 100vh;
+}
+
+.custom-toolbar {
+  background-color: white;
+  // background: linear-gradient(90deg, #ffa726, #fb8c00); /* Brand Color */
+  color: white;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid rgb(214, 214, 214);
+  position: fixed;
+}
+
+.logo {
+  height: 50px;
+  padding: 4px;
+}
+
+.nav-links {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-around;
+  color: rgb(53, 53, 53);
+}
+
+.nav-links button:hover {
+  background: linear-gradient(90deg, #ffa726, #fb8c00);
+  color: white;
+  transition: 0.5s;
+}
+
+.active-link {
+  background: linear-gradient(90deg, #ffa726, #fb8c00);
+  color: white;
+  transition: 0.5s;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: rgb(53, 53, 53);
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.dashboard {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 20px;
+}
+
+.greeting {
+  grid-column: 1 / -1;
+  background: #fbe9e7;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.main-content {
+  display: flex;
+  gap: 20px;
+}
+
+.courses .course-card {
+  background: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .profile-card,
+.sidebar .xp-card {
+  background: white;
+  padding: 15px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.quick-actions .action-card {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: #f5f5f5;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.learning-activity {
+  grid-column: 1 / -1;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.offcanvas-body button {
+  width: 90%;
+  float: left;
+  margin-top: 2px;
+}
+
+.btn {
+  color: black;
+  display: none;
+}
+
+.btn mat-icon {
+  width: auto;
+  height: auto;
+  font-size: 30px;
+}
+
+
+
+// media query start from here 
+
+@media(max-width:1250px) and (min-width:0px) {
+  .btn {
+    display: block;
+  }
+
+  .nav-links button {
+    display: none;
+  }
+
+  .status {
+    display: none;
+  }
+
+  .logo {
+    padding: 10px;
+  }
+}

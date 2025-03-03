@@ -1,0 +1,94 @@
+<div id="wrapper">
+    <div class="container mt-4">
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <img src="../../assets/icon/logo_app.png" alt="" width="150px" height="50px">
+                </div>
+                <div class="col-md-6 mb-3">
+
+                    <h2 class="text-center" style="color: red;">Registration</h2>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" formControlName="name">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Gender</label>
+                    <select class="form-control" formControlName="gender">
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">DOB</label>
+                    <input type="date" class="form-control" formControlName="dob">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-control" formControlName="address">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">City</label>
+                    <input type="text" class="form-control" formControlName="city">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">State</label>
+                    <input type="text" class="form-control" formControlName="state">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Country</label>
+                    <input type="text" class="form-control" formControlName="country">
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">c. code</label>
+                    <input type="text" placeholder="c. code" class="form-control" formControlName="CountryCode">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Mobile</label>
+                    <input type="text" class="form-control" formControlName="mobile">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" formControlName="email">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" formControlName="password">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" formControlName="confirmPassword">
+                </div>
+
+            </div>
+
+            <div class="col mb-3 form-check">
+                <input type="checkbox" class="form-check-input" formControlName="gdprConsent">
+                <label class="form-check-label">Due to the new General Data Protection Regulations (GDPR), by
+                    signing this letter you are agreeing that we can keep this information</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</div>

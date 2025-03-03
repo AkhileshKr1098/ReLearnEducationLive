@@ -1,0 +1,21 @@
+<div class="registration_form" [formGroup]="weeks">
+    <div class="form_head">
+        <h3>Week</h3>
+        <p mat-dialog-close>
+            <mat-icon>cancel</mat-icon>
+        </p>
+    </div>
+
+    <div class="form_area">
+        <div class="form-floating mb-2">
+            <input type="number" class="form-control" id="week" placeholder="Week Number" formControlName="week_num">
+            <label for="week">Week </label>
+        </div>
+    </div>
+
+    <div class="btn_area">
+        <button type="button" class="btn btn-danger" id="cancel" mat-dialog-close>Cancel</button>
+        <button type="button" class="btn btn-primary" id="submit"
+            (click)="edit_data? updateForm(): submitForm()">{{edit_data?'Update':'Submit'}}</button>
+    </div>
+</div>

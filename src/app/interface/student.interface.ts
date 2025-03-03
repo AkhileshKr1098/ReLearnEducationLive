@@ -1,0 +1,45 @@
+export interface UserProfile {
+    ID: number;
+    Name1: string;
+    FatherName: string;
+    MotherName: string;
+    Gender: string;
+    DOB: Date | null;
+    EmailID: string;
+    MobileNo: string;
+    Address: string;
+    Address2?: string;
+    City: string;
+    State: string;
+    Country: string;
+    CountryCode: number;
+    PinCode?: string;
+    Course: string;
+    Purpose: string;
+    Status: string;
+    TID: number;
+    TName: string;
+    Password: string;
+    Currency: string;
+    AsignDate: string;
+    AsignDay: number;
+    Validity: string;
+    Week: number;
+    CustomWeek: string;
+    GraceDays: number;
+    Level: number;
+    LevelWeekDay?: string | null;
+    GameTimeInterval: number;
+    MaxQToDo: number;
+    NarratorSpeed: number;
+    GroupFee?: string;
+    LittleChamp: string;
+    LittleLeap: string;
+    LittleMaster: string;
+    LittleProdigy: string;
+    LittleStart: string;
+    HolidayFrom?: Date | null;
+    HolidayTo?: Date | null;
+    Date1: string;
+}
+

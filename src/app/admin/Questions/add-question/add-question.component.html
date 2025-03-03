@@ -1,0 +1,232 @@
+<div id="wrapper">
+    <div class="registration_form" [formGroup]="QuestionForm">
+        <div class="form_head">
+            <h3>Add Question</h3>
+            <p mat-dialog-close>
+                <mat-icon>cancel</mat-icon>
+            </p>
+        </div>
+
+        <div class="form_area">
+            <div class="row">
+                <div class="form-floating">
+                    <select class="form-select" formControlName="question_type" (change)="onQuestionTypeChange($event)">
+                        <option value="MCQ">MCQ</option>
+                        <option value="LetterTracing">Letter Tracing</option>
+                        <option value="LetterMatch">Letter Match</option>
+                        <option value="BlendWords">Blend words</option>
+                        <option value="ListenWords">Listen Words</option>
+                    </select>
+                    <label>Question Type</label>
+                </div>
+
+                <div class="form-floating">
+                    <select class="form-select" formControlName="class_id_fk" (change)="onGetUnit($event)">
+                        <option value="" disabled selected>Select Class</option>
+                        <option *ngFor="let cls of classe" [value]="cls.id">{{cls.class}}</option>
+                    </select>
+                    <label>Class</label>
+                </div>
+
+                <div class="form-floating">
+                    <select class="form-select" formControlName="unit_id_fk" (change)="onGetTopics($event)">
+                        <option value="" disabled selected>Select Unit</option>
+                        <option *ngFor="let unit of units" [value]="unit.id">{{unit.unit}}</option>
+                    </select>
+                    <label>Unit</label>
+                </div>
+
+                <div class="form-floating">
+                    <select class="form-select" formControlName="topics_id_fk">
+                        <option value="" disabled selected>Select Topic</option>
+                        <option *ngFor="let topic of Topics" [value]="topic.id">{{topic.topics}}</option>
+                    </select>
+                    <label>Topics</label>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="form-floating full-width">
+                    <input type="text" class="form-control" placeholder="Enter Question" formControlName="Question">
+                    <label>Question</label>
+                </div>
+            </div>
+
+            <!-- for MCQ Question Type  start -->
+            <div *ngIf="questionType == 'MCQ'">
+                <div class="mcq">
+                    <div class="row">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" placeholder="Option A" formControlName="OptionA">
+                            <label>Option A</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" placeholder="Option B" formControlName="OptionB">
+                            <label>Option B</label>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" placeholder="Option C"
+                                    formControlName="OptionC">
+                                <label>Option C</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" placeholder="Option D"
+                                    formControlName="OptionD">
+                                <label>Option D</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-floating full-width">
+                                <input type="text" class="form-control" placeholder="Answer" formControlName="Answer">
+                                <label>Answer</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- for Letter Match Question Type  start -->
+
+            <div *ngIf="questionType === 'LetterMatch'">
+                <div class="LetterMatch">
+                    <div formArrayName="LetterMatch">
+                        <div class="row" *ngFor="let option of options.controls; let i = index" [formGroupName]="i">
+
+                            <div class="form-floating">
+                                <input type="text" class="form-control" placeholder="Option A"
+                                    formControlName="OptionA">
+                                <label>Option Left Side ({{i+1}})</label>
+                            </div>
+
+                            <div class="form-floating">
+                                <input type="text" class="form-control" placeholder="Option B"
+                                    formControlName="OptionB">
+                                <label>Option Right Side ({{i+1}})</label>
+                            </div>
+
+                            <div class="form-floating">
+                                <input type="text" class="form-control" placeholder="Answer" formControlName="Answer">
+                                <label>Correct Answer ({{i+1}})</label>
+                            </div>
+
+                            <button *ngIf="i === options.length - 1 && options.length < 5" mat-icon-button
+                                (click)="addRow()">
+                                <mat-icon>add_circle_outline</mat-icon>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- for BlendWord Question Type  start -->
+
+            <div *ngIf="questionType === 'BlendWords'">
+                <div
+                    class="d-flex align-items-center justify-content-center flex-wrap gap-3 p-3 border rounded shadow-sm">
+                    <div class="text-center">
+                        <img [src]="questionIMG || 'https://via.placeholder.com/150'" alt="Uploaded Image"
+                            class="img-thumbnail" width="150" height="150">
+                        <br>
+                        <button class="btn btn-primary btn-sm mt-2" (click)="fileInput.click()">Change</button>
+                        <input type="file" #fileInput class="d-none" (change)="onFileChange($event)"
+                            accept=".png, .jpg, .jpeg">
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <div class="form-floating mb-2">
+
+                            <input type="text" class="form-control" placeholder="_____Incomplete Word"
+                                formControlName="incomplete_word">
+                            <label>_____Incomplete Word</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" placeholder="Complete Word"
+                                formControlName="Answer">
+                            <label>Complete Word</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" placeholder="Option A" formControlName="OptionA">
+                        <label>Option A</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="text" class="form-control" placeholder="Option B" formControlName="OptionB">
+                        <label>Option B</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="text" class="form-control" placeholder="Option C" formControlName="OptionC">
+                        <label>Option C</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="text" class="form-control" placeholder="Option D" formControlName="OptionD">
+                        <label>Option D</label>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <!-- for ListenWords Question Type  start -->
+
+            <div *ngIf="questionType === 'ListenWords'">
+                    <div
+                        class="d-flex align-items-center justify-content-center flex-wrap gap-3 p-3 border rounded shadow-sm">
+
+                        <!-- Image Upload -->
+                        <div class="text-center">
+                            <img [src]="questionIMG || 'https://via.placeholder.com/150'" alt="Uploaded Image"
+                                class="img-thumbnail" width="150" height="150">
+                            <br>
+                            <button class="btn btn-primary btn-sm mt-2" (click)="fileInput.click()">Change</button>
+                            <input type="file" #fileInput class="d-none" (change)="onFileChange($event)"
+                                accept=".png, .jpg, .jpeg">
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <div class="form-floating mb-2">
+                                <input type="file" class="form-control" accept="audio/*"
+                                    (change)="onAudioChange($event)">
+                                <label>Upload Audio Listen Rec</label>
+                            </div>
+
+                            <button *ngIf="audioURL" class="btn btn-primary btn-sm mt-2"
+                                (click)="playAudio()">Play</button>
+
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" placeholder="Complete Word"
+                                    formControlName="listen_word">
+                                <label>Listen Words</label>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- footer area  -->
+    <div class="btn_area">
+        <button type="button" class="btn btn-danger" mat-dialog-close>Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="edit_data ? updateForm() : submitForm()">{{edit_data
+            ? 'Update' : 'Submit'}}</button>
+    </div>
+</div>
