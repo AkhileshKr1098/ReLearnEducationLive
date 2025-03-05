@@ -1,6 +1,6 @@
 <div id="wrapper">
   <div class="timeline">
-    <div *ngFor="let day of days; let i = index" class="day-container">
+    <div *ngFor="let day of days; let i = index" class="day-container" (click)="onQuestion(i+1)">
       <!-- <div class="number">{{ i + 1 }}</div> -->
       <!-- <div class="line"></div> -->
       <div class="circle" [ngStyle]="{'background': day.gradient}">{{ day.name }}</div>

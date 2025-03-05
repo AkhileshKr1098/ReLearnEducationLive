@@ -1,0 +1,9 @@
+<div id="wrapper">
+    <div class="timeline">
+        <div *ngFor="let topic of topics_list; let i = index" class="day-container" (click)="onQuestion(topic.id)">
+
+            <div class="circle">{{ topic.topics }}</div>
+            <img src=".../../../../../assets/icon/warn.png" alt="">
+        </div>
+    </div>
+</div>

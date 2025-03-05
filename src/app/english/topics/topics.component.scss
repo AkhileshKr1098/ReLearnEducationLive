@@ -1,0 +1,32 @@
+#wrapper {
+    font-family: Arial, sans-serif;
+    background-image: url("/assets/icon/unitbgc.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.timeline {
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    height: 40%;
+}
+
+.day-container {
+    width: 150px;
+    height: 100px;
+    background-color: rgb(68, 47, 255);
+    margin: 10px;
+}
+
+.circle {
+    padding: 20px;
+    background-color: greenyellow;
+}
