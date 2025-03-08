@@ -12,6 +12,7 @@ export class AddTopicsComponent {
   classe: any[] = []
   units: any[] = []
   TopicsForm!: FormGroup
+  topics_img: any
   profileImage: any = '../../../assets/icon/profile.jpeg'
   constructor(
     private _fb: FormBuilder,
@@ -73,7 +74,6 @@ export class AddTopicsComponent {
     this._crud.getUnitByClass(cls).subscribe(
       (res: any) => {
         console.log(res);
-
         if (Array.isArray(res.data)) {
           this.units = res.data;
         } else {
@@ -94,7 +94,17 @@ export class AddTopicsComponent {
 
   }
 
+  onFileChange(data:any) {
+    
+  }
+  
   submitForm() {
+    const fromdata = new FormData()
+    fromdata.append('class_id_fk', this.TopicsForm.get('class_id_fk')?.value)
+    fromdata.append('unit_id_fk', this.TopicsForm.get('unit_id_fk')?.value)
+    fromdata.append('topics', this.TopicsForm.get('topics')?.value)
+    fromdata.append('topics_img', this.topics_img)
+
     this._crud.addTopics(this.TopicsForm.value).subscribe(
       (res) => {
         console.log(res);

@@ -9,7 +9,7 @@ import { DayRes, GradeRes, SectionRes, Week, WeekInsertRes, WeekRes } from './in
 })
 export class CRUDService {
   // base_url: string = 'http://localhost/relearn/' 
-  base_url: string = 'https://educatorbox.com/Development/API/'
+  base_url: string = 'https://mausamstudio.com/Development/API/'
   constructor(
     private _http: HttpClient
   ) { }

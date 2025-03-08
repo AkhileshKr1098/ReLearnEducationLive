@@ -8,32 +8,39 @@
 
     <div class="form_area">
 
-
         <div class="form-floating mb-2">
             <select class="form-select" id="gender" formControlName="class_id_fk" (change)="onGetUnit($event)">
                 <option *ngFor="let cls of classe" [value]="cls.id">{{cls.class}}</option>
-
             </select>
             <label for="gender">Classes</label>
         </div>
 
         <div class="form-floating mb-2">
-            <select class="form-select" id="gender" formControlName="unit_id_fk" >
+            <select class="form-select" id="gender" formControlName="unit_id_fk">
                 <option *ngFor="let unit of units" [value]="unit.id">{{unit.unit}}</option>
-
             </select>
             <label for="gender">Unit</label>
         </div>
 
-        <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="topics" placeholder="Enter Topics" formControlName="topics">
-            <label for="topics">Topics </label>
-        </div>
     </div>
 
-    <div class="btn_area">
-        <button type="button" class="btn btn-danger" id="cancel" mat-dialog-close>Cancel</button>
-        <button type="button" class="btn btn-primary" id="submit"
-            (click)="edit_data? updateForm(): submitForm()">{{edit_data?'Update':'Submit'}}</button>
+    <div class="form-floating mb-2">
+        <input type="text" class="form-control" id="topics" placeholder="Enter Topics" formControlName="topics">
+        <label for="topics">Topics </label>
     </div>
+
+    <div class="text-center">
+        <img [src]="topics_img || 'https://via.placeholder.com/150'" alt="Uploaded Image" class="img-thumbnail"
+            width="150" height="150">
+        <br>
+        <button class="btn btn-primary btn-sm mt-2" (click)="fileInput.click()">Change</button>
+        <input type="file" #fileInput class="d-none" (change)="onFileChange($event)" accept=".png, .jpg, .jpeg">
+    </div>
+
+</div>
+
+<div class="btn_area">
+    <button type="button" class="btn btn-danger" id="cancel" mat-dialog-close>Cancel</button>
+    <button type="button" class="btn btn-primary" id="submit"
+        (click)="edit_data? updateForm(): submitForm()">{{edit_data?'Update':'Submit'}}</button>
 </div>
