@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { CRUDService } from 'src/app/crud.service';
 
 @Component({
   selector: 'app-question',
@@ -8,7 +9,6 @@ import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 export class QuestionComponent implements AfterViewInit {
   @ViewChild('letterCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
   ctx!: CanvasRenderingContext2D;
-  
   letters: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   currentLetter: string = 'A';
   isDrawing = false;
@@ -18,6 +18,54 @@ export class QuestionComponent implements AfterViewInit {
   colors = ['#FF5733', '#33FF57', '#3357FF', '#F0FF33', '#9B33FF', '#FF33B5', '#33FFF7'];
   isSaveVisible = false;
 
+
+
+  QuestionType: string = ''
+  AllQuestion: any = []
+  CurrentQuestion: any
+  base_url: string = ''
+  filledWord: string = '';
+
+  constructor(
+    private _crud: CRUDService,
+  ) {
+    this._crud.img_base_url.subscribe(
+      (res) => {
+        this.base_url = res
+      }
+    )
+    this._crud.getQuestion().subscribe(
+      (res) => {
+        this.AllQuestion = res
+        this.NextQuestion()
+      }
+    )
+  }
+
+  i = 0
+
+
+  selectOption(option: string) {
+    this.filledWord = option;
+  }
+
+  resetSelection() {
+    this.filledWord = '';
+  }
+
+ 
+
+
+  NextQuestion() {
+    if (this.i < this.AllQuestion.length - 1) {
+      this.i++;
+    } else {
+      this.i = 0;
+    }
+    this.CurrentQuestion = this.AllQuestion[this.i];
+    this.QuestionType =  this.CurrentQuestion.question_type
+    console.log( this.CurrentQuestion)
+  }
   ngAfterViewInit(): void {
     this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
     this.startPainting();
@@ -83,7 +131,7 @@ export class QuestionComponent implements AfterViewInit {
       }
     }
 
-    if (this.paintedPixels >= 100) {
+    if (this.paintedPixels >= 50) {
       this.isSaveVisible = true;
     }
   }
