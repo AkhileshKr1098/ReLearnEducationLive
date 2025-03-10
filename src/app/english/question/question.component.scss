@@ -1,14 +1,24 @@
+
 /* General Styles */
 body {
   font-family: 'Comic Sans MS', cursive, sans-serif;
   text-align: center;
   background-color: #fffae5; /* Light pastel yellow */
   margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 /* Wrapper */
 #wrapper {
   padding: 20px;
+  max-width: 480px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* Letter Selector */
@@ -40,6 +50,9 @@ canvas {
 
 /* Button Container */
 .button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
   margin-top: 20px;
 }
 
@@ -58,7 +71,6 @@ button {
 .reset-btn {
   background-color: #ff6347; /* Tomato red */
   color: white;
-  margin-right: 10px;
 }
 
 .reset-btn:hover {

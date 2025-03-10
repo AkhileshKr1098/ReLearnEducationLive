@@ -34,7 +34,7 @@ export class QuestionComponent implements AfterViewInit {
   drawLetter(letter: string): void {
     const canvas = this.canvasRef.nativeElement;
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.ctx.font = '150px Arial';
+    this.ctx.font = 'bold 200px Arial';
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     this.ctx.fillStyle = 'black';
@@ -42,33 +42,18 @@ export class QuestionComponent implements AfterViewInit {
     this.letterPath = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
   }
 
-  paintLetter(event: MouseEvent | TouchEvent): void {
-    let mouseX: number, mouseY: number;
-    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-
-    if (event instanceof MouseEvent) {
-      if (!this.isMousePressed) return;
-      mouseX = event.clientX - rect.left;
-      mouseY = event.clientY - rect.top;
-    } else if (event instanceof TouchEvent) {
-      event.preventDefault();
-      const touch = event.touches[0];
-      mouseX = touch.clientX - rect.left;
-      mouseY = touch.clientY - rect.top;
-    } else {
-      return;
-    }
-
-    const index = (Math.floor(mouseY) * this.canvasRef.nativeElement.width + Math.floor(mouseX)) * 4;
+  paintLetter(x: number, y: number): void {
+    const index = (Math.floor(y) * this.canvasRef.nativeElement.width + Math.floor(x)) * 4;
     const pixelData = this.letterPath.data.slice(index, index + 4);
 
     if (pixelData[3] > 0) {
-      const position = `${mouseX},${mouseY}`;
+      const position = `${x},${y}`;
       if (!this.paintedArea.has(position)) {
         this.paintedArea.add(position);
         this.totalArea++;
+
         this.ctx.beginPath();
-        this.ctx.arc(mouseX, mouseY, 5, 0, Math.PI * 2);
+        this.ctx.arc(x, y, 5, 0, Math.PI * 2);
         this.ctx.fillStyle = this.colors[Math.floor(Math.random() * this.colors.length)];
         this.ctx.fill();
       }
@@ -79,12 +64,25 @@ export class QuestionComponent implements AfterViewInit {
     }
   }
 
-  saveCanvas(): void {
-    const canvas = this.canvasRef.nativeElement;
-    const link = document.createElement('a');
-    link.href = canvas.toDataURL('image/png');
-    link.download = `${this.currentLetter}-painting.png`;
-    link.click();
+  handleMouseMove(event: MouseEvent): void {
+    if (!this.isMousePressed) return;
+    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    this.paintLetter(mouseX, mouseY);
+  }
+
+  handleTouchMove(event: TouchEvent): void {
+    event.preventDefault();
+    requestAnimationFrame(() => {
+      const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+      for (let i = 0; i < event.touches.length; i++) {
+        const touch = event.touches[i];
+        const touchX = touch.clientX - rect.left;
+        const touchY = touch.clientY - rect.top;
+        this.paintLetter(touchX, touchY);
+      }
+    });
   }
 
   setupCanvasEvents(): void {
@@ -93,16 +91,22 @@ export class QuestionComponent implements AfterViewInit {
     // Mouse Events
     canvas.addEventListener('mousedown', () => { this.isMousePressed = true; });
     canvas.addEventListener('mouseup', () => { this.isMousePressed = false; });
-    canvas.addEventListener('mousemove', (event) => this.paintLetter(event));
+    canvas.addEventListener('mousemove', (event) => this.handleMouseMove(event));
 
-    // Touch Events
+    // Touch Events (Smooth)
     canvas.addEventListener('touchstart', (event) => {
-      event.preventDefault(); // Prevents scrolling while painting
+      event.preventDefault(); // Prevents scrolling
       this.isMousePressed = true;
     });
-    canvas.addEventListener('touchend', () => {
-      this.isMousePressed = false;
-    });
-    canvas.addEventListener('touchmove', (event) => this.paintLetter(event));
+    canvas.addEventListener('touchend', () => { this.isMousePressed = false; });
+    canvas.addEventListener('touchmove', (event) => this.handleTouchMove(event));
+  }
+
+  saveCanvas(): void {
+    const canvas = this.canvasRef.nativeElement;
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = `${this.currentLetter}-painting.png`;
+    link.click();
   }
 }
