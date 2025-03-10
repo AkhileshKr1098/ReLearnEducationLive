@@ -1,0 +1,16 @@
+<div id="wrapper">
+
+    <div id="mcq-container">
+        <h2>{{ question }}</h2>
+        <ul>
+            <li *ngFor="let option of options" (click)="selectOption(option)"
+                [class.selected]="selectedOption === option">
+                {{ option }}
+            </li>
+        </ul>
+        <button (click)="submitAnswer()" [disabled]="!selectedOption">Submit</button>
+        <p *ngIf="result !== null" [class.correct]="result" [class.incorrect]="!result">
+            {{ result ? 'Correct!' : 'Incorrect, try again!' }}
+        </p>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserProfile } from './interface/student.interface';
 import { DayRes, GradeRes, SectionRes, Week, WeekInsertRes, WeekRes } from './interface/Question.interface';
 
@@ -9,7 +9,9 @@ import { DayRes, GradeRes, SectionRes, Week, WeekInsertRes, WeekRes } from './in
 })
 export class CRUDService {
   // base_url: string = 'http://localhost/relearn/' 
-  base_url: string = 'https://mausamstudio.com/Development/API/'
+  base_url: string = 'https://ud.mausamstudio.com/relearn_api/'
+  img_base_url = new BehaviorSubject<string>('https://ud.mausamstudio.com/relearn_api/')
+
   constructor(
     private _http: HttpClient
   ) { }

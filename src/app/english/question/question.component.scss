@@ -1,53 +1,81 @@
+/* General Styles */
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-align: center;
+  background-color: #fffae5; /* Light pastel yellow */
+  margin: 0;
+}
+
+/* Wrapper */
 #wrapper {
-    font-family: Arial, sans-serif;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: greenyellow;
-  }
-.mcq-container {
-    max-width: 400px;
-    margin: auto;
-    text-align: center;
-    font-family: Arial, sans-serif;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    padding: 10px;
-    margin: 5px 0;
-    background: #f0f0f0;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  li.selected {
-    background: #007bff;
-    color: white;
-  }
-  button {
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    background: #28a745;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  button:disabled {
-    background: #ccc;
-  }
-  .correct {
-    color: green;
-    font-weight: bold;
-  }
-  .incorrect {
-    color: red;
-    font-weight: bold;
-  }
+  padding: 20px;
+}
+
+/* Letter Selector */
+.letter-selector {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff5733; /* Fun orange */
+  margin-bottom: 15px;
+}
+
+/* Canvas Container */
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Canvas */
+canvas {
+  border-radius: 15px;
+  border: 5px solid #4caf50; /* Green outline */
+  background-color: white;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Button Container */
+.button-container {
+  margin-top: 20px;
+}
+
+/* Buttons */
+button {
+  font-size: 20px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+/* Reset Button */
+.reset-btn {
+  background-color: #ff6347; /* Tomato red */
+  color: white;
+  margin-right: 10px;
+}
+
+.reset-btn:hover {
+  background-color: #d43f2e;
+}
+
+/* Save Button */
+.save-btn {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #388e3c;
+}
+
+.save-btn:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}

@@ -28,6 +28,12 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuestionComponent } from './question/question.component';
 import { TopicsComponent } from './topics/topics.component';
+import { LetterTrackingComponent } from './QuestionType/letter-tracking/letter-tracking.component';
+import { MCQComponent } from './QuestionType/mcq/mcq.component';
+import { LetterMatchComponent } from './QuestionType/letter-match/letter-match.component';
+import { BlendWordsComponent } from './QuestionType/blend-words/blend-words.component';
+import { ListenWordsComponent } from './QuestionType/listen-words/listen-words.component';
+import { QTypeComponent } from './QuestionType/qtype/qtype.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +41,13 @@ import { TopicsComponent } from './topics/topics.component';
     DashboardComponent,
     WeekByPageComponent,
     QuestionComponent,
-    TopicsComponent],
+    TopicsComponent,
+    LetterTrackingComponent,
+    MCQComponent,
+    LetterMatchComponent,
+    BlendWordsComponent,
+    ListenWordsComponent,
+    QTypeComponent],
   imports: [
     CommonModule,
     EnglishRoutingModule,

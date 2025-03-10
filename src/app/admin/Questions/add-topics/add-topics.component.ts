@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TimeScale } from 'chart.js';
 import { CRUDService } from 'src/app/crud.service';
 
 @Component({
@@ -12,8 +13,9 @@ export class AddTopicsComponent {
   classe: any[] = []
   units: any[] = []
   TopicsForm!: FormGroup
-  topics_img: any
-  profileImage: any = '../../../assets/icon/profile.jpeg'
+  topics_img: any = '../../../../assets/icon/topicsDfultImg.jpg'
+  topics_img_url: any
+  base_url: string = ''
   constructor(
     private _fb: FormBuilder,
     private _crud: CRUDService,
@@ -26,6 +28,12 @@ export class AddTopicsComponent {
       unit_id_fk: new FormControl('', Validators.required),
       id: new FormControl('', Validators.required),
     });
+
+    this._crud.img_base_url.subscribe(
+      (res) => {
+        this.base_url = res
+      }
+    )
   }
 
   ngOnInit() {
@@ -33,6 +41,7 @@ export class AddTopicsComponent {
     if (this.edit_data) {
       this.GetUnit(this.edit_data.class_id_fk)
       this.TopicsForm.patchValue(this.edit_data)
+      this.topics_img = this.base_url + this.edit_data.topics_img
     }
 
     this.onGetClass()
@@ -94,18 +103,26 @@ export class AddTopicsComponent {
 
   }
 
-  onFileChange(data:any) {
-    
+
+  onFileChange(event: any) {
+    this.topics_img_url = event.target.files[0];
+    if (this.topics_img_url) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.topics_img = reader.result;
+      };
+      reader.readAsDataURL(this.topics_img_url);
+    }
   }
-  
+
   submitForm() {
     const fromdata = new FormData()
     fromdata.append('class_id_fk', this.TopicsForm.get('class_id_fk')?.value)
     fromdata.append('unit_id_fk', this.TopicsForm.get('unit_id_fk')?.value)
     fromdata.append('topics', this.TopicsForm.get('topics')?.value)
-    fromdata.append('topics_img', this.topics_img)
+    fromdata.append('topics_img', this.topics_img_url)
 
-    this._crud.addTopics(this.TopicsForm.value).subscribe(
+    this._crud.addTopics(fromdata).subscribe(
       (res) => {
         console.log(res);
         if (res.success == 1) {
@@ -120,8 +137,18 @@ export class AddTopicsComponent {
 
 
   updateForm() {
-    console.log(this.TopicsForm.value);
-    this._crud.TopicsUpdate(this.TopicsForm.value).subscribe(
+    const fromdata = new FormData()
+    fromdata.append('id', this.TopicsForm.get('id')?.value)
+    fromdata.append('class_id_fk', this.TopicsForm.get('class_id_fk')?.value)
+    fromdata.append('unit_id_fk', this.TopicsForm.get('unit_id_fk')?.value)
+    fromdata.append('topics', this.TopicsForm.get('topics')?.value)
+
+    if (this.topics_img) {
+      fromdata.append('topics_img', this.topics_img_url)
+    } else {
+      fromdata.append('topics_img', this.edit_data.topics_img)
+    }
+    this._crud.addTopics(fromdata).subscribe(
       (res) => {
         console.log(res);
         if (res.success == 1) {

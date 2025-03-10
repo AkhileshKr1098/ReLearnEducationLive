@@ -13,11 +13,18 @@ export class TopicsListComponent {
   topics: any[] = []
   FilterTopics: any[] = []
   deletevalue: any = 1
+  base_url: string = ''
   constructor(
     private dialog: MatDialog,
     private _crud: CRUDService
 
-  ) { }
+  ) {
+    this._crud.img_base_url.subscribe(
+      (res) => {
+        this.base_url = res
+      }
+    )
+  }
   ngOnInit() {
     this.getData()
   }

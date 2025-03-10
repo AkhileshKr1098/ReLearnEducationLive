@@ -8,12 +8,19 @@ import { CRUDService } from 'src/app/crud.service';
   styleUrls: ['./topics.component.scss']
 })
 export class TopicsComponent {
+  base_url: string = ''
+
   constructor(
     private _router: Router,
     private _crud: CRUDService
   ) {
 
     this.ongetTopics()
+    this._crud.img_base_url.subscribe(
+      (res) => (
+        this.base_url = res
+      )
+    )
   }
 
   topics_list: any
@@ -30,6 +37,6 @@ export class TopicsComponent {
 
   onQuestion(day: any) {
     console.log(day)
-    this._router.navigate(['/english/unit'])
+    this._router.navigate(['/english/question'])
   }
 }

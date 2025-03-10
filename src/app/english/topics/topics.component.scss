@@ -1,3 +1,4 @@
+/* Wrapper styling */
 #wrapper {
     font-family: Arial, sans-serif;
     background-image: url("/assets/icon/unitbgc.jpg");
@@ -11,22 +12,92 @@
     margin: 0;
 }
 
+/* Timeline container */
 .timeline {
-    background-color: red;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    width: 60%;
-    height: 40%;
+    gap: 20px;
+    width: 80%;
+    max-width: 1200px;
 }
 
+/* Day container (circular cards) */
 .day-container {
-    width: 150px;
-    height: 100px;
-    background-color: rgb(68, 47, 255);
-    margin: 10px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    border: 2px solid #ddd;
 }
 
-.circle {
-    padding: 20px;
-    background-color: greenyellow;
+.day-container:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Topic name styling - Circular wrap */
+.topicsname {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Image container with better fit */
+.topicsimg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.topicsimg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Image zoom effect */
+.day-container:hover .topicsimg img {
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .day-container {
+        width: 140px;
+        height: 140px;
+    }
+
+    .topicsname {
+        font-size: 12px;
+        height: 30px;
+    }
 }

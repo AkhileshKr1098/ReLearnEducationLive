@@ -1,0 +1,53 @@
+#wrapper {
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: greenyellow;
+  }
+.mcq-container {
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    padding: 10px;
+    margin: 5px 0;
+    background: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  li.selected {
+    background: #007bff;
+    color: white;
+  }
+  button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background: #28a745;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  button:disabled {
+    background: #ccc;
+  }
+  .correct {
+    color: green;
+    font-weight: bold;
+  }
+  .incorrect {
+    color: red;
+    font-weight: bold;
+  }
