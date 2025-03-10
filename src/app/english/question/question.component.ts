@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 
-
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
@@ -43,11 +42,23 @@ export class QuestionComponent implements AfterViewInit {
     this.letterPath = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
   }
 
-  paintLetter(event: MouseEvent): void {
-    if (!this.isMousePressed) return;
+  paintLetter(event: MouseEvent | TouchEvent): void {
+    let mouseX: number, mouseY: number;
     const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
+
+    if (event instanceof MouseEvent) {
+      if (!this.isMousePressed) return;
+      mouseX = event.clientX - rect.left;
+      mouseY = event.clientY - rect.top;
+    } else if (event instanceof TouchEvent) {
+      event.preventDefault();
+      const touch = event.touches[0];
+      mouseX = touch.clientX - rect.left;
+      mouseY = touch.clientY - rect.top;
+    } else {
+      return;
+    }
+
     const index = (Math.floor(mouseY) * this.canvasRef.nativeElement.width + Math.floor(mouseX)) * 4;
     const pixelData = this.letterPath.data.slice(index, index + 4);
 
@@ -63,10 +74,8 @@ export class QuestionComponent implements AfterViewInit {
       }
     }
 
-    console.log(this.totalArea)
     if (this.totalArea > 150) {
       this.isSaveVisible = true;
-
     }
   }
 
@@ -79,12 +88,21 @@ export class QuestionComponent implements AfterViewInit {
   }
 
   setupCanvasEvents(): void {
-    this.canvasRef.nativeElement.addEventListener('mousedown', () => {
+    const canvas = this.canvasRef.nativeElement;
+
+    // Mouse Events
+    canvas.addEventListener('mousedown', () => { this.isMousePressed = true; });
+    canvas.addEventListener('mouseup', () => { this.isMousePressed = false; });
+    canvas.addEventListener('mousemove', (event) => this.paintLetter(event));
+
+    // Touch Events
+    canvas.addEventListener('touchstart', (event) => {
+      event.preventDefault(); // Prevents scrolling while painting
       this.isMousePressed = true;
     });
-    this.canvasRef.nativeElement.addEventListener('mouseup', () => {
+    canvas.addEventListener('touchend', () => {
       this.isMousePressed = false;
     });
-    this.canvasRef.nativeElement.addEventListener('mousemove', (event) => this.paintLetter(event));
+    canvas.addEventListener('touchmove', (event) => this.paintLetter(event));
   }
 }
