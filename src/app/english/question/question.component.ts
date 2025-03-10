@@ -8,13 +8,13 @@ import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 export class QuestionComponent implements AfterViewInit {
   @ViewChild('letterCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
   ctx!: CanvasRenderingContext2D;
-
+  
   letters: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   currentLetter: string = 'A';
-  isMousePressed = false;
+  isDrawing = false;
   paintedArea = new Set<string>();
-  totalArea = 0;
-  letterPath!: ImageData;
+  letterBoundingBox!: { x: number; y: number; width: number; height: number };
+  paintedPixels = 0;
   colors = ['#FF5733', '#33FF57', '#3357FF', '#F0FF33', '#9B33FF', '#FF33B5', '#33FFF7'];
   isSaveVisible = false;
 
@@ -25,7 +25,7 @@ export class QuestionComponent implements AfterViewInit {
   }
 
   startPainting(): void {
-    this.totalArea = 0;
+    this.paintedPixels = 0;
     this.paintedArea.clear();
     this.drawLetter(this.currentLetter);
     this.isSaveVisible = false;
@@ -34,72 +34,68 @@ export class QuestionComponent implements AfterViewInit {
   drawLetter(letter: string): void {
     const canvas = this.canvasRef.nativeElement;
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.ctx.font = 'bold 200px Arial';
+    this.ctx.font = '200px bold Arial';
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     this.ctx.fillStyle = 'black';
     this.ctx.fillText(letter, canvas.width / 2, canvas.height / 2);
-    this.letterPath = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
+    this.calculateBoundingBox();
   }
 
-  paintLetter(x: number, y: number): void {
-    const index = (Math.floor(y) * this.canvasRef.nativeElement.width + Math.floor(x)) * 4;
-    const pixelData = this.letterPath.data.slice(index, index + 4);
+  calculateBoundingBox(): void {
+    const canvas = this.canvasRef.nativeElement;
+    const imageData = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
 
-    if (pixelData[3] > 0) {
-      const position = `${x},${y}`;
+    for (let y = 0; y < canvas.height; y++) {
+      for (let x = 0; x < canvas.width; x++) {
+        const idx = (y * canvas.width + x) * 4;
+        if (imageData.data[idx + 3] > 0) {
+          if (x < minX) minX = x;
+          if (x > maxX) maxX = x;
+          if (y < minY) minY = y;
+          if (y > maxY) maxY = y;
+        }
+      }
+    }
+    this.letterBoundingBox = { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+  }
+
+  paintLetter(event: MouseEvent | TouchEvent): void {
+    if (!this.isDrawing) return;
+
+    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+    const mouseX = ('touches' in event ? event.touches[0].clientX : event.clientX) - rect.left;
+    const mouseY = ('touches' in event ? event.touches[0].clientY : event.clientY) - rect.top;
+
+    if (
+      mouseX >= this.letterBoundingBox.x && mouseX <= this.letterBoundingBox.x + this.letterBoundingBox.width &&
+      mouseY >= this.letterBoundingBox.y && mouseY <= this.letterBoundingBox.y + this.letterBoundingBox.height
+    ) {
+      const position = `${Math.floor(mouseX)},${Math.floor(mouseY)}`;
       if (!this.paintedArea.has(position)) {
         this.paintedArea.add(position);
-        this.totalArea++;
-
+        this.paintedPixels++;
         this.ctx.beginPath();
-        this.ctx.arc(x, y, 5, 0, Math.PI * 2);
+        this.ctx.arc(mouseX, mouseY, 8, 0, Math.PI * 2);
         this.ctx.fillStyle = this.colors[Math.floor(Math.random() * this.colors.length)];
         this.ctx.fill();
       }
     }
 
-    if (this.totalArea > 150) {
+    if (this.paintedPixels >= 100) {
       this.isSaveVisible = true;
     }
   }
 
-  handleMouseMove(event: MouseEvent): void {
-    if (!this.isMousePressed) return;
-    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-    this.paintLetter(mouseX, mouseY);
-  }
-
-  handleTouchMove(event: TouchEvent): void {
-    event.preventDefault();
-    requestAnimationFrame(() => {
-      const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-      for (let i = 0; i < event.touches.length; i++) {
-        const touch = event.touches[i];
-        const touchX = touch.clientX - rect.left;
-        const touchY = touch.clientY - rect.top;
-        this.paintLetter(touchX, touchY);
-      }
-    });
-  }
-
   setupCanvasEvents(): void {
     const canvas = this.canvasRef.nativeElement;
-
-    // Mouse Events
-    canvas.addEventListener('mousedown', () => { this.isMousePressed = true; });
-    canvas.addEventListener('mouseup', () => { this.isMousePressed = false; });
-    canvas.addEventListener('mousemove', (event) => this.handleMouseMove(event));
-
-    // Touch Events (Smooth)
-    canvas.addEventListener('touchstart', (event) => {
-      event.preventDefault(); // Prevents scrolling
-      this.isMousePressed = true;
-    });
-    canvas.addEventListener('touchend', () => { this.isMousePressed = false; });
-    canvas.addEventListener('touchmove', (event) => this.handleTouchMove(event));
+    canvas.addEventListener('mousedown', () => this.isDrawing = true);
+    canvas.addEventListener('mouseup', () => this.isDrawing = false);
+    canvas.addEventListener('mousemove', (event) => this.paintLetter(event));
+    canvas.addEventListener('touchstart', () => this.isDrawing = true);
+    canvas.addEventListener('touchend', () => this.isDrawing = false);
+    canvas.addEventListener('touchmove', (event) => this.paintLetter(event));
   }
 
   saveCanvas(): void {
