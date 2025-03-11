@@ -19,7 +19,6 @@ export class QuestionComponent implements AfterViewInit {
   isSaveVisible = false;
 
 
-
   QuestionType: string = ''
   AllQuestion: any = []
   CurrentQuestion: any
@@ -53,7 +52,7 @@ export class QuestionComponent implements AfterViewInit {
     this.filledWord = '';
   }
 
- 
+
 
 
   NextQuestion() {
@@ -63,8 +62,8 @@ export class QuestionComponent implements AfterViewInit {
       this.i = 0;
     }
     this.CurrentQuestion = this.AllQuestion[this.i];
-    this.QuestionType =  this.CurrentQuestion.question_type
-    console.log( this.CurrentQuestion)
+    this.QuestionType = this.CurrentQuestion.question_type
+    console.log(this.CurrentQuestion)
   }
   ngAfterViewInit(): void {
     this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
@@ -153,4 +152,10 @@ export class QuestionComponent implements AfterViewInit {
     link.download = `${this.currentLetter}-painting.png`;
     link.click();
   }
+
+
+  onMouseUp() {
+
+  }
+
 }

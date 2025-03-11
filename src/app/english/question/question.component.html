@@ -1,6 +1,6 @@
 <div id="wrapper">
 
-    <div *ngIf="QuestionType == 'LetterTracing'" id="LetterTracing">
+     <div *ngIf="QuestionType == 'LetterTracing'" id="LetterTracing">
         <div class="letter-selector">
             <span>🎨 {{CurrentQuestion?.Question}} 🖍️</span>
         </div>
@@ -13,7 +13,7 @@
             <button class="reset-btn" (click)="startPainting()">🔄 Reset</button>
             <button class="save-btn" [disabled]="!isSaveVisible" (click)="saveCanvas()">✅ Save & Next</button>
         </div>
-    </div>
+    </div> 
 
     <div *ngIf="QuestionType == 'BlendWords'" id="BlendWords">
         <div class="letter-selector">
@@ -57,7 +57,23 @@
             <button class="reset-btn" (click)="resetSelection()">🔄 Reset</button>
             <button class="save-btn" (click)="NextQuestion()">✅ Save & Next</button>
         </div>
-    </div>
+    </div> 
+
+    <!-- <div id="LetterMatch">
+        <div class="letter-selector">
+            <span>🎨 Lorem ipsum dolor sit amet consectetur, adipisicing elit. 🖍️</span>
+        </div>
+
+        <div class="qarea">
+            
+        </div>
+
+        <div class="button-container">
+            <button class="reset-btn" (click)="resetSelection()">🔄 Reset</button>
+            <button class="save-btn" (click)="NextQuestion()">✅ Save & Next</button>
+        </div>
+
+    </div> -->
 
     <button class="save-btn" (click)="NextQuestion()">✅ Save & Next</button>
 
