@@ -34,6 +34,8 @@ import { LetterMatchComponent } from './QuestionType/letter-match/letter-match.c
 import { BlendWordsComponent } from './QuestionType/blend-words/blend-words.component';
 import { ListenWordsComponent } from './QuestionType/listen-words/listen-words.component';
 import { QTypeComponent } from './QuestionType/qtype/qtype.component';
+import { OopsDialogComponent } from './QuestionType/oops-dialog/oops-dialog.component';
+import { ConfirmDialogComponent } from './QuestionType/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { QTypeComponent } from './QuestionType/qtype/qtype.component';
     LetterMatchComponent,
     BlendWordsComponent,
     ListenWordsComponent,
-    QTypeComponent],
+    QTypeComponent,
+    OopsDialogComponent,
+    ConfirmDialogComponent],
   imports: [
     CommonModule,
     EnglishRoutingModule,

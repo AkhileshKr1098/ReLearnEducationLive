@@ -294,7 +294,10 @@ export class AddQuestionComponent {
       this._crud.QuestionUpdat_picktheblend(fromdata).subscribe(
         (res: any) => {
           console.log(res);
-
+          if (res.status == 'success') {
+            alert(res.message)
+            this.matref.close()
+          }
         }
       )
     }

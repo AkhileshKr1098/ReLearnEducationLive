@@ -46,6 +46,7 @@ export class QuestionComponent implements AfterViewInit {
 
   selectOption(option: string) {
     this.filledWord = option;
+    console.log(this.filledWord)
   }
 
   resetSelection() {
@@ -65,6 +66,17 @@ export class QuestionComponent implements AfterViewInit {
     this.QuestionType = this.CurrentQuestion.question_type
     console.log(this.CurrentQuestion)
   }
+
+  CheckCorrect() {
+    if (this.QuestionType == 'BlendWords') {
+      if (this.CurrentQuestion?.Answer == this.filledWord) {
+        alert('Correct Its')
+      } else {
+        alert('try ago')
+      }
+    }
+  }
+
   ngAfterViewInit(): void {
     this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
     this.startPainting();
