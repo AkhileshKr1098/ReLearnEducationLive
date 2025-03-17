@@ -1,0 +1,50 @@
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.button-row {
+    position: relative;
+    top: 200px;
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+button {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+#try-again-btn {
+    background-color: #ff6347;
+}
+
+#try-again-btn:hover {
+    background-color: #e5533d;
+}
+
+#next-btn {
+    background-color: #4CAF50;
+}
+
+#next-btn:hover {
+    background-color: #3e8e41;
+}
+
+button i {
+    margin-right: 8px;
+}

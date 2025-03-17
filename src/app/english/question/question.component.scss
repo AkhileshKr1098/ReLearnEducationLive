@@ -4,6 +4,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .leftarea {
+    width: 75%;
+    float: left;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .rightarea {
+    width: 25%;
+    height: 100%;
+    float: right;
+    background-color: whitesmoke;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+  }
+
 }
 
 #LetterTracing {
@@ -15,13 +33,13 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
+// for BlendWord 
 #BlendWords {
   padding: 20px;
   max-width: 100%;
   width: 100%;
   background: #ffffff;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 
   .qarea {
     width: 100%;
@@ -61,6 +79,12 @@
     gap: 10px;
   }
 
+  .option-buttons button.active-option {
+    background: #4caf50;
+    color: white;
+    border: 2px solid #3e8e41;
+  }
+
   .option-buttons button {
     font-size: 18px;
     padding: 10px 20px;
@@ -74,7 +98,9 @@
   }
 
   .option-buttons button:hover {
-    background: #e68900;
+    background: #4caf50;
+    color: white;
+    border: 2px solid #3e8e41;
   }
 
 }

@@ -1,5 +1,9 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CRUDService } from 'src/app/crud.service';
+import { ConfirmDialogComponent } from '../QuestionType/confirm-dialog/confirm-dialog.component';
+import { CorrectBoxComponent } from '../correct-box/correct-box.component';
+import { OppsBoxComponent } from '../opps-box/opps-box.component';
 
 @Component({
   selector: 'app-question',
@@ -27,6 +31,7 @@ export class QuestionComponent implements AfterViewInit {
 
   constructor(
     private _crud: CRUDService,
+    private dialog: MatDialog
   ) {
     this._crud.img_base_url.subscribe(
       (res) => {
@@ -70,11 +75,14 @@ export class QuestionComponent implements AfterViewInit {
   CheckCorrect() {
     if (this.QuestionType == 'BlendWords') {
       if (this.CurrentQuestion?.Answer == this.filledWord) {
-        alert('Correct Its')
+        this.onCorrect()
       } else {
-        alert('try ago')
+        this.onOops()
       }
     }
+
+
+
   }
 
   ngAfterViewInit(): void {
@@ -169,5 +177,36 @@ export class QuestionComponent implements AfterViewInit {
   onMouseUp() {
 
   }
+
+  onCorrect() {
+    const dilogclosed = this.dialog.open(CorrectBoxComponent, {
+      disableClose: true,
+      width: "40vw",
+      height: "90vh"
+    });
+
+    dilogclosed.afterClosed().subscribe(
+      (res) => {
+        console.log(res)
+      }
+    )
+  }
+
+  onOops() {
+    const oopsDilog = this.dialog.open(OppsBoxComponent, {
+      disableClose: true,
+      width: "40vw",
+      height: "90vh"
+    });
+    oopsDilog.afterClosed().subscribe(
+      (res) => {
+        console.log(res)
+
+      }
+    )
+
+  }
+
+
 
 }

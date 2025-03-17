@@ -36,6 +36,9 @@ import { ListenWordsComponent } from './QuestionType/listen-words/listen-words.c
 import { QTypeComponent } from './QuestionType/qtype/qtype.component';
 import { OopsDialogComponent } from './QuestionType/oops-dialog/oops-dialog.component';
 import { ConfirmDialogComponent } from './QuestionType/confirm-dialog/confirm-dialog.component';
+import { CorrectBoxComponent } from './correct-box/correct-box.component';
+import { OppsBoxComponent } from './opps-box/opps-box.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,9 @@ import { ConfirmDialogComponent } from './QuestionType/confirm-dialog/confirm-di
     ListenWordsComponent,
     QTypeComponent,
     OopsDialogComponent,
-    ConfirmDialogComponent],
+    ConfirmDialogComponent,
+    CorrectBoxComponent,
+    OppsBoxComponent],
   imports: [
     CommonModule,
     EnglishRoutingModule,
@@ -77,6 +82,7 @@ import { ConfirmDialogComponent } from './QuestionType/confirm-dialog/confirm-di
       animationDuration: 300,
     }),
     ReactiveFormsModule,
+    MatDialogModule
 
   ],
 
