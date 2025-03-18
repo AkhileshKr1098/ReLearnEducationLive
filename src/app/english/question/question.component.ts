@@ -28,6 +28,7 @@ export class QuestionComponent implements AfterViewInit {
   CurrentQuestion: any
   base_url: string = ''
   filledWord: string = '';
+  audio: HTMLAudioElement | null = null;
 
   constructor(
     private _crud: CRUDService,
@@ -62,6 +63,7 @@ export class QuestionComponent implements AfterViewInit {
 
 
   NextQuestion() {
+    this.filledWord = ''
     if (this.i < this.AllQuestion.length - 1) {
       this.i++;
     } else {
@@ -178,6 +180,18 @@ export class QuestionComponent implements AfterViewInit {
 
   }
 
+  onPlayRec(rec: string) {
+    console.log(rec)
+    const fullUrl = this.base_url + rec
+    if (this.audio) {
+      this.audio.pause();
+    }
+    this.audio = new Audio(fullUrl);
+    this.audio.play();
+
+    this.isSaveVisible = true
+  }
+
   onCorrect() {
     const dilogclosed = this.dialog.open(CorrectBoxComponent, {
       disableClose: true,
@@ -188,6 +202,9 @@ export class QuestionComponent implements AfterViewInit {
     dilogclosed.afterClosed().subscribe(
       (res) => {
         console.log(res)
+        if (res == 'next') {
+          this.NextQuestion()
+        }
       }
     )
   }

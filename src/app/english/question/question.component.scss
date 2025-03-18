@@ -106,6 +106,51 @@
 }
 
 
+#ListenWords {
+  padding: 20px;
+  max-width: 100%;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px;
+
+  .qarea {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+
+  }
+
+  .imgarea {
+    float: left;
+    width: 40%;
+  }
+
+  .question-content {
+    float: right;
+    width: calc(60% - 40px);
+    height: calc(100% - 40px);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+
+  .listen_word {
+    width: 100%;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+  }
+
+
+
+
+}
+
+
 #LetterMatch {
   padding: 20px;
   max-width: 100%;

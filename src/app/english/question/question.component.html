@@ -14,7 +14,6 @@
             <button class="save-btn" [disabled]="!isSaveVisible" (click)="saveCanvas()">✅ Save & Next</button>
         </div>
     </div> -->
-
         <div *ngIf="QuestionType == 'BlendWords'" id="BlendWords">
             <div class="letter-selector">
                 <span>🎨 {{ CurrentQuestion?.Question }} 🖍️</span>
@@ -66,6 +65,36 @@
                 <button class="save-btn" (click)="CheckCorrect()">✅ Save & Next</button>
             </div>
         </div>
+
+
+        <!-- for ListenWords  -->
+        <div *ngIf="QuestionType == 'ListenWords'" id="ListenWords">
+            <div class="letter-selector">
+                <span>🎨 {{ CurrentQuestion?.Question }} 🖍️</span>
+            </div>
+
+            <div class="qarea">
+                <div class="imgarea">
+                    <img [src]="base_url + CurrentQuestion?.question_Img" alt="Question Image" width="200px"
+                        height="200px" />
+                </div>
+
+                <div class="question-content">
+                    <div class="listen_word">
+                        <span>{{CurrentQuestion?.listen_word }}</span>
+                    </div>
+
+                    <button class="btn btn-primary btn-sm mt-2" (click)="onPlayRec(CurrentQuestion?.listen_rec)">Listen
+                        Word</button>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button class="reset-btn" (click)="resetSelection()">🔄 Reset</button>
+                <button class="save-btn"[disabled]="!isSaveVisible" (click)="NextQuestion()">✅ Save & Next</button>
+            </div>
+        </div>
+
 
         <!-- <div id="LetterMatch">
         <div class="letter-selector">
