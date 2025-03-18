@@ -14,6 +14,7 @@
             <button class="save-btn" [disabled]="!isSaveVisible" (click)="saveCanvas()">✅ Save & Next</button>
         </div>
     </div> -->
+
         <div *ngIf="QuestionType == 'BlendWords'" id="BlendWords">
             <div class="letter-selector">
                 <span>🎨 {{ CurrentQuestion?.Question }} 🖍️</span>
@@ -91,9 +92,52 @@
 
             <div class="button-container">
                 <button class="reset-btn" (click)="resetSelection()">🔄 Reset</button>
-                <button class="save-btn"[disabled]="!isSaveVisible" (click)="NextQuestion()">✅ Save & Next</button>
+                <button class="save-btn" [disabled]="!isSaveVisible" (click)="NextQuestion()">✅ Save & Next</button>
             </div>
         </div>
+
+
+
+        <!-- for ListenWords  -->
+        <div *ngIf="QuestionType == 'MCQ'" id="MCQ">
+            <div class="letter-selector">
+                <span>🎨 {{ CurrentQuestion?.Question }} 🖍️</span>
+            </div>
+
+            <div class="qarea">
+                <div class="question-content">
+                    <div class="option-buttons">
+                        <button mat-button *ngIf="CurrentQuestion?.OptionA"
+                            (click)="selectOption(CurrentQuestion.OptionA)"
+                            [ngClass]="{'active-option': filledWord === CurrentQuestion.OptionA}">
+                            {{ CurrentQuestion.OptionA }}
+                        </button>
+                        <button mat-button *ngIf="CurrentQuestion?.OptionB"
+                            (click)="selectOption(CurrentQuestion.OptionB)"
+                            [ngClass]="{'active-option': filledWord === CurrentQuestion.OptionB}">
+                            {{ CurrentQuestion.OptionB }}
+                        </button>
+                        <button mat-button *ngIf="CurrentQuestion?.OptionC"
+                            (click)="selectOption(CurrentQuestion.OptionC)"
+                            [ngClass]="{'active-option': filledWord === CurrentQuestion.OptionC}">
+                            {{ CurrentQuestion.OptionC }}
+                        </button>
+                        <button mat-button *ngIf="CurrentQuestion?.OptionD"
+                            (click)="selectOption(CurrentQuestion.OptionD)"
+                            [ngClass]="{'active-option': filledWord === CurrentQuestion.OptionD}">
+                            {{ CurrentQuestion.OptionD }}
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button class="reset-btn" (click)="resetSelection()">🔄 Reset</button>
+                <button class="save-btn" [disabled]="!isSaveVisible" (click)="CheckCorrect()">✅ Save & Next</button>
+            </div>
+        </div>
+
 
 
         <!-- <div id="LetterMatch">

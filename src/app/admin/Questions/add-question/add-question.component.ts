@@ -229,6 +229,7 @@ export class AddQuestionComponent {
       this._crud.addQuestion_listen(fromdata).subscribe(
         (res: any) => {
           console.log(res)
+          alert(res.message)
         }
       )
     }

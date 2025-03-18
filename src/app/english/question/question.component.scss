@@ -105,6 +105,7 @@
 
 }
 
+// for listen_word
 
 #ListenWords {
   padding: 20px;
@@ -144,12 +145,75 @@
     text-transform: uppercase;
     margin-bottom: 15px;
   }
+}
+
+// for MCQ code here
+
+#MCQ {
+  padding: 20px;
+  max-width: 100%;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px;
+
+  .qarea {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+
+  }
+
+  .question-content {
+    float: right;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+
+  .option-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+    button {
+      width: 40%;
+      height: 60px;
+      margin: 5%;
+      font-size: 18px;
+      padding: 20px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+      background: #ff9800;
+      color: white;
+    }
 
 
 
+    button.active-option {
+      background: #4caf50;
+      color: white;
+      border: 2px solid #3e8e41;
+    }
+
+    button:hover {
+      background: #4caf50;
+      color: white;
+      border: 2px solid #3e8e41;
+    }
+
+  }
 
 }
 
+// for letter match 
 
 #LetterMatch {
   padding: 20px;

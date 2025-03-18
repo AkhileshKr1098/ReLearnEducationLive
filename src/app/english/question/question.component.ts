@@ -83,6 +83,14 @@ export class QuestionComponent implements AfterViewInit {
       }
     }
 
+    if (this.QuestionType == 'MCQ') {
+      if (this.CurrentQuestion?.Answer == this.filledWord) {
+        this.onCorrect()
+      } else {
+        this.onOops()
+      }
+    }
+
 
 
   }
@@ -218,6 +226,9 @@ export class QuestionComponent implements AfterViewInit {
     oopsDilog.afterClosed().subscribe(
       (res) => {
         console.log(res)
+        if (res == 'next') {
+          this.NextQuestion()
+        }
 
       }
     )
