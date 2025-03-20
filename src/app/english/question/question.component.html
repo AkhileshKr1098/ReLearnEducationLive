@@ -16,7 +16,7 @@
     </div> -->
 
         <div *ngIf="QuestionType == 'BlendWords'" id="BlendWords">
-            <div class="letter-selector">
+            <div class="questionheader">
                 <span>🎨 {{ CurrentQuestion?.Question }} 🖍️</span>
             </div>
 
@@ -177,6 +177,78 @@
     </div>
 
     <div class="rightarea">
+        <div class="reportCard">
+            <div class="profileHeader">
+                <div class="profileimage">
+                    <img src="../../../assets/icon/profile.jpeg" alt="">
+                </div>
+                <div class="name">
+                    MR John
+                </div>
+                <div class="studentid">
+                    Student ID : AB3265
+                </div>
+
+                <div class="studentid">
+                    <span>Leave 1</span>
+                    <span>Week 9</span>
+                    <span>Day 2</span>
+                </div>
+
+            </div>
+
+            <div class="reportarea">
+                <div class="progess">
+                    <span>Today's Progress Report: 0/25</span>
+                    <div class="progessline">
+                        <section class="example-section">
+                            <mat-progress-bar class="example-margin" [value]="10">
+                            </mat-progress-bar>
+                        </section>
+                    </div>
+                    <div class="progessCricelarea">
+                        <div class="rightans">
+                            <circle-progress [percent]="40" [radius]="50" [outerStrokeWidth]="8" [innerStrokeWidth]="4"
+                                [outerStrokeColor]="'green'" [innerStrokeColor]="'lightgray'" [animation]="true"
+                                [animationDuration]="1000">
+                            </circle-progress>
+                        </div>
+                        <div class="worngans">
+                            <circle-progress [percent]="40" [radius]="50" [outerStrokeWidth]="8" [innerStrokeWidth]="4"
+                                [outerStrokeColor]="'red'" [innerStrokeColor]="'lightgray'" [animation]="true"
+                                [animationDuration]="1000">
+                            </circle-progress>
+                        </div>
+                    </div>
+                </div>
+                <div class="progess">
+                    <span>Abacus Theory Progress Report: 0/10
+                    </span>
+                    <div class="progessline">
+                        <section class="example-section">
+                            <mat-progress-bar class="example-margin" [value]="10">
+                            </mat-progress-bar>
+                        </section>
+                    </div>
+                    <div class="progessCricelarea">
+                        <div class="rightans">
+                            <circle-progress [percent]="40" [radius]="50" [outerStrokeWidth]="8" [innerStrokeWidth]="4"
+                                [outerStrokeColor]="'green'" [innerStrokeColor]="'lightgray'" [animation]="true"
+                                [animationDuration]="1000">
+                            </circle-progress>
+                        </div>
+                        <div class="worngans">
+                            <circle-progress [percent]="40" [radius]="50" [outerStrokeWidth]="8" [innerStrokeWidth]="4"
+                                [outerStrokeColor]="'red'" [innerStrokeColor]="'lightgray'" [animation]="true"
+                                [animationDuration]="1000">
+                            </circle-progress>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
 
     </div>
 </div>

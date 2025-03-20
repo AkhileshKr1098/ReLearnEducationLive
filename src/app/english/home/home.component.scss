@@ -4,7 +4,7 @@
 }
 
 .custom-toolbar {
-  background-color: white;
+  background-color: whitesmoke;
   height: 70px;
   display: flex;
   align-items: center;
@@ -29,15 +29,23 @@
 .nav-links {
   display: flex;
   flex-grow: 1;
-  justify-content: space-around;
+  justify-content: left;
   color: rgb(53, 53, 53);
+  font-weight: bold;
+  font-size: 25px;
+
+  button {
+    margin-left: 30px;
+    font-weight: bold;
+    font-size: 18px;
+  }
 }
 
 .nav-links button:hover {
   background: linear-gradient(90deg, #ffa726, #fb8c00);
   color: white;
   transition: 0.5s;
-} 
+}
 
 .active-link {
   background: linear-gradient(90deg, #ffa726, #fb8c00);
@@ -56,6 +64,7 @@
   display: flex;
   align-items: center;
   color: white;
+  font-size: 18px;
 }
 
 .dashboard {
