@@ -30,6 +30,11 @@ export class QuestionComponent implements AfterViewInit {
   filledWord: string = '';
   audio: HTMLAudioElement | null = null;
 
+
+  // for report 
+  topicsRightPro: number = 0
+  topicsWorngPro: number = 0
+
   constructor(
     private _crud: CRUDService,
     private dialog: MatDialog

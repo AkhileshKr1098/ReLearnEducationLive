@@ -1,5 +1,10 @@
 <div id="wrapper">
     <div class="leftarea">
+        <div class="topicsarea">
+            <button type="button">Level/Week2/day5</button>
+            <span>{{CurrentQuestion?.topics}}</span>
+            <span></span>
+        </div>
         <!-- <div *ngIf="QuestionType == 'LetterTracing'" id="LetterTracing">
         <div class="letter-selector">
             <span>🎨 {{CurrentQuestion?.Question}} 🖍️</span>
@@ -22,8 +27,7 @@
 
             <div class="qarea">
                 <div class="imgarea">
-                    <img [src]="base_url + CurrentQuestion?.question_Img" alt="Question Image" width="200px"
-                        height="200px" />
+                    <img [src]="base_url + CurrentQuestion?.question_Img" alt="Question Image" />
                 </div>
 
                 <div class="question-content">
@@ -50,21 +54,24 @@
                         </button>
                     </div>
 
-                    <span style="width: 100%; height: 100px;"></span>
+                    <span style="width: 100%; height: 70px;"></span>
 
 
                     <div class="incomplete-word">
                         <span>{{ (CurrentQuestion?.incomplete_word || '').replace('_', filledWord || '_') }}</span>
                     </div>
 
+                    <div class="actionbutton">
+                        <button class="reset-btn" (click)="resetSelection()">🔄 Reset</button> &nbsp; &nbsp;
+                        <button class="save-btn" (click)="CheckCorrect()">✅ Save & Next</button>
+                    </div>
 
                 </div>
+
+
             </div>
 
-            <div class="button-container">
-                <button class="reset-btn" (click)="resetSelection()">🔄 Reset</button>
-                <button class="save-btn" (click)="CheckCorrect()">✅ Save & Next</button>
-            </div>
+
         </div>
 
 
@@ -222,25 +229,25 @@
                     </div>
                 </div>
                 <div class="progess">
-                    <span>Abacus Theory Progress Report: 0/10
+                    <span>{{CurrentQuestion?.topics}} Progress Report: {{i}}/{{AllQuestion?.length}}
                     </span>
                     <div class="progessline">
                         <section class="example-section">
-                            <mat-progress-bar class="example-margin" [value]="10">
+                            <mat-progress-bar class="example-margin" [value]="((i) / AllQuestion?.length) * 100">
                             </mat-progress-bar>
                         </section>
                     </div>
                     <div class="progessCricelarea">
                         <div class="rightans">
-                            <circle-progress [percent]="40" [radius]="50" [outerStrokeWidth]="8" [innerStrokeWidth]="4"
-                                [outerStrokeColor]="'green'" [innerStrokeColor]="'lightgray'" [animation]="true"
-                                [animationDuration]="1000">
+                            <circle-progress [percent]="topicsRightPro" [radius]="50" [outerStrokeWidth]="8"
+                                [innerStrokeWidth]="4" [outerStrokeColor]="'green'" [innerStrokeColor]="'lightgray'"
+                                [animation]="true" [animationDuration]="1000">
                             </circle-progress>
                         </div>
                         <div class="worngans">
-                            <circle-progress [percent]="40" [radius]="50" [outerStrokeWidth]="8" [innerStrokeWidth]="4"
-                                [outerStrokeColor]="'red'" [innerStrokeColor]="'lightgray'" [animation]="true"
-                                [animationDuration]="1000">
+                            <circle-progress [percent]="topicsWorngPro" [radius]="50" [outerStrokeWidth]="8"
+                                [innerStrokeWidth]="4" [outerStrokeColor]="'red'" [innerStrokeColor]="'lightgray'"
+                                [animation]="true" [animationDuration]="1000">
                             </circle-progress>
                         </div>
                     </div>
