@@ -32,6 +32,8 @@ import { SubTopicsListComponent } from './Questions/sub-topics-list/sub-topics-l
 import { AddSubTopicsComponent } from './Questions/add-sub-topics/add-sub-topics.component';
 import { QuestionListComponent } from './Questions/question-list/question-list.component';
 import { AddQuestionComponent } from './Questions/add-question/add-question.component';
+import { SectionsListComponent } from './Questions/sections-list/sections-list.component';
+import { AddSectionsComponent } from './Questions/add-sections/add-sections.component';
 
 
 @NgModule({
@@ -55,7 +57,9 @@ import { AddQuestionComponent } from './Questions/add-question/add-question.comp
     SubTopicsListComponent,
     AddSubTopicsComponent,
     QuestionListComponent,
-    AddQuestionComponent
+    AddQuestionComponent,
+    SectionsListComponent,
+    AddSectionsComponent
   ],
   imports: [
     CommonModule,

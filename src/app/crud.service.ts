@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserProfile } from './interface/student.interface';
-import { DayRes, GradeRes, SectionRes, Week, WeekInsertRes, WeekRes } from './interface/Question.interface';
+import { ClassRes, DayRes, GradeRes, SectionsRes, SubTopicRes, TopicsRes, Week, WeekInsertRes, WeekRes } from './interface/Question.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -69,8 +69,8 @@ export class CRUDService {
     })
   }
 
-  getClass(): Observable<any> {
-    return this._http.get<any>(`${this.base_url}classes.php
+  getClass(): Observable<ClassRes> {
+    return this._http.get<ClassRes>(`${this.base_url}classes.php
 `)
   }
 
@@ -89,6 +89,29 @@ export class CRUDService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     })
   }
+
+
+  // for section 
+  getsections(): Observable<SectionsRes> {
+    return this._http.get<SectionsRes>(`${this.base_url}sections.php`)
+  }
+
+  addsections(data: any): Observable<any> {
+    return this._http.post<any>(`${this.base_url}sections.php`, data)
+  }
+  sectionsUpdate(data: any): Observable<any> {
+    return this._http.put<any>(`${this.base_url}sections.php`, data)
+  }
+
+  sectionDeleted(idn: number): Observable<any> {
+    return this._http.delete<any>(`${this.base_url}sections.php`, {
+      body: { id: idn },
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    })
+  }
+
+  // for section 
+
 
 
   getUnit(): Observable<any> {
@@ -118,8 +141,8 @@ export class CRUDService {
   }
 
 
-  getTopics(): Observable<any> {
-    return this._http.get<any>(`${this.base_url}topics.php`)
+  getTopics(): Observable<TopicsRes> {
+    return this._http.get<TopicsRes>(`${this.base_url}topics.php`)
   }
 
   getTopicsByunit(unit: string): Observable<any> {
@@ -144,13 +167,14 @@ export class CRUDService {
 
   // for sub topics 
 
-  getSubTopics(): Observable<any> {
-    return this._http.get<any>(`${this.base_url}sub_topics.php`)
+  getSubTopics(): Observable<SubTopicRes> {
+    return this._http.get<SubTopicRes>(`${this.base_url}sub_topics.php`)
   }
 
   addSubTopics(data: any): Observable<any> {
     return this._http.post<any>(`${this.base_url}sub_topics.php`, data)
   }
+
   SubTopicsUpdate(data: any): Observable<any> {
     return this._http.put<any>(`${this.base_url}sub_topics.php`, data)
   }

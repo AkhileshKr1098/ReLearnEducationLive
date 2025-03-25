@@ -1,16 +1,16 @@
-<div class="registration_form" [formGroup]="unitForm">
+<div class="registration_form" [formGroup]="weeks">
     <div class="form_head">
-        <h3>Add Unit</h3>
+        <h3>Sections</h3>
         <p mat-dialog-close>
             <mat-icon>cancel</mat-icon>
         </p>
     </div>
 
     <div class="form_area">
-
         <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="unti" placeholder="Enter Unit" formControlName="unit">
-            <label for="unit">Unit </label>
+            <input type="text" class="form-control" id="week" placeholder="Enter sections_name"
+                formControlName="sections_name">
+            <label for="week"> Sections </label>
         </div>
     </div>
 

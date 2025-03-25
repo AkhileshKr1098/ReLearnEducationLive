@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CRUDService } from 'src/app/crud.service';
 import { AddQuestionComponent } from '../add-question/add-question.component';
 import { ConfirmBoxComponentComponent } from '../../confirm-box-component/confirm-box-component.component';
+import { Class, ClassRes, Sections, Topics, TopicsRes } from 'src/app/interface/Question.interface';
 
 @Component({
   selector: 'app-question-list',
@@ -10,6 +11,9 @@ import { ConfirmBoxComponentComponent } from '../../confirm-box-component/confir
   styleUrls: ['./question-list.component.scss']
 })
 export class QuestionListComponent {
+  sections: Sections[] = []
+  Classes: Class[] = []
+  topics: Topics[] = []
   Question: any[] = []
   FilterQuestion: any[] = []
   deletevalue: any = 1
@@ -19,7 +23,36 @@ export class QuestionListComponent {
   ) { }
 
   ngOnInit() {
-    this.getData()
+    this.getTopics()
+    this.getSection()
+  }
+
+  getClass() {
+    this._crud.getClass().subscribe(
+      (res: ClassRes) => {
+        if (Array.isArray(res.data)) {
+          this.Classes = res.data
+        }
+      }
+    )
+  }
+  getSection() {
+    this._crud.getsections().subscribe(
+      (res) => {
+        if (Array.isArray(res.data)) {
+          this.sections = res.data
+        }
+      }
+    )
+  }
+  getTopics() {
+    this._crud.getTopics().subscribe(
+      (res: TopicsRes) => {
+        if (Array.isArray(res.data)) {
+          this.topics = res.data
+        }
+      }
+    )
   }
 
   getData() {

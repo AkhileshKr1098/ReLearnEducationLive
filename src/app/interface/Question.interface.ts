@@ -26,6 +26,8 @@ export interface DayRes {
     data: Day
 }
 
+
+
 export interface Grade {
     id: number;
     day: number,
@@ -39,18 +41,52 @@ export interface GradeRes {
     data: Grade
 }
 
-export interface Section {
-    id: number;
-    day: number,
-    day_id: number;
-    grade: number;
-    week_id: number;
-    week_num: number;
-    sections: string
+
+
+export interface Class {
+    class: string,
+    id: number
 }
-export interface SectionRes {
+
+export interface ClassRes {
+    data: Class,
     success: number,
-    data: Section
+
+}
+
+
+
+export interface Sections {
+    id: number;
+    sections_name: string
+}
+export interface SectionsRes {
+    success: number,
+    data: Sections
+}
+
+export interface Topics {
+    id: number,
+    sections: string,
+    topics: string,
+    topics_img: string
+}
+export interface TopicsRes {
+    data: Topics,
+    success: number
+
+}
+
+
+export interface SubTopic {
+    id?: number;
+    sub_topics: string;
+    topics: string;
+}
+
+export interface SubTopicRes {
+    data: SubTopic,
+    success: number
 }
 
 
@@ -63,4 +99,4 @@ export interface DayInfo {
     sections: string;
     week_id: string;
     week_num: string;
-  }
+}

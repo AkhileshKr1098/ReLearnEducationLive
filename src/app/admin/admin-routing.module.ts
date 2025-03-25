@@ -12,6 +12,7 @@ import { ClassesComponent } from './Questions/classes/classes.component';
 import { UnitListComponent } from './Questions/unit-list/unit-list.component';
 import { SubTopicsListComponent } from './Questions/sub-topics-list/sub-topics-list.component';
 import { QuestionListComponent } from './Questions/question-list/question-list.component';
+import { SectionsListComponent } from './Questions/sections-list/sections-list.component';
 
 const routes: Routes = [
   { path: '', component: AdminLoginComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'week', component: WeekComponent },
       { path: 'day', component: DayListComponent },
       { path: 'classes', component: ClassesComponent },
+      { path: 'Sections', component: SectionsListComponent },
       { path: 'units', component: UnitListComponent },
       { path: 'topics', component: TopicsListComponent },
       { path: 'subtopics', component: SubTopicsListComponent },

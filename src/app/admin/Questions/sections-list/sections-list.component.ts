@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CRUDService } from 'src/app/crud.service';
-import { AddSubTopicsComponent } from '../add-sub-topics/add-sub-topics.component';
+import { Sections, SectionsRes } from 'src/app/interface/Question.interface';
+import { AddSectionsComponent } from '../add-sections/add-sections.component';
 import { ConfirmBoxComponentComponent } from '../../confirm-box-component/confirm-box-component.component';
 
 @Component({
-  selector: 'app-sub-topics-list',
-  templateUrl: './sub-topics-list.component.html',
-  styleUrls: ['./sub-topics-list.component.scss']
+  selector: 'app-sections-list',
+  templateUrl: './sections-list.component.html',
+  styleUrls: ['./sections-list.component.scss']
 })
-export class SubTopicsListComponent {
-  Subtopics: any[] = []
-  FilterTopics: any[] = []
+export class SectionsListComponent {
+  Sections: Sections[] = []
+  FilterSections: Sections[] = []
   deletevalue: any = 1
   constructor(
     private dialog: MatDialog,
@@ -24,12 +25,13 @@ export class SubTopicsListComponent {
 
 
   getData() {
-    this._crud.getSubTopics().subscribe(
-      (res) => {
+    this._crud.getsections().subscribe(
+      (res: SectionsRes) => {
         console.log(res);
         if (Array.isArray(res.data)) {
-          this.Subtopics = res.data
-          this.FilterTopics = res.data
+          this.Sections = res.data
+          this.FilterSections = res.data
+
         }
       }, (err: Error) => {
         console.log(err);
@@ -39,20 +41,19 @@ export class SubTopicsListComponent {
   }
 
   addNew() {
-    const opn = this.dialog.open(AddSubTopicsComponent, {
+    const dilog = this.dialog.open(AddSectionsComponent, {
       disableClose: true,
     });
 
-    opn.afterClosed().subscribe(
+    dilog.afterClosed().subscribe(
       (res) => {
-        console.log(res);
         this.getData()
       }
     )
   }
 
   onEdit(edit: any) {
-    const dialogRef = this.dialog.open(AddSubTopicsComponent, {
+    const dialogRef = this.dialog.open(AddSectionsComponent, {
       disableClose: true,
       data: edit
     });
@@ -67,6 +68,7 @@ export class SubTopicsListComponent {
   }
 
   delete_application(item: any) {
+
     const dialogRef = this.dialog.open(ConfirmBoxComponentComponent, {
       disableClose: true
     })
@@ -75,7 +77,7 @@ export class SubTopicsListComponent {
       console.log(item);
 
       if (this.deletevalue == result) {
-        this._crud.SubTopicsDelted(item.id).subscribe(
+        this._crud.sectionDeleted(item.id).subscribe(
           (res: any) => {
             console.log(res)
             if (res.success == 1) {
@@ -96,8 +98,8 @@ export class SubTopicsListComponent {
     const data = event.target.value.toLowerCase();
     console.log(data);
 
-    this.FilterTopics = this.Subtopics.filter((res: any) =>
-      res.day.toString().toLowerCase().includes(data)
+    this.FilterSections = this.Sections.filter((res: any) =>
+      res.week_num.toString().toLowerCase().includes(data)
     );
   }
 

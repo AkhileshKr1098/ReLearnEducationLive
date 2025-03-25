@@ -1,6 +1,6 @@
 #wrapper {
-  width: 100vw;
-  height: calc(100vh - 80px);
+  width: 100%;
+  height: calc(100vh - 70px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +24,7 @@
       background-color: rgba(172, 255, 47, 0.144);
       text-align: center;
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
       align-items: center;
 
       span {

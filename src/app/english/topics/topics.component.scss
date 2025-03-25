@@ -1,5 +1,7 @@
 /* Wrapper styling */
 #wrapper {
+    width: 100%;
+    height: calc(100vh - 70px);
     font-family: Arial, sans-serif;
     background-image: url("/assets/icon/unitbgc.jpg");
     background-size: cover;
@@ -8,7 +10,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
 }
 
