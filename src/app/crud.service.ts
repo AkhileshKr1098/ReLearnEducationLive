@@ -119,11 +119,6 @@ export class CRUDService {
   }
 
 
-  getUnitByClass(class_id: string): Observable<any> {
-    return this._http.get<any>(`${this.base_url}unit_tbl.php?class_id=${class_id}`);
-  }
-
-
   addUnit(data: any): Observable<any> {
     return this._http.post<any>(`${this.base_url}unit_tbl.php`, data)
   }

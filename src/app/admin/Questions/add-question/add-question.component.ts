@@ -2,6 +2,7 @@ import { Component, Inject, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CRUDService } from 'src/app/crud.service';
+import { Class, ClassRes, Day, Sections, SubTopic, Topics, TopicsRes, Week } from 'src/app/interface/Question.interface';
 
 @Component({
   selector: 'app-add-question',
@@ -11,9 +12,14 @@ import { CRUDService } from 'src/app/crud.service';
 export class AddQuestionComponent {
   questionIMG: any = '../../../../assets/icon/questionimg.jpg'
   questionFile: any
-  classe: any[] = [];
-  units: any[] = [];
-  Topics: any[] = [];
+  sections: Sections[] = []
+  Classes: Class[] = []
+  weeks: Week[] = []
+  days: Day[] = []
+  topics: Topics[] = []
+  subTopics: SubTopic[] = []
+  units: any[] = []
+
   QuestionForm!: FormGroup;
   questionType: string = '';
 
@@ -28,9 +34,13 @@ export class AddQuestionComponent {
     @Inject(MAT_DIALOG_DATA) public edit_data: any
   ) {
     this.QuestionForm = this._fb.group({
-      class_id_fk: ['', Validators.required],
-      unit_id_fk: ['', Validators.required],
-      topics_id_fk: ['', Validators.required],
+      class: ['', Validators.required],
+      week: ['', Validators.required],
+      day: ['', Validators.required],
+      sections: ['', Validators.required],
+      topics: ['', Validators.required],
+      sub_topics: ['', Validators.required],
+      unit: ['', Validators.required],
       question_type: ['', Validators.required],
       Question: ['', Validators.required],
       OptionA: ['', Validators.required],
@@ -48,12 +58,16 @@ export class AddQuestionComponent {
   }
 
   ngOnInit() {
+    this.getClass()
+    this.getWeeks()
+    this.getDayS()
+    this.getTopics()
+    this.getSubTopics()
+    this.getSection()
+    this.getUnit()
+
     if (this.edit_data) {
-
-      this.GetUnit(this.edit_data.class_id_fk);
-      this.getTopics(this.edit_data.unit_id_fk);
       this.questionType = this.edit_data.question_type;
-
       if (this.edit_data.question_type === 'MCQ') {
         console.log(this.edit_data)
         this.QuestionForm.patchValue(this.edit_data);
@@ -90,49 +104,87 @@ export class AddQuestionComponent {
       }
 
     }
-    this.onGetClass();
   }
 
+
+  // for defult type 
+  getClass() {
+    this._crud.getClass().subscribe(
+      (res: ClassRes) => {
+        if (Array.isArray(res.data)) {
+          this.Classes = res.data
+        }
+      }
+    )
+  }
+
+  getWeeks() {
+    this._crud.getWeek().subscribe(
+      (res) => {
+        console.log(res);
+        if (Array.isArray(res.data)) {
+          this.weeks = res.data
+        }
+      }
+    )
+  }
+
+  getDayS() {
+    this._crud.getDays().subscribe(
+      (res) => {
+        if (Array.isArray(res.data)) {
+          this.days = res.data
+        }
+      }
+    )
+  }
+
+  getSection() {
+    this._crud.getsections().subscribe(
+      (res) => {
+        if (Array.isArray(res.data)) {
+          this.sections = res.data
+        }
+      }
+    )
+  }
+
+  getTopics() {
+    this._crud.getTopics().subscribe(
+      (res: TopicsRes) => {
+        if (Array.isArray(res.data)) {
+          this.topics = res.data
+        }
+      }
+    )
+  }
+
+  getSubTopics() {
+    this._crud.getSubTopics().subscribe(
+      (res) => {
+        console.log(res);
+        if (Array.isArray(res.data)) {
+          this.subTopics = res.data
+        }
+      }
+    )
+  }
+
+  getUnit() {
+    this._crud.getUnit().subscribe(
+      (res) => {
+        this.units = Array.isArray(res.data) ? res.data : [];
+
+      }
+    )
+  }
+
+  // for defult type 
   onQuestionTypeChange(event: any) {
     this.questionType = event.target.value;
     this.cdr.detectChanges(); // Ensures UI updates
   }
 
-  onGetClass() {
-    this._crud.getClass().subscribe(
-      (res) => {
-        if (Array.isArray(res.data)) {
-          this.classe = res.data;
-        }
-      }
-    );
-  }
-
-  onGetUnit(event: any) {
-    const class_id = event.target.value;
-    this.GetUnit(class_id);
-  }
-
-  GetUnit(cls: string) {
-    this._crud.getUnitByClass(cls).subscribe(
-      (res: any) => {
-        this.units = Array.isArray(res.data) ? res.data : [];
-      }
-    );
-  }
-
-  onGetTopics(event: any) {
-    const unit = event.target.value;
-    this.getTopics(unit);
-  }
-
-  getTopics(unit: any) {
-    this._crud.getTopicsByunit(unit).subscribe(
-      (res: any) => {
-        this.Topics = Array.isArray(res.data) ? res.data : [];
-      }
-    );
-  }
 
   submitForm() {
     if (this.questionType == 'MCQ') {

@@ -8,7 +8,71 @@
         </div>
 
         <div class="form_area">
+
             <div class="row">
+                <div class="form-floating">
+                    <select class="form-select" formControlName="class">
+                        <option value="" selected>Select Class</option>
+                        <option *ngFor="let cls of Classes" [value]="cls.class">{{cls.class}}</option>
+                    </select>
+                    <label>Class</label>
+                </div>
+
+                <div class="form-floating">
+                    <select class="form-select" formControlName="week">
+                        <option value="" selected>Select Class</option>
+                        <option *ngFor="let item of weeks" [value]="item.week_num">{{item.week_num}}</option>
+                    </select>
+                    <label>Week</label>
+                </div>
+
+                <div class="form-floating">
+                    <select class="form-select" formControlName="day">
+                        <option value="" selected>Select day</option>
+                        <option *ngFor="let item of days" [value]="item.day">{{item.day}}</option>
+                    </select>
+                    <label>Day</label>
+                </div>
+
+                <div class="form-floating">
+                    <select class="form-select" formControlName="sections">
+                        <option value="" selected>Select sections</option>
+                        <option *ngFor="let item of sections" [value]="item.sections_name">{{item.sections_name}}
+                        </option>
+                    </select>
+                    <label>Sections</label>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-floating">
+                    <select class="form-select" formControlName="topics">
+                        <option value="" selected>Select topic</option>
+                        <option *ngFor="let item of topics" [value]="item.topics">{{item.topics}}
+                        </option>
+                    </select>
+                    <label>Topics</label>
+                </div>
+
+                <div class="form-floating">
+                    <select class="form-select" formControlName="sub_topics">
+                        <option value="" selected>Select Sub Topics</option>
+                        <option *ngFor="let item of subTopics" [value]="item.sub_topics">{{item.sub_topics}}
+                        </option>
+                    </select>
+                    <label>Sub Topics</label>
+                </div>
+
+                <div class="form-floating">
+                    <select class="form-select" formControlName="unit">
+                        <option value="" disabled selected>Select Unit</option>
+                        <option *ngFor="let unit of units" [value]="unit.id">{{unit.unit}}</option>
+                    </select>
+                    <label>Unit</label>
+                </div>
+
+
+
                 <div class="form-floating">
                     <select class="form-select" formControlName="question_type" (change)="onQuestionTypeChange($event)">
                         <option value="MCQ">MCQ</option>
@@ -18,30 +82,6 @@
                         <option value="ListenWords">Listen Words</option>
                     </select>
                     <label>Question Type</label>
-                </div>
-
-                <div class="form-floating">
-                    <select class="form-select" formControlName="class_id_fk" (change)="onGetUnit($event)">
-                        <option value="" disabled selected>Select Class</option>
-                        <option *ngFor="let cls of classe" [value]="cls.id">{{cls.class}}</option>
-                    </select>
-                    <label>Class</label>
-                </div>
-
-                <div class="form-floating">
-                    <select class="form-select" formControlName="unit_id_fk" (change)="onGetTopics($event)">
-                        <option value="" disabled selected>Select Unit</option>
-                        <option *ngFor="let unit of units" [value]="unit.id">{{unit.unit}}</option>
-                    </select>
-                    <label>Unit</label>
-                </div>
-
-                <div class="form-floating">
-                    <select class="form-select" formControlName="topics_id_fk">
-                        <option value="" disabled selected>Select Topic</option>
-                        <option *ngFor="let topic of Topics" [value]="topic.id">{{topic.topics}}</option>
-                    </select>
-                    <label>Topics</label>
                 </div>
 
             </div>
@@ -183,34 +223,32 @@
             <!-- for ListenWords Question Type  start -->
 
             <div *ngIf="questionType === 'ListenWords'">
-                    <div
-                        class="d-flex align-items-center justify-content-center flex-wrap gap-3 p-3 border rounded shadow-sm">
+                <div
+                    class="d-flex align-items-center justify-content-center flex-wrap gap-3 p-3 border rounded shadow-sm">
 
-                        <!-- Image Upload -->
-                        <div class="text-center">
-                            <img [src]="questionIMG || 'https://via.placeholder.com/150'" alt="Uploaded Image"
-                                class="img-thumbnail" width="150" height="150">
-                            <br>
-                            <button class="btn btn-primary btn-sm mt-2" (click)="fileInput.click()">Change</button>
-                            <input type="file" #fileInput class="d-none" (change)="onFileChange($event)"
-                                accept=".png, .jpg, .jpeg">
+                    <!-- Image Upload -->
+                    <div class="text-center">
+                        <img [src]="questionIMG || 'https://via.placeholder.com/150'" alt="Uploaded Image"
+                            class="img-thumbnail" width="150" height="150">
+                        <br>
+                        <button class="btn btn-primary btn-sm mt-2" (click)="fileInput.click()">Change</button>
+                        <input type="file" #fileInput class="d-none" (change)="onFileChange($event)"
+                            accept=".png, .jpg, .jpeg">
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <div class="form-floating mb-2">
+                            <input type="file" class="form-control" accept="audio/*" (change)="onAudioChange($event)">
+                            <label>Upload Audio Listen Rec</label>
                         </div>
 
-                        <div class="flex-grow-1">
-                            <div class="form-floating mb-2">
-                                <input type="file" class="form-control" accept="audio/*"
-                                    (change)="onAudioChange($event)">
-                                <label>Upload Audio Listen Rec</label>
-                            </div>
+                        <button *ngIf="audioURL" class="btn btn-primary btn-sm mt-2" (click)="playAudio()">Play</button>
 
-                            <button *ngIf="audioURL" class="btn btn-primary btn-sm mt-2"
-                                (click)="playAudio()">Play</button>
-
-                            <div class="form-floating mt-2">
-                                <input type="text" class="form-control" placeholder="Complete Word"
-                                    formControlName="listen_word">
-                                <label>Listen Words</label>
-                            </div>
+                        <div class="form-floating mt-2">
+                            <input type="text" class="form-control" placeholder="Complete Word"
+                                formControlName="listen_word">
+                            <label>Listen Words</label>
+                        </div>
                     </div>
                 </div>
 

@@ -1,20 +1,42 @@
 <div class="registration_box">
     <div class="registration_table_area">
         <div class="header_title">
-            <div class="title">All Question </div>
             <div class="add_btn">
-                <button type="button" class="btn btn-danger" (click)="addNew()">+ Add New</button>
+                <button type="button" class="btn btn-danger" style="height: 60px;" (click)="addNew()">+ Add New</button>
             </div>
 
             <div class="search_box">
-
                 <div class="form-floating mb-2">
                     <select class="form-select" id="gender">
+                        <option value="Select Class"> Select Class </option>
                         <option *ngFor="let item of Classes" [value]="item.class">{{item.class}}
                         </option>
 
                     </select>
-                    <label for="gender">Classes</label>
+                    <label for="gender">Class</label>
+                </div>
+            </div>
+
+            <div class="search_box">
+                <div class="form-floating mb-2">
+                    <select class="form-select" id="gender">
+                        <option value="Select Week"> Select week</option>
+                        <option *ngFor="let item of weeks" [value]="item.week_num">{{item.week_num}}
+                        </option>
+                    </select>
+                    <label for="gender">Week</label>
+                </div>
+            </div>
+
+
+            <div class="search_box">
+                <div class="form-floating mb-2">
+                    <select class="form-select" id="day">
+                        <option value="Select day"> Select Day</option>
+                        <option *ngFor="let item of days" [value]="item.day">{{item.day}}
+                        </option>
+                    </select>
+                    <label for="day">Day</label>
                 </div>
             </div>
 
@@ -22,6 +44,7 @@
 
                 <div class="form-floating mb-2">
                     <select class="form-select" id="gender">
+                        <option value="Select Sections">Select Sections </option>
                         <option *ngFor="let item of sections" [value]="item.sections_name">{{item.sections_name}}
                         </option>
 
@@ -33,20 +56,62 @@
             <div class="search_box">
                 <div class="form-floating mb-2">
                     <select class="form-select" id="gender">
+                        <option value="Select Topics"> Select Topics</option>
                         <option *ngFor="let item of topics" [value]="item.topics">{{item.topics}}</option>
 
                     </select>
                     <label for="gender">Topics</label>
                 </div>
             </div>
+
+
+            <div class="search_box">
+                <div class="form-floating mb-2">
+                    <select class="form-select" id="gender">
+                        <option value="Select Sub Topics">Select Sub Topics</option>
+                        <option *ngFor="let item of subTopics" [value]="item.sub_topics">{{item.sub_topics}}
+                        </option>
+
+                    </select>
+                    <label for="gender">Sub Topics</label>
+                </div>
+            </div>
+
+            <div class="search_box">
+                <div class="form-floating mb-2">
+                    <select class="form-select" id="gender">
+                        <option value="select unit"> Select Unit </option>
+                        <option *ngFor="let item of units" [value]="item.unit">{{item.unit}}
+                        </option>
+                    </select>
+                    <label for="gender">Unit</label>
+                </div>
+            </div>
+
+            <div class="search_box">
+                <div class="form-floating mb-2">
+                    <select class="form-select" id="gender">
+                        <option value="MCQ">MCQ</option>
+                        <option value="LetterTracing">Letter Tracing</option>
+                        <option value="LetterMatch">Letter Match</option>
+                        <option value="BlendWords">Blend words</option>
+                        <option value="ListenWords">Listen Words</option>
+                    </select>
+                    <label for="gender"></label>
+                </div>
+            </div>
+
+
+
+
+
         </div>
 
         <table class="table table-striped" style="text-align: center;">
             <thead>
                 <tr>
-                    <th scope="col">S.N.</th>
+                    <th scope="col" style="width: 60px ;">S.N.</th>
                     <th scope="col">Question </th>
-                    <th scope="col">Unit </th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -54,8 +119,6 @@
                 <tr *ngFor="let item of FilterQuestion; let i = index">
                     <th scope="row">{{i+1}}</th>
                     <td>{{item.Question}}</td>
-                    <td>{{item.unit}}</td>
-
                     <td>
                         <button mat-icon-button (click)="onEdit(item)">
                             <mat-icon>edit</mat-icon>
