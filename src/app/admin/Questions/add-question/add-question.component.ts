@@ -43,14 +43,14 @@ export class AddQuestionComponent {
       unit: ['', Validators.required],
       question_type: ['', Validators.required],
       Question: ['', Validators.required],
-      OptionA: ['', Validators.required],
-      OptionB: ['', Validators.required],
-      OptionC: ['', Validators.required],
-      OptionD: ['', Validators.required],
-      Answer: ['', Validators.required],
-      incomplete_word: ['', Validators.required],
-      id: ['', Validators.required],
-      listen_word: ['', Validators.required],
+      OptionA: [''],
+      OptionB: [''],
+      OptionC: [''],
+      OptionD: [''],
+      Answer: [''],
+      incomplete_word: [''],
+      id: [''],
+      listen_word: [''],
       listen_rec: [],
       LetterMatch: this._fb.array([this.createOptionRow()])
 
@@ -76,14 +76,11 @@ export class AddQuestionComponent {
 
       if (this.edit_data.question_type === "LetterMatch") {
         console.log(this.edit_data);
-
-        // Clear existing form array data
         this.options.clear();
 
-        // Split data into arrays
-        const optionAValues = this.edit_data.OptionA.split(', '); // "A, C, D, B"
-        const optionBValues = this.edit_data.OptionB.split(', '); // "Dog, Ball, Apple, Cat"
-        const answerValues = this.edit_data.Answer.split(', ');   // "Apple, Cat, Dog, Ball"
+        const optionAValues = this.edit_data.OptionA.split(', ');
+        const optionBValues = this.edit_data.OptionB.split(', ');
+        const answerValues = this.edit_data.Answer.split(', ');
 
         // Loop through data and push into form array
         optionAValues.forEach((optionA: any, index: any) => {
@@ -101,6 +98,13 @@ export class AddQuestionComponent {
         console.log(this.edit_data);
         this.QuestionForm.patchValue(this.edit_data)
         this.questionIMG = this._crud.base_url + this.edit_data.question_Img
+      }
+
+      if (this.edit_data.question_type === "ListenWords") {
+        console.log(this.edit_data);
+        this.QuestionForm.patchValue(this.edit_data)
+        this.questionIMG = this._crud.base_url + this.edit_data.question_Img
+        this.audioURL = this._crud.base_url + this.edit_data.listen_rec
       }
 
     }
@@ -121,7 +125,6 @@ export class AddQuestionComponent {
   getWeeks() {
     this._crud.getWeek().subscribe(
       (res) => {
-        console.log(res);
         if (Array.isArray(res.data)) {
           this.weeks = res.data
         }
@@ -162,7 +165,6 @@ export class AddQuestionComponent {
   getSubTopics() {
     this._crud.getSubTopics().subscribe(
       (res) => {
-        console.log(res);
         if (Array.isArray(res.data)) {
           this.subTopics = res.data
         }
@@ -174,25 +176,28 @@ export class AddQuestionComponent {
     this._crud.getUnit().subscribe(
       (res) => {
         this.units = Array.isArray(res.data) ? res.data : [];
-
       }
     )
   }
 
-  // for defult type 
   onQuestionTypeChange(event: any) {
     this.questionType = event.target.value;
-    this.cdr.detectChanges(); // Ensures UI updates
+    this.cdr.detectChanges();
   }
 
 
   submitForm() {
+    if (this.QuestionForm.invalid) {
+      alert('Please fill all the requred filds ..!')
+      return
+    }
+
     if (this.questionType == 'MCQ') {
       this._crud.addQuestion(this.QuestionForm.value).subscribe(
         (res) => {
           alert(res.message);
           if (res.success == 1) {
-            this.matref.close(1);
+            // this.matref.close(1);
           }
         }
       );
@@ -221,11 +226,14 @@ export class AddQuestionComponent {
 
 
     if (this.questionType == 'BlendWords') {
-
       const fromdata = new FormData()
-      fromdata.append('class_id_fk', this.QuestionForm.get('class_id_fk')?.value)
-      fromdata.append('unit_id_fk', this.QuestionForm.get('unit_id_fk')?.value)
-      fromdata.append('topics_id_fk', this.QuestionForm.get('topics_id_fk')?.value)
+      fromdata.append('class', this.QuestionForm.get('class')?.value)
+      fromdata.append('week', this.QuestionForm.get('week')?.value)
+      fromdata.append('day', this.QuestionForm.get('day')?.value)
+      fromdata.append('sections', this.QuestionForm.get('sections')?.value)
+      fromdata.append('topics', this.QuestionForm.get('topics')?.value)
+      fromdata.append('sub_topics', this.QuestionForm.get('sub_topics')?.value)
+      fromdata.append('unit', this.QuestionForm.get('unit')?.value)
       fromdata.append('question_type', this.QuestionForm.get('question_type')?.value)
       fromdata.append('Question', this.QuestionForm.get('Question')?.value)
       fromdata.append('OptionA', this.QuestionForm.get('OptionA')?.value)
@@ -239,38 +247,21 @@ export class AddQuestionComponent {
       this._crud.addQuestion_picktheblend(fromdata).subscribe(
         (res: any) => {
           console.log(res)
-        }
-      )
-    }
-    if (this.questionType == 'BlendWords') {
+          alert(res.message);
 
-      const fromdata = new FormData()
-      fromdata.append('class_id_fk', this.QuestionForm.get('class_id_fk')?.value)
-      fromdata.append('unit_id_fk', this.QuestionForm.get('unit_id_fk')?.value)
-      fromdata.append('topics_id_fk', this.QuestionForm.get('topics_id_fk')?.value)
-      fromdata.append('question_type', this.QuestionForm.get('question_type')?.value)
-      fromdata.append('Question', this.QuestionForm.get('Question')?.value)
-      fromdata.append('OptionA', this.QuestionForm.get('OptionA')?.value)
-      fromdata.append('OptionB', this.QuestionForm.get('OptionB')?.value)
-      fromdata.append('OptionC', this.QuestionForm.get('OptionC')?.value)
-      fromdata.append('OptionD', this.QuestionForm.get('OptionD')?.value)
-      fromdata.append('Answer', this.QuestionForm.get('Answer')?.value)
-      fromdata.append('incomplete_word', this.QuestionForm.get('incomplete_word')?.value)
-      fromdata.append('question_Img', this.questionFile)
-
-      this._crud.addQuestion_picktheblend(fromdata).subscribe(
-        (res: any) => {
-          console.log(res)
         }
       )
     }
 
     if (this.questionType == 'ListenWords') {
-
       const fromdata = new FormData()
-      fromdata.append('class_id_fk', this.QuestionForm.get('class_id_fk')?.value)
-      fromdata.append('unit_id_fk', this.QuestionForm.get('unit_id_fk')?.value)
-      fromdata.append('topics_id_fk', this.QuestionForm.get('topics_id_fk')?.value)
+      fromdata.append('class', this.QuestionForm.get('class')?.value)
+      fromdata.append('week', this.QuestionForm.get('week')?.value)
+      fromdata.append('day', this.QuestionForm.get('day')?.value)
+      fromdata.append('sections', this.QuestionForm.get('sections')?.value)
+      fromdata.append('topics', this.QuestionForm.get('topics')?.value)
+      fromdata.append('sub_topics', this.QuestionForm.get('sub_topics')?.value)
+      fromdata.append('unit', this.QuestionForm.get('unit')?.value)
       fromdata.append('question_type', this.QuestionForm.get('question_type')?.value)
       fromdata.append('Question', this.QuestionForm.get('Question')?.value)
       fromdata.append('Answer', this.QuestionForm.get('Answer')?.value)
@@ -290,17 +281,40 @@ export class AddQuestionComponent {
   }
 
   updateForm() {
+
     if (this.questionType == 'MCQ') {
-      const data = { ...this.QuestionForm.value };
+      console.log(this.QuestionForm.value);
+      const data = {
+        "id": this.QuestionForm.get('id')?.value,
+        "question_type": this.QuestionForm.get('question_type')?.value,
+        "Question": this.QuestionForm.get('Question')?.value,
+        "OptionA": this.QuestionForm.get('OptionA')?.value,
+        "OptionB": this.QuestionForm.get('OptionB')?.value,
+        "OptionC": this.QuestionForm.get('OptionC')?.value,
+        "OptionD": this.QuestionForm.get('OptionD')?.value,
+        "Answer": this.QuestionForm.get('Answer')?.value,
+        "class": this.QuestionForm.get('class')?.value,
+        "week": this.QuestionForm.get('week')?.value,
+        "day": this.QuestionForm.get('day')?.value,
+        "sections": this.QuestionForm.get('sections')?.value,
+        "topics": this.QuestionForm.get('topics')?.value,
+        "sub_topics": this.QuestionForm.get('sub_topics')?.value,
+        "unit": this.QuestionForm.get('unit')?.value,
+        "incomplete_word": this.QuestionForm.get('incomplete_word')?.value,
+        "listen_rec": this.QuestionForm.get('listen_rec')?.value,
+        "listen_word": this.QuestionForm.get('listen_word')?.value
+      };
+
       this._crud.QuestionUpdate(data).subscribe(
         (res) => {
           alert(res.message);
           if (res.success == 1) {
-            this.matref.close(1);
+            // this.matref.close(1);
           }
         }
       );
     }
+
 
     if (this.questionType == 'LetterMatch') {
       const formData = {
