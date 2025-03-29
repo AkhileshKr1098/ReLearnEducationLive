@@ -342,9 +342,15 @@ export class AddQuestionComponent {
 
     if (this.questionType == 'BlendWords') {
       const fromdata = new FormData()
-      fromdata.append('class_id_fk', this.QuestionForm.get('class_id_fk')?.value)
-      fromdata.append('unit_id_fk', this.QuestionForm.get('unit_id_fk')?.value)
-      fromdata.append('topics_id_fk', this.QuestionForm.get('topics_id_fk')?.value)
+
+      fromdata.append('id', this.QuestionForm.get('id')?.value)
+      fromdata.append('class', this.QuestionForm.get('class')?.value)
+      fromdata.append('week', this.QuestionForm.get('week')?.value)
+      fromdata.append('day', this.QuestionForm.get('day')?.value)
+      fromdata.append('sections', this.QuestionForm.get('sections')?.value)
+      fromdata.append('topics', this.QuestionForm.get('topics')?.value)
+      fromdata.append('sub_topics', this.QuestionForm.get('sub_topics')?.value)
+      fromdata.append('unit', this.QuestionForm.get('unit')?.value)
       fromdata.append('question_type', this.QuestionForm.get('question_type')?.value)
       fromdata.append('Question', this.QuestionForm.get('Question')?.value)
       fromdata.append('OptionA', this.QuestionForm.get('OptionA')?.value)
@@ -352,11 +358,12 @@ export class AddQuestionComponent {
       fromdata.append('OptionC', this.QuestionForm.get('OptionC')?.value)
       fromdata.append('OptionD', this.QuestionForm.get('OptionD')?.value)
       fromdata.append('Answer', this.QuestionForm.get('Answer')?.value)
-      fromdata.append('id', this.QuestionForm.get('id')?.value)
       fromdata.append('incomplete_word', this.QuestionForm.get('incomplete_word')?.value)
+
       if (this.questionFile) {
         fromdata.append('question_Img', this.questionFile)
       }
+
 
       this._crud.QuestionUpdat_picktheblend(fromdata).subscribe(
         (res: any) => {
