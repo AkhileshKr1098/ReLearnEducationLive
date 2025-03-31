@@ -253,6 +253,7 @@ export class AddQuestionComponent {
       )
     }
 
+
     if (this.questionType == 'ListenWords') {
       const fromdata = new FormData()
       fromdata.append('class', this.QuestionForm.get('class')?.value)
@@ -276,6 +277,24 @@ export class AddQuestionComponent {
         }
       )
     }
+
+    if (this.questionType == 'LetterTracing') {
+      const formData = {
+        Question: this.QuestionForm.get('Question')?.value,
+        class_id_fk: this.QuestionForm.get('class_id_fk')?.value,
+        unit_id_fk: this.QuestionForm.get('class_id_fk')?.value,
+        topics_id_fk: this.QuestionForm.get('topics_id_fk')?.value,
+        question_type: this.QuestionForm.get('question_type')?.value,
+      };
+
+      console.log(formData)
+      this._crud.addQuestion(formData).subscribe(
+        (res) => {
+          console.log(res)
+        }
+      );
+    }
+
 
 
   }
@@ -375,6 +394,34 @@ export class AddQuestionComponent {
         }
       )
     }
+
+
+    if (this.questionType == 'ListenWords') {
+      const fromdata = new FormData()
+      fromdata.append('id', this.QuestionForm.get('id')?.value)
+      fromdata.append('class', this.QuestionForm.get('class')?.value)
+      fromdata.append('week', this.QuestionForm.get('week')?.value)
+      fromdata.append('day', this.QuestionForm.get('day')?.value)
+      fromdata.append('sections', this.QuestionForm.get('sections')?.value)
+      fromdata.append('topics', this.QuestionForm.get('topics')?.value)
+      fromdata.append('sub_topics', this.QuestionForm.get('sub_topics')?.value)
+      fromdata.append('unit', this.QuestionForm.get('unit')?.value)
+      fromdata.append('question_type', this.QuestionForm.get('question_type')?.value)
+      fromdata.append('Question', this.QuestionForm.get('Question')?.value)
+      fromdata.append('Answer', this.QuestionForm.get('Answer')?.value)
+      fromdata.append('listen_word', this.QuestionForm.get('listen_word')?.value)
+      fromdata.append('listen_rec', this.listen_rec)
+      fromdata.append('question_Img', this.questionFile)
+
+      this._crud.addQuestion_listen(fromdata).subscribe(
+        (res: any) => {
+          console.log(res)
+          alert(res.message)
+        }
+      )
+    }
+
+
 
   }
 
