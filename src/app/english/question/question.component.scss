@@ -459,3 +459,55 @@ button {
   background-color: #a5d6a7;
   cursor: not-allowed;
 }
+
+
+
+// for letter tracking
+
+body {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  background-color: #f0f0f0;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.letter-selector {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.letter-selector select {
+  font-size: 24px;
+  padding: 5px 15px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.canvas-container {
+  margin-top: 20px;
+}
+
+canvas {
+  border: 2px solid #ccc;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  touch-action: none;
+}
+
+button {
+  font-size: 24px;
+  padding: 12px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #218838;
+}

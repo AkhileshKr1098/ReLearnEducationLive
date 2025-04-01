@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -107,6 +108,11 @@ export class AddQuestionComponent {
         this.audioURL = this._crud.base_url + this.edit_data.listen_rec
       }
 
+      if (this.edit_data.question_type === "LetterTracing") {
+        console.log(this.edit_data);
+        this.QuestionForm.patchValue(this.edit_data)
+      }
+
     }
   }
 
@@ -196,6 +202,20 @@ export class AddQuestionComponent {
       this._crud.addQuestion(this.QuestionForm.value).subscribe(
         (res) => {
           alert(res.message);
+          this.resetForm()
+
+          if (res.success == 1) {
+            // this.matref.close(1);
+          }
+        }
+      );
+    }
+
+    if (this.questionType == 'LetterTracing') {
+      this._crud.addQuestion(this.QuestionForm.value).subscribe(
+        (res) => {
+          alert(res.message);
+          this.resetForm()
           if (res.success == 1) {
             // this.matref.close(1);
           }
@@ -209,10 +229,15 @@ export class AddQuestionComponent {
         OptionB: this.options.value.map((row: any) => row.OptionB).join(', '),
         Answer: this.options.value.map((row: any) => row.Answer).join(', '),
         Question: this.QuestionForm.get('Question')?.value,
-        class_id_fk: this.QuestionForm.get('class_id_fk')?.value,
-        unit_id_fk: this.QuestionForm.get('class_id_fk')?.value,
-        topics_id_fk: this.QuestionForm.get('topics_id_fk')?.value,
         question_type: this.QuestionForm.get('question_type')?.value,
+        class: this.QuestionForm.get('class')?.value,
+        week: this.QuestionForm.get('week')?.value,
+        day: this.QuestionForm.get('day')?.value,
+        sections: this.QuestionForm.get('sections')?.value,
+        topics: this.QuestionForm.get('topics')?.value,
+        sub_topics: this.QuestionForm.get('sub_topics')?.value,
+        unit: this.QuestionForm.get('unit')?.value,
+
       };
 
       console.log(formData)
@@ -220,6 +245,8 @@ export class AddQuestionComponent {
       this._crud.addQuestion(formData).subscribe(
         (res) => {
           console.log(res)
+          alert(res.message)
+          this.resetForm()
         }
       );
     }
@@ -248,6 +275,7 @@ export class AddQuestionComponent {
         (res: any) => {
           console.log(res)
           alert(res.message);
+          this.resetForm()
 
         }
       )
@@ -274,28 +302,11 @@ export class AddQuestionComponent {
         (res: any) => {
           console.log(res)
           alert(res.message)
+          this.resetForm()
+
         }
       )
     }
-
-    if (this.questionType == 'LetterTracing') {
-      const formData = {
-        Question: this.QuestionForm.get('Question')?.value,
-        class_id_fk: this.QuestionForm.get('class_id_fk')?.value,
-        unit_id_fk: this.QuestionForm.get('class_id_fk')?.value,
-        topics_id_fk: this.QuestionForm.get('topics_id_fk')?.value,
-        question_type: this.QuestionForm.get('question_type')?.value,
-      };
-
-      console.log(formData)
-      this._crud.addQuestion(formData).subscribe(
-        (res) => {
-          console.log(res)
-        }
-      );
-    }
-
-
 
   }
 
@@ -327,27 +338,56 @@ export class AddQuestionComponent {
       this._crud.QuestionUpdate(data).subscribe(
         (res) => {
           alert(res.message);
-          if (res.success == 1) {
-            // this.matref.close(1);
-          }
+          this.resetForm()
         }
       );
     }
 
 
+    if (this.questionType == 'LetterTracing') {
+      const data = {
+        id: this.QuestionForm.get('id')?.value,
+        OptionA: this.QuestionForm.get('OptionA')?.value,
+        OptionB: '.',
+        OptionC: '.',
+        OptionD: '.',
+        Answer: '.',
+        Question: this.QuestionForm.get('Question')?.value,
+        question_type: this.QuestionForm.get('question_type')?.value,
+        class: this.QuestionForm.get('class')?.value,
+        week: this.QuestionForm.get('week')?.value,
+        day: this.QuestionForm.get('day')?.value,
+        sections: this.QuestionForm.get('sections')?.value,
+        topics: this.QuestionForm.get('topics')?.value,
+        sub_topics: this.QuestionForm.get('sub_topics')?.value,
+        unit: this.QuestionForm.get('unit')?.value,
+
+      }
+      this._crud.QuestionUpdate(data).subscribe(
+        (res) => {
+          alert(res.message);
+          this.resetForm()
+        }
+      );
+    }
+
     if (this.questionType == 'LetterMatch') {
+
       const formData = {
         OptionA: this.options.value.map((row: any) => row.OptionA).join(', '),
         OptionB: this.options.value.map((row: any) => row.OptionB).join(', '),
         Answer: this.options.value.map((row: any) => row.Answer).join(', '),
         Question: this.QuestionForm.get('Question')?.value,
-        class_id_fk: this.QuestionForm.get('class_id_fk')?.value,
-        unit_id_fk: this.QuestionForm.get('class_id_fk')?.value,
-        topics_id_fk: this.QuestionForm.get('topics_id_fk')?.value,
         question_type: this.QuestionForm.get('question_type')?.value,
-        OptionC: ".",
-        OptionD: ".",
+        class: this.QuestionForm.get('class')?.value,
+        week: this.QuestionForm.get('week')?.value,
+        day: this.QuestionForm.get('day')?.value,
+        sections: this.QuestionForm.get('sections')?.value,
+        topics: this.QuestionForm.get('topics')?.value,
+        sub_topics: this.QuestionForm.get('sub_topics')?.value,
+        unit: this.QuestionForm.get('unit')?.value,
         id: this.QuestionForm.get('id')?.value,
+
       };
 
       console.log(formData)
@@ -355,6 +395,7 @@ export class AddQuestionComponent {
       this._crud.QuestionUpdate(formData).subscribe(
         (res) => {
           console.log(res)
+          this.resetForm()
         }
       );
     }
@@ -387,8 +428,10 @@ export class AddQuestionComponent {
       this._crud.QuestionUpdat_picktheblend(fromdata).subscribe(
         (res: any) => {
           console.log(res);
+          this.resetForm()
+          alert(res.message)
+
           if (res.status == 'success') {
-            alert(res.message)
             this.matref.close()
           }
         }
@@ -417,6 +460,7 @@ export class AddQuestionComponent {
         (res: any) => {
           console.log(res)
           alert(res.message)
+          this.resetForm()
         }
       )
     }
@@ -475,4 +519,17 @@ export class AddQuestionComponent {
     }
   }
 
+  resetForm() {
+    this.QuestionForm.get('Question')?.reset();
+    this.QuestionForm.get('OptionA')?.reset();
+    this.QuestionForm.get('OptionB')?.reset();
+    this.QuestionForm.get('OptionC')?.reset();
+    this.QuestionForm.get('OptionD')?.reset();
+    this.QuestionForm.get('Answer')?.reset();
+    this.QuestionForm.get('incomplete_word')?.reset();
+    this.QuestionForm.get('listen_word')?.reset();
+    this.QuestionForm.get('listen_rec')?.reset([]);
+    this.QuestionForm.get('LetterMatch')?.reset();
+
+  }
 }

@@ -1,25 +1,29 @@
 <div id="wrapper">
     <div class="leftarea">
         <div class="topicsarea">
-            <button type="button"  >Level/Week2/day5</button>
+            <button type="button">Level/Week2/day5</button>
             <span>{{CurrentQuestion?.topics}}</span>
             <span></span>
         </div>
-        
-        <!-- <div *ngIf="QuestionType == 'LetterTracing'" id="LetterTracing">
-        <div class="letter-selector">
-            <span>🎨 {{CurrentQuestion?.Question}} 🖍️</span>
+
+        <div *ngIf="QuestionType == 'LetterTracing'" id="LetterTracing">
+            <div class="letter-selector">
+                <span>🎨 {{CurrentQuestion?.Question}} 🖍️</span>
+            </div>
+
+            <div class="canvas-container">
+                <canvas #letterCanvas width="400" height="400" (mousedown)="startDrawing($event)"
+                    (mouseup)="stopDrawing()" (mousemove)="paintCharacter($event)" (touchstart)="startDrawing($event)"
+                    (touchend)="stopDrawing()" (touchmove)="paintCharacter($event)">
+                </canvas>
+            </div>
+
+            <div class="button-container">
+                <button class="reset-btn" (click)="startPainting()">🔄 Reset</button>
+                <button class="save-btn" [disabled]="!isSaveVisible" (click)="saveCanvas()">✅ Save & Next</button>
+            </div>
         </div>
 
-        <div class="canvas-container">
-            <canvas #letterCanvas width="400" height="400"></canvas>
-        </div>
-
-        <div class="button-container">
-            <button class="reset-btn" (click)="startPainting()">🔄 Reset</button>
-            <button class="save-btn" [disabled]="!isSaveVisible" (click)="saveCanvas()">✅ Save & Next</button>
-        </div>
-    </div> -->
 
         <div *ngIf="QuestionType == 'BlendWords'" id="BlendWords">
             <div class="questionheader">
@@ -59,7 +63,7 @@
 
 
                     <div class="incomplete-word">
-                        <span>{{ (CurrentQuestion?.incomplete_word || '').replace('_', filledWord || '_') }}</span>
+                        <span>{{ (CurrentQuestion?.incomplete_word || '').replace('__', filledWord || '__') }}</span>
                     </div>
 
                     <div class="actionbutton">

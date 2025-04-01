@@ -129,6 +129,22 @@
                 </div>
             </div>
 
+
+            <!-- for MCQ Question Type  start -->
+            <div *ngIf="questionType == 'LetterTracing'">
+                <div class="mcq">
+                    <div class="row">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" placeholder="Letter For Tracking"
+                                formControlName="OptionA">
+                            <label>Letter For Tracking </label>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
             <!-- for Letter Match Question Type  start -->
 
             <div *ngIf="questionType === 'LetterMatch'">

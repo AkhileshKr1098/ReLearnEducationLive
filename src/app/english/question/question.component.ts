@@ -1,28 +1,28 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CRUDService } from 'src/app/crud.service';
 import { ConfirmDialogComponent } from '../QuestionType/confirm-dialog/confirm-dialog.component';
 import { CorrectBoxComponent } from '../correct-box/correct-box.component';
 import { OppsBoxComponent } from '../opps-box/opps-box.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })
-export class QuestionComponent implements AfterViewInit {
-  @ViewChild('letterCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
+export class QuestionComponent implements OnInit, AfterViewInit {
+  @ViewChild('letterCanvas', { static: false }) canvasRef!: ElementRef;
+  currentCharacter = new BehaviorSubject<string>('A')
   ctx!: CanvasRenderingContext2D;
-  letters: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-  currentLetter: string = 'A';
-  isDrawing = false;
-  paintedArea = new Set<string>();
-  letterBoundingBox!: { x: number; y: number; width: number; height: number };
+  characters: string[] = [];
+  colors: string[] = ['#FF5733', '#33FF57', '#3357FF', '#F0FF33', '#9B33FF', '#FF33B5', '#33FFF7'];
+  isDrawing: boolean = false;
+  paintedArea: Set<string> = new Set();
   paintedPixels = 0;
-  colors = ['#FF5733', '#33FF57', '#3357FF', '#F0FF33', '#9B33FF', '#FF33B5', '#33FFF7'];
+  showSaveButton = false;
+
   isSaveVisible = false;
-
-
   QuestionType: string = ''
   AllQuestion: any = []
   CurrentQuestion: any
@@ -46,10 +46,15 @@ export class QuestionComponent implements AfterViewInit {
     )
     this._crud.getQuestion().subscribe(
       (res) => {
-        this.AllQuestion = res
+        this.AllQuestion = res.reverse();
         this.NextQuestion()
       }
     )
+  }
+  ngOnInit() {
+    setTimeout(() => {
+      this.startPainting()
+    }, 1000)
   }
 
   i = 0
@@ -58,6 +63,7 @@ export class QuestionComponent implements AfterViewInit {
   selectOption(option: string) {
     this.filledWord = option;
     console.log(this.filledWord)
+    this.isSaveVisible = true
   }
 
   resetSelection() {
@@ -77,9 +83,12 @@ export class QuestionComponent implements AfterViewInit {
     this.CurrentQuestion = this.AllQuestion[this.i];
     this.QuestionType = this.CurrentQuestion.question_type
     console.log(this.CurrentQuestion)
+    this.currentCharacter.next(this.CurrentQuestion.OptionA)
+    this.startPainting()
   }
 
   CheckCorrect() {
+    this.isSaveVisible = false
     if (this.QuestionType == 'BlendWords') {
       if (this.CurrentQuestion?.Answer == this.filledWord) {
         this.onCorrect()
@@ -96,102 +105,111 @@ export class QuestionComponent implements AfterViewInit {
       }
     }
 
-
-
   }
 
-  ngAfterViewInit(): void {
-    this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
+  ngAfterViewInit() {
+    this.populateCharacters();
     this.startPainting();
-    this.setupCanvasEvents();
   }
 
-  startPainting(): void {
+  populateCharacters() {
+    for (let i = 65; i <= 90; i++) this.characters.push(String.fromCharCode(i));
+    for (let i = 97; i <= 122; i++) this.characters.push(String.fromCharCode(i));
+    for (let i = 48; i <= 57; i++) this.characters.push(String.fromCharCode(i));
+  }
+
+  startPainting() {
     this.paintedPixels = 0;
     this.paintedArea.clear();
-    this.drawLetter(this.currentLetter);
-    this.isSaveVisible = false;
+    this.drawCharacter();
+    this.showSaveButton = false;
   }
 
-  drawLetter(letter: string): void {
-    const canvas = this.canvasRef.nativeElement;
+  drawCharacter() {
+    const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
+    this.ctx = canvas.getContext('2d')!;
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.ctx.font = '200px bold Arial';
-    this.ctx.textAlign = 'center';
-    this.ctx.textBaseline = 'middle';
-    this.ctx.fillStyle = 'black';
-    this.ctx.fillText(letter, canvas.width / 2, canvas.height / 2);
-    this.calculateBoundingBox();
+    this.ctx.font = "200px Arial";
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText(this.currentCharacter.getValue(), canvas.width / 2, canvas.height / 2);
   }
 
-  calculateBoundingBox(): void {
-    const canvas = this.canvasRef.nativeElement;
-    const imageData = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
-    let minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
-
-    for (let y = 0; y < canvas.height; y++) {
-      for (let x = 0; x < canvas.width; x++) {
-        const idx = (y * canvas.width + x) * 4;
-        if (imageData.data[idx + 3] > 0) {
-          if (x < minX) minX = x;
-          if (x > maxX) maxX = x;
-          if (y < minY) minY = y;
-          if (y > maxY) maxY = y;
-        }
-      }
-    }
-    this.letterBoundingBox = { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+  startDrawing(event: MouseEvent | TouchEvent) {
+    this.isDrawing = true;
+    this.paintCharacter(event);
   }
 
-  paintLetter(event: MouseEvent | TouchEvent): void {
+  stopDrawing() {
+    this.isDrawing = false;
+  }
+
+  paintCharacter(event: MouseEvent | TouchEvent) {
     if (!this.isDrawing) return;
 
-    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-    const mouseX = ('touches' in event ? event.touches[0].clientX : event.clientX) - rect.left;
-    const mouseY = ('touches' in event ? event.touches[0].clientY : event.clientY) - rect.top;
+    const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = 'touches' in event ? event.touches[0].clientX - rect.left : event.clientX - rect.left;
+    const mouseY = 'touches' in event ? event.touches[0].clientY - rect.top : event.clientY - rect.top;
 
-    if (
-      mouseX >= this.letterBoundingBox.x && mouseX <= this.letterBoundingBox.x + this.letterBoundingBox.width &&
-      mouseY >= this.letterBoundingBox.y && mouseY <= this.letterBoundingBox.y + this.letterBoundingBox.height
-    ) {
-      const position = `${Math.floor(mouseX)},${Math.floor(mouseY)}`;
-      if (!this.paintedArea.has(position)) {
-        this.paintedArea.add(position);
-        this.paintedPixels++;
-        this.ctx.beginPath();
-        this.ctx.arc(mouseX, mouseY, 8, 0, Math.PI * 2);
-        this.ctx.fillStyle = this.colors[Math.floor(Math.random() * this.colors.length)];
-        this.ctx.fill();
+    const position = `${mouseX},${mouseY}`;
+    if (!this.paintedArea.has(position)) {
+      this.paintedArea.add(position);
+      this.paintedPixels++;
+      this.ctx.beginPath();
+      this.ctx.arc(mouseX, mouseY, 8, 0, Math.PI * 2);
+      this.ctx.fillStyle = this.colors[Math.floor(Math.random() * this.colors.length)];
+      this.ctx.fill();
+    }
+
+    if (this.paintedPixels >= 100) this.isSaveVisible = true;
+  }
+
+  imageData: string = ''
+  saveCanvas() {
+    const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
+    this.imageData = canvas.toDataURL("image/png");
+
+    console.log("Captured Image:", this.imageData);
+
+    this.uploadToServer(this.imageData);
+    this.onCorrect();
+  }
+
+  uploadToServer(imageBase64: string) {
+    const payload = {
+      character: this.currentCharacter,
+      image: imageBase64
+    };
+
+    // Convert Base64 to Blob
+    const byteCharacters = atob(imageBase64.split(',')[1]);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const imageBlob = new Blob([byteArray], { type: 'image/png' }); // Adjust type if necessary
+    const file = new File([imageBlob], 'uploaded_image.png', { type: 'image/png' });
+
+    // Create FormData
+    const formData = new FormData();
+    formData.append('std_id', '123');
+    formData.append('question_id', '456');
+    formData.append('answer_status', '1');
+    formData.append('answer_image', file); // Attach as a file
+
+    this._crud.Add_answers_api(formData).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      (error) => {
+        console.error('Error uploading the image:', error);
       }
-    }
-
-    if (this.paintedPixels >= 50) {
-      this.isSaveVisible = true;
-    }
+    );
   }
 
-  setupCanvasEvents(): void {
-    const canvas = this.canvasRef.nativeElement;
-    canvas.addEventListener('mousedown', () => this.isDrawing = true);
-    canvas.addEventListener('mouseup', () => this.isDrawing = false);
-    canvas.addEventListener('mousemove', (event) => this.paintLetter(event));
-    canvas.addEventListener('touchstart', () => this.isDrawing = true);
-    canvas.addEventListener('touchend', () => this.isDrawing = false);
-    canvas.addEventListener('touchmove', (event) => this.paintLetter(event));
-  }
-
-  saveCanvas(): void {
-    const canvas = this.canvasRef.nativeElement;
-    const link = document.createElement('a');
-    link.href = canvas.toDataURL('image/png');
-    link.download = `${this.currentLetter}-painting.png`;
-    link.click();
-  }
-
-
-  onMouseUp() {
-
-  }
 
   onPlayRec(rec: string) {
     console.log(rec)

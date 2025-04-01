@@ -191,7 +191,7 @@ export class CRUDService {
   }
 
   addQuestion(data: any): Observable<any> {
-    return this._http.post<any>(`${this.base_url}question_mcq.php`, data)
+    return this._http.post<any>(`${this.base_url} .php`, data)
   }
 
   QuestionUpdate(data: any): Observable<any> {
@@ -219,6 +219,19 @@ export class CRUDService {
 
   addQuestion_listen(data: any): Observable<any> {
     return this._http.post<any>(`${this.base_url}question_listen.php`, data)
+  }
+
+  // by answer
+  Add_answers_api(data: any): Observable<any> {
+    return this._http.post<any>(`${this.base_url}answers_api.php`, data)
+  }
+
+  Update_answers_api(data: any): Observable<any> {
+    return this._http.post<any>(`${this.base_url}answers_api.php`, data)
+  }
+
+  Get_answers_api(data: any): Observable<any> {
+    return this._http.post<any>(`${this.base_url}answers_api.php`, data)
   }
 
 
