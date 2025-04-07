@@ -1,0 +1,25 @@
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  canvas {
+    border: 2px solid black;
+  }
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+}

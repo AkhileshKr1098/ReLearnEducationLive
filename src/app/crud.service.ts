@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserProfile } from './interface/student.interface';
-import { ClassRes, DayRes, GradeRes, SectionsRes, SubTopicRes, TopicsRes, Week, WeekInsertRes, WeekRes } from './interface/Question.interface';
+import { ClassRes, DayRes, GradeRes, QuestionData, SectionsRes, SubTopicRes, TopicsRes, Week, WeekInsertRes, WeekRes } from './interface/Question.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -186,12 +186,12 @@ export class CRUDService {
 
   // for Question topics 
 
-  getQuestion(): Observable<any> {
-    return this._http.get<any>(`${this.base_url}question_mcq.php`)
+  getQuestion(): Observable<QuestionData> {
+    return this._http.get<QuestionData>(`${this.base_url}question_mcq.php`)
   }
 
   addQuestion(data: any): Observable<any> {
-    return this._http.post<any>(`${this.base_url} .php`, data)
+    return this._http.post<any>(`${this.base_url}question_mcq.php`, data)
   }
 
   QuestionUpdate(data: any): Observable<any> {

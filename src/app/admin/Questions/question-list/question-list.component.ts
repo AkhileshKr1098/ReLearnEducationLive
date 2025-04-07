@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CRUDService } from 'src/app/crud.service';
 import { AddQuestionComponent } from '../add-question/add-question.component';
 import { ConfirmBoxComponentComponent } from '../../confirm-box-component/confirm-box-component.component';
-import { Class, ClassRes, Day, Sections, SubTopic, Topics, TopicsRes, Week } from 'src/app/interface/Question.interface';
+import { Class, ClassRes, Day, QuestionData, Sections, SubTopic, Topics, TopicsRes, Week } from 'src/app/interface/Question.interface';
 
 @Component({
   selector: 'app-question-list',
@@ -110,10 +110,13 @@ export class QuestionListComponent {
 
   getData() {
     this._crud.getQuestion().subscribe(
-      (res) => {
-        this.Question = res
-        this.FilterQuestion = res
-        console.log(this.FilterQuestion)
+      (res: QuestionData) => {
+        if (Array.isArray(res)) {
+          this.Question = res
+          this.FilterQuestion = res
+          console.log(this.FilterQuestion)
+        }
+
 
       }, (err: Error) => {
         console.log(err);

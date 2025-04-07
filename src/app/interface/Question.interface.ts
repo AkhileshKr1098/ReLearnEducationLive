@@ -100,3 +100,27 @@ export interface DayInfo {
     week_id: string;
     week_num: string;
 }
+
+
+export interface QuestionData {
+    Answer: string | null;
+    OptionA: string | null;
+    OptionB: string | null;
+    OptionC: string | null;
+    OptionD: string | null;
+    Question: string;
+    class: string;
+    day: string;
+    id: number;
+    incomplete_word: string | null;
+    listen_rec: string | null;
+    listen_word: string | null;
+    question_Img: string | null;
+    question_type: string;
+    sections: string;
+    sub_topics: string;
+    topics: string;
+    unit: string;
+    week: string;
+
+}

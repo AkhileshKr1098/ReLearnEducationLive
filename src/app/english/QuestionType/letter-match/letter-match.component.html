@@ -1,1 +1,13 @@
-<p>letter-match works!</p>
+<div class="canvas-container">
+    <canvas #matchCanvas width="800" height="400"
+      (mousedown)="onCanvasDown($event)"
+      (mousemove)="onCanvasMove($event)"
+      (mouseup)="onCanvasUp($event)">
+    </canvas>
+  </div>
+  
+  <div class="btn-group">
+    <button (click)="clearCanvasM()">Clear</button>
+    <button (click)="drawLettersMAgain()">Reset Letters</button>
+  </div>
+  

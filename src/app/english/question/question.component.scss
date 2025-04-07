@@ -138,6 +138,25 @@
   background: #ffffff;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+
+  .canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  canvas {
+    border-radius: 15px;
+    border: 5px solid #4caf50;
+    background-color: white;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
 }
 
 // for BlendWord 
@@ -360,33 +379,47 @@
   padding: 20px;
   max-width: 100%;
   width: 100%;
-  background: #ffffff;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 2px solid greenyellow;
 
-
-  .qarea {
-    width: 100%;
-    height: 500px;
+  .canvas-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
     margin-top: 10px;
-    background-color: green;
-
-    .leftopction {
-      width: 50%;
-      height: 100%;
-      float: left;
-      background-color: goldenrod;
-    }
-
-    .rightopction {
-      width: 50%;
-      height: 100%;
-      float: right;
-      background-color: rgb(48, 32, 218);
-    }
   }
+
+  canvas {
+    border-radius: 15px;
+    border: 5px solid #4caf50;
+    background-color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td {
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .left-option {
+    background-color: lightblue;
+  }
+
+  .right-option {
+    background-color: lightgreen;
+  }
+
+
+
 }
 
 .letter-selector {
@@ -395,26 +428,6 @@
   color: #ff5733;
   margin-bottom: 15px;
   justify-content: center;
-}
-
-/* Canvas Container */
-.canvas-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-}
-
-/* Canvas */
-canvas {
-  border-radius: 15px;
-  border: 5px solid #4caf50;
-  /* Green outline */
-  background-color: white;
-  width: 100%;
-  max-width: 420px;
-  height: auto;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .button-container {
@@ -444,10 +457,8 @@ button {
   background-color: #d43f2e;
 }
 
-/* Save Button */
 .save-btn {
   background-color: #4caf50;
-  /* Green */
   color: white;
 }
 
@@ -460,43 +471,6 @@ button {
   cursor: not-allowed;
 }
 
-
-
-// for letter tracking
-
-body {
-  font-family: 'Arial', sans-serif;
-  text-align: center;
-  background-color: #f0f0f0;
-}
-
-h1 {
-  font-size: 32px;
-  font-weight: bold;
-}
-
-.letter-selector {
-  font-size: 22px;
-  margin-bottom: 20px;
-}
-
-.letter-selector select {
-  font-size: 24px;
-  padding: 5px 15px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.canvas-container {
-  margin-top: 20px;
-}
-
-canvas {
-  border: 2px solid #ccc;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  touch-action: none;
-}
 
 button {
   font-size: 24px;

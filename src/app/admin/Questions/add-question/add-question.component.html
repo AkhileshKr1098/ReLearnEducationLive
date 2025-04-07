@@ -163,12 +163,6 @@
                                     formControlName="OptionB">
                                 <label>Option Right Side ({{i+1}})</label>
                             </div>
-
-                            <div class="form-floating">
-                                <input type="text" class="form-control" placeholder="Answer" formControlName="Answer">
-                                <label>Correct Answer ({{i+1}})</label>
-                            </div>
-
                             <button *ngIf="i === options.length - 1 && options.length < 5" mat-icon-button
                                 (click)="addRow()">
                                 <mat-icon>add_circle_outline</mat-icon>

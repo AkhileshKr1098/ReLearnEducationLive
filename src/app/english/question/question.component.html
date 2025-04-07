@@ -24,6 +24,29 @@
             </div>
         </div>
 
+        <div *ngIf="QuestionType == 'LetterMatch'" id="LetterMatch">
+            <div class="letter-selector">
+                <span>🎨 {{CurrentQuestion?.Question}} 🖍️</span>
+            </div>
+            <div class="canvas-container">
+                <canvas #matchCanvas width="800" height="300" (mousedown)="startDrawingM($event)"
+                    (mouseup)="stopDrawingM($event)" (mousemove)="paintCharacterM($event)"
+                    (touchstart)="startDrawingM($event)" (touchend)="stopDrawingM($event)"
+                    (touchmove)="paintCharacterM($event)">
+                </canvas>
+            </div>
+
+            <!-- <button (click)="clearCanvasM()">Clear</button>
+            <button (click)="drawLettersM()">Reset Letters</button>
+ -->
+
+
+            <div class="button-container">
+                <button class="reset-btn" (click)="startPainting()">🔄 Reset</button>
+                <button class="save-btn" [disabled]="!isSaveVisible" (click)="saveCanvas()">✅ Save & Next</button>
+            </div>
+        </div>
+
 
         <div *ngIf="QuestionType == 'BlendWords'" id="BlendWords">
             <div class="questionheader">
@@ -151,41 +174,6 @@
         </div>
 
 
-
-        <!-- <div id="LetterMatch">
-        <div class="letter-selector">
-            <span>🎨 Lorem ipsum dolor sit amet consectetur, adipisicing elit. 🖍️</span>
-        </div>
-
-        <div class="qarea">
-            
-        </div>
-
-        <div class="button-container">
-            <button class="reset-btn" (click)="resetSelection()">🔄 Reset</button>
-            <button class="save-btn" (click)="NextQuestion()">✅ Save & Next</button>
-        </div>
-
-    </div> -->
-
-
-        <!-- <button (click)="NextQuestion()" mat-button>next</button> -->
-
-        <!-- <div >
-</div>
-
-<div *ngIf="QuestionType == 'LetterMatch'">
-    MCSS
-</div>
-
-<div *ngIf="QuestionType == 'BlendWords'">
-    MCSS
-</div>
-
-<div *ngIf="QuestionType == 'ListenWords'">
-    MCSS
-</div> -->
-
     </div>
 
     <div class="rightarea">
@@ -234,11 +222,11 @@
                     </div>
                 </div>
                 <div class="progess">
-                    <span>{{CurrentQuestion?.topics}} Progress Report: {{i}}/{{AllQuestion?.length}}
+                    <span>{{CurrentQuestion?.topics}} Progress Report: {{i}}/{{AllQuestion.length}}
                     </span>
                     <div class="progessline">
                         <section class="example-section">
-                            <mat-progress-bar class="example-margin" [value]="((i) / AllQuestion?.length) * 100">
+                            <mat-progress-bar class="example-margin" [value]="((i) / AllQuestion.length) * 100">
                             </mat-progress-bar>
                         </section>
                     </div>

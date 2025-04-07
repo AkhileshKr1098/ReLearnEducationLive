@@ -78,10 +78,9 @@ export class AddQuestionComponent {
       if (this.edit_data.question_type === "LetterMatch") {
         console.log(this.edit_data);
         this.options.clear();
-
+        this.QuestionForm.patchValue(this.edit_data)
         const optionAValues = this.edit_data.OptionA.split(', ');
         const optionBValues = this.edit_data.OptionB.split(', ');
-        const answerValues = this.edit_data.Answer.split(', ');
 
         // Loop through data and push into form array
         optionAValues.forEach((optionA: any, index: any) => {
@@ -89,7 +88,6 @@ export class AddQuestionComponent {
             this._fb.group({
               OptionA: [optionA],
               OptionB: [optionBValues[index] || ''],
-              Answer: [answerValues[index] || '']
             })
           );
         });
@@ -227,7 +225,6 @@ export class AddQuestionComponent {
       const formData = {
         OptionA: this.options.value.map((row: any) => row.OptionA).join(', '),
         OptionB: this.options.value.map((row: any) => row.OptionB).join(', '),
-        Answer: this.options.value.map((row: any) => row.Answer).join(', '),
         Question: this.QuestionForm.get('Question')?.value,
         question_type: this.QuestionForm.get('question_type')?.value,
         class: this.QuestionForm.get('class')?.value,
@@ -376,7 +373,6 @@ export class AddQuestionComponent {
       const formData = {
         OptionA: this.options.value.map((row: any) => row.OptionA).join(', '),
         OptionB: this.options.value.map((row: any) => row.OptionB).join(', '),
-        Answer: this.options.value.map((row: any) => row.Answer).join(', '),
         Question: this.QuestionForm.get('Question')?.value,
         question_type: this.QuestionForm.get('question_type')?.value,
         class: this.QuestionForm.get('class')?.value,

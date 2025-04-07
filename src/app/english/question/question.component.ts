@@ -5,6 +5,7 @@ import { ConfirmDialogComponent } from '../QuestionType/confirm-dialog/confirm-d
 import { CorrectBoxComponent } from '../correct-box/correct-box.component';
 import { OppsBoxComponent } from '../opps-box/opps-box.component';
 import { BehaviorSubject } from 'rxjs';
+import { QuestionData } from 'src/app/interface/Question.interface';
 
 @Component({
   selector: 'app-question',
@@ -22,9 +23,23 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   paintedPixels = 0;
   showSaveButton = false;
 
+  // for Matching start
+  @ViewChild('matchCanvas', { static: true }) McanvasRef!: ElementRef;
+  private ctxM!: CanvasRenderingContext2D;
+  private isDrawingM = false;
+  private startX = 0;
+  private startY = 0;
+  private lines: { x1: number, y1: number, x2: number, y2: number }[] = [];
+  leftItems: Array<string> = [];
+  rightItems: Array<string> = [];
+  private positions: { left: { x: number, y: number }, right: { x: number, y: number } }[] = [];
+
+  // for Matching end
+
+
   isSaveVisible = false;
   QuestionType: string = ''
-  AllQuestion: any = []
+  AllQuestion: QuestionData[] = []
   CurrentQuestion: any
   base_url: string = ''
   filledWord: string = '';
@@ -44,17 +59,39 @@ export class QuestionComponent implements OnInit, AfterViewInit {
         this.base_url = res
       }
     )
+  }
+
+  ngOnInit() {
     this._crud.getQuestion().subscribe(
-      (res) => {
-        this.AllQuestion = res.reverse();
-        this.NextQuestion()
+      (res: QuestionData) => {
+        console.log(res);
+        if (Array.isArray(res)) {
+          this.AllQuestion = res
+          this.NextQuestion()
+        }
       }
     )
+
+    this.startPainting()
+
   }
-  ngOnInit() {
-    setTimeout(() => {
-      this.startPainting()
-    }, 1000)
+
+
+  ngAfterViewInit() {
+    console.log('question type', this.QuestionType);
+
+    if (this.QuestionType == "LetterTracing") {
+      this.populateCharacters();
+      this.startPainting();
+    }
+
+    if (this.QuestionType == "LetterMatch") {
+      const canvas = this.McanvasRef.nativeElement as HTMLCanvasElement;
+      this.ctxM = canvas.getContext('2d') as CanvasRenderingContext2D;
+      this.drawLettersM();
+    }
+
+
   }
 
   i = 0
@@ -85,6 +122,8 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     console.log(this.CurrentQuestion)
     this.currentCharacter.next(this.CurrentQuestion.OptionA)
     this.startPainting()
+    this.leftItems.push(this.CurrentQuestion.OptionA)
+    this.rightItems.push(this.CurrentQuestion.OptionB)
   }
 
   CheckCorrect() {
@@ -107,11 +146,8 @@ export class QuestionComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngAfterViewInit() {
-    this.populateCharacters();
-    this.startPainting();
-  }
 
+  // for letter tracking 
   populateCharacters() {
     for (let i = 65; i <= 90; i++) this.characters.push(String.fromCharCode(i));
     for (let i = 97; i <= 122; i++) this.characters.push(String.fromCharCode(i));
@@ -183,7 +219,6 @@ export class QuestionComponent implements OnInit, AfterViewInit {
       image: imageBase64
     };
 
-    // Convert Base64 to Blob
     const byteCharacters = atob(imageBase64.split(',')[1]);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
@@ -193,7 +228,6 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     const imageBlob = new Blob([byteArray], { type: 'image/png' }); // Adjust type if necessary
     const file = new File([imageBlob], 'uploaded_image.png', { type: 'image/png' });
 
-    // Create FormData
     const formData = new FormData();
     formData.append('std_id', '123');
     formData.append('question_id', '456');
@@ -210,6 +244,76 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     );
   }
 
+  // for letter tracking  stop
+
+
+  // for DrawingMatching
+  drawLettersM() {
+    const canvas = this.McanvasRef.nativeElement as HTMLCanvasElement;
+    this.ctxM.clearRect(0, 0, canvas.width, canvas.height);
+    this.ctxM.font = '24px Arial';
+    this.ctxM.fillStyle = 'blue';
+    this.positions = [];
+    for (let i = 0; i < this.leftItems.length; i++) {
+      let y = 50 + i * 60;
+      this.ctxM.fillText(this.leftItems[i], 50, y);
+      this.ctxM.fillText(this.rightItems[i], 700, y);
+      this.positions.push({ left: { x: 50, y: y - 10 }, right: { x: 700, y: y - 10 } });
+    }
+  }
+
+  startDrawingM(event: MouseEvent | TouchEvent) {
+    event.preventDefault();
+    this.isDrawingM = true;
+    const { offsetX, offsetY } = this.getCoordinates(event);
+    this.startX = offsetX;
+    this.startY = offsetY;
+  }
+
+  stopDrawingM(event: MouseEvent | TouchEvent) {
+    if (!this.isDrawingM) return;
+    this.isDrawingM = false;
+    const { offsetX, offsetY } = this.getCoordinates(event);
+    this.lines.push({ x1: this.startX, y1: this.startY, x2: offsetX, y2: offsetY });
+    this.drawLine(this.startX, this.startY, offsetX, offsetY);
+  }
+
+  drawLine(x1: number, y1: number, x2: number, y2: number) {
+    this.ctxM.beginPath();
+    this.ctxM.moveTo(x1, y1);
+    this.ctxM.lineTo(x2, y2);
+    this.ctxM.strokeStyle = 'black';
+    this.ctxM.lineWidth = 2;
+    this.ctxM.stroke();
+  }
+
+  clearCanvasM() {
+    const canvas = this.McanvasRef.nativeElement as HTMLCanvasElement;
+    this.ctxM.clearRect(0, 0, canvas.width, canvas.height);
+    this.lines = [];
+    this.drawLettersM();
+  }
+
+  private getCoordinates(event: MouseEvent | TouchEvent) {
+    if (event instanceof MouseEvent) {
+      return { offsetX: event.offsetX, offsetY: event.offsetY };
+    } else {
+      const rect = (event.target as HTMLCanvasElement).getBoundingClientRect();
+      const touch = event.touches[0];
+      return { offsetX: touch.clientX - rect.left, offsetY: touch.clientY - rect.top };
+    }
+  }
+
+  paintCharacterM(event: MouseEvent | TouchEvent) {
+    if (!this.isDrawingM) return;
+    const { offsetX, offsetY } = this.getCoordinates(event);
+    this.drawLine(this.startX, this.startY, offsetX, offsetY);
+    this.startX = offsetX;
+    this.startY = offsetY;
+  }
+
+
+  // for DrawingMatching stop
 
   onPlayRec(rec: string) {
     console.log(rec)
