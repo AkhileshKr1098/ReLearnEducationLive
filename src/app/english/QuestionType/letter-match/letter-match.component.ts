@@ -102,11 +102,13 @@ export class LetterMatchComponent implements AfterViewInit {
   endDrawing(event: MouseEvent | TouchEvent) {
     if (!this.isDrawing) return;
     this.isDrawing = false;
-    const end = this.getCoordinates(event);
-
+  
+    // Use last known position (this.current) for touch as touchend has no touches
+    const end = event instanceof TouchEvent ? this.current : this.getCoordinates(event);
+  
     const startBullet = this.findClosestBullet(this.start, this.positions.left);
     const endBullet = this.findClosestBullet(end, this.positions.right);
-
+  
     if (startBullet && endBullet) {
       const correct = startBullet.word === endBullet.word;
       this.matches.push({
@@ -117,9 +119,10 @@ export class LetterMatchComponent implements AfterViewInit {
         correct
       });
     }
-
-    this.drawLetters();
+  
+    this.drawLetters(); // redraw including lines
   }
+  
 
   findClosestBullet(point: { x: number, y: number }, options: any[]) {
     for (let opt of options) {
