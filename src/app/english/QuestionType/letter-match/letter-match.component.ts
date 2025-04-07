@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, HostListener } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-letter-match',
@@ -6,171 +6,131 @@ import { Component, ElementRef, ViewChild, AfterViewInit, HostListener } from '@
   styleUrls: ['./letter-match.component.scss']
 })
 export class LetterMatchComponent implements AfterViewInit {
-  @ViewChild('matchCanvas', { static: true }) McanvasRef!: ElementRef;
-  private ctxM!: CanvasRenderingContext2D;
-  private startPoint: { x: number; y: number; index: number; side: 'left' | 'right' } | null = null;
-  private currentMousePos: { x: number; y: number } | null = null;
-  private isDragging = false;
+  @ViewChild('matchCanvas', { static: true }) canvasRef!: ElementRef;
+  private ctx!: CanvasRenderingContext2D;
+  private isDrawing = false;
+  private start = { x: 0, y: 0 };
+  private current = { x: 0, y: 0 };
+  private positions: { left: any[], right: any[] } = { left: [], right: [] };
+  private matches: { x1: number, y1: number, x2: number, y2: number, correct: boolean }[] = [];
 
   leftItems = ['Pin', 'Gun', 'Pot', 'Man', 'Ten'];
   rightItems = ['Pot', 'Pin', 'Gun', 'Ten', 'Man'];
-  bulletRadius = 6;
-
-  positions: {
-    left: { x: number; y: number };
-    right: { x: number; y: number };
-  }[] = [];
-
-  lines: {
-    start: { x: number; y: number };
-    end: { x: number; y: number };
-    color: string;
-  }[] = [];
 
   ngAfterViewInit() {
-    const canvas = this.McanvasRef.nativeElement as HTMLCanvasElement;
-    this.ctxM = canvas.getContext('2d') as CanvasRenderingContext2D;
-    this.drawLettersM();
+    const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
+    this.ctx = canvas.getContext('2d')!;
+    this.drawLetters();
   }
 
-  drawLettersM() {
-    const canvas = this.McanvasRef.nativeElement as HTMLCanvasElement;
-    this.ctxM.clearRect(0, 0, canvas.width, canvas.height);
-    this.ctxM.font = '20px Arial';
-    this.ctxM.fillStyle = 'black';
-    this.ctxM.textBaseline = 'middle';
-    this.positions = [];
+  drawLetters() {
+    const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.ctx.font = '20px Arial';
+    this.ctx.lineWidth = 2;
+    this.positions = { left: [], right: [] };
 
     for (let i = 0; i < this.leftItems.length; i++) {
       const y = 50 + i * 60;
+      this.ctx.fillStyle = 'black';
+      this.ctx.fillText(this.leftItems[i], 50, y);
+      this.ctx.beginPath();
+      this.ctx.arc(150, y - 5, 5, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.positions.left.push({ word: this.leftItems[i], x: 150, y: y - 5 });
 
-      this.ctxM.fillStyle = '#ADD8E6';
-      this.ctxM.fillRect(40, y - 20, 120, 40);
-      this.ctxM.fillStyle = 'black';
-      this.ctxM.fillText(this.leftItems[i], 50, y);
-      this.drawBullet(150, y);
-
-      this.ctxM.fillStyle = '#90EE90';
-      this.ctxM.fillRect(640, y - 20, 120, 40);
-      this.ctxM.fillStyle = 'black';
-      this.drawBullet(640, y);
-      this.ctxM.fillText(this.rightItems[i], 660, y);
-
-      this.positions.push({ left: { x: 150, y }, right: { x: 640, y } });
+      this.ctx.fillStyle = 'black';
+      this.ctx.fillText(this.rightItems[i], 700, y);
+      this.ctx.beginPath();
+      this.ctx.arc(670, y - 5, 5, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.positions.right.push({ word: this.rightItems[i], x: 670, y: y - 5 });
     }
 
-    for (const line of this.lines) {
-      this.ctxM.beginPath();
-      this.ctxM.moveTo(line.start.x, line.start.y);
-      this.ctxM.lineTo(line.end.x, line.end.y);
-      this.ctxM.strokeStyle = line.color;
-      this.ctxM.lineWidth = 2;
-      this.ctxM.stroke();
-    }
+    this.drawStoredLines();
+  }
 
-    // Live dragging line
-    if (this.startPoint && this.currentMousePos) {
-      this.ctxM.beginPath();
-      this.ctxM.moveTo(this.startPoint.x, this.startPoint.y);
-      this.ctxM.lineTo(this.currentMousePos.x, this.currentMousePos.y);
-      this.ctxM.strokeStyle = 'gray';
-      this.ctxM.lineWidth = 2;
-      this.ctxM.stroke();
+  drawStoredLines() {
+    for (let line of this.matches) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(line.x1, line.y1);
+      this.ctx.lineTo(line.x2, line.y2);
+      this.ctx.strokeStyle = line.correct ? 'green' : 'red';
+      this.ctx.lineWidth = 3;
+      this.ctx.stroke();
     }
   }
 
-  drawBullet(x: number, y: number) {
-    this.ctxM.beginPath();
-    this.ctxM.arc(x, y, this.bulletRadius, 0, Math.PI * 2);
-    this.ctxM.fillStyle = 'black';
-    this.ctxM.fill();
-  }
-
-  getMousePosition(event: MouseEvent): { x: number; y: number } {
-    const canvas = this.McanvasRef.nativeElement as HTMLCanvasElement;
+  getCoordinates(event: MouseEvent | TouchEvent) {
+    const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
     const rect = canvas.getBoundingClientRect();
+    let clientX = 0, clientY = 0;
+
+    if (event instanceof MouseEvent) {
+      clientX = event.clientX;
+      clientY = event.clientY;
+    } else {
+      clientX = event.touches[0].clientX;
+      clientY = event.touches[0].clientY;
+    }
+
     return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top
+      x: clientX - rect.left,
+      y: clientY - rect.top
     };
   }
 
-  onCanvasDown(event: MouseEvent) {
-    const pos = this.getMousePosition(event);
-
-    for (let i = 0; i < this.positions.length; i++) {
-      const left = this.positions[i].left;
-      const right = this.positions[i].right;
-
-      if (this.isNear(pos, left)) {
-        this.startPoint = { x: left.x, y: left.y, index: i, side: 'left' };
-        this.isDragging = true;
-        return;
-      } else if (this.isNear(pos, right)) {
-        this.startPoint = { x: right.x, y: right.y, index: i, side: 'right' };
-        this.isDragging = true;
-        return;
-      }
-    }
+  startDrawing(event: MouseEvent | TouchEvent) {
+    event.preventDefault();
+    this.isDrawing = true;
+    this.start = this.getCoordinates(event);
+    this.current = { ...this.start };
   }
 
-  onCanvasMove(event: MouseEvent) {
-    if (!this.isDragging || !this.startPoint) return;
-    this.currentMousePos = this.getMousePosition(event);
-    this.drawLettersM();
+  drawTempLine(event: MouseEvent | TouchEvent) {
+    if (!this.isDrawing) return;
+    this.current = this.getCoordinates(event);
+    this.drawLetters();
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.start.x, this.start.y);
+    this.ctx.lineTo(this.current.x, this.current.y);
+    this.ctx.strokeStyle = 'gray';
+    this.ctx.lineWidth = 5;
+    this.ctx.stroke();
   }
 
-  onCanvasUp(event: MouseEvent) {
-    if (!this.startPoint) return;
-    const pos = this.getMousePosition(event);
+  endDrawing(event: MouseEvent | TouchEvent) {
+    if (!this.isDrawing) return;
+    this.isDrawing = false;
+    const end = this.getCoordinates(event);
 
-    for (let i = 0; i < this.positions.length; i++) {
-      const left = this.positions[i].left;
-      const right = this.positions[i].right;
+    const startBullet = this.findClosestBullet(this.start, this.positions.left);
+    const endBullet = this.findClosestBullet(end, this.positions.right);
 
-      const oppositeSide = this.startPoint.side === 'left' ? right : left;
-      const oppositeIndex = i;
-
-      if (this.isNear(pos, oppositeSide)) {
-        const leftIndex = this.startPoint.side === 'left' ? this.startPoint.index : oppositeIndex;
-        const rightIndex = this.startPoint.side === 'right' ? this.startPoint.index : oppositeIndex;
-
-        const isCorrect = this.leftItems[leftIndex] === this.rightItems[rightIndex];
-
-        this.lines.push({
-          start: { x: this.startPoint.x, y: this.startPoint.y },
-          end: { x: oppositeSide.x, y: oppositeSide.y },
-          color: isCorrect ? 'green' : 'red'
-        });
-
-        this.startPoint = null;
-        this.currentMousePos = null;
-        this.isDragging = false;
-        this.drawLettersM();
-        return;
-      }
+    if (startBullet && endBullet) {
+      const correct = startBullet.word === endBullet.word;
+      this.matches.push({
+        x1: startBullet.x,
+        y1: startBullet.y,
+        x2: endBullet.x,
+        y2: endBullet.y,
+        correct
+      });
     }
 
-    // No match made
-    this.startPoint = null;
-    this.currentMousePos = null;
-    this.isDragging = false;
-    this.drawLettersM();
+    this.drawLetters();
   }
 
-  isNear(p1: { x: number; y: number }, p2: { x: number; y: number }) {
-    return Math.hypot(p1.x - p2.x, p1.y - p2.y) <= this.bulletRadius + 5;
+  findClosestBullet(point: { x: number, y: number }, options: any[]) {
+    for (let opt of options) {
+      const dist = Math.hypot(point.x - opt.x, point.y - opt.y);
+      if (dist < 15) return opt;
+    }
+    return null;
   }
 
-  clearCanvasM() {
-    this.lines = [];
-    this.startPoint = null;
-    this.currentMousePos = null;
-    this.isDragging = false;
-    this.drawLettersM();
-  }
-
-  drawLettersMAgain() {
-    this.clearCanvasM();
+  clearCanvas() {
+    this.matches = [];
+    this.drawLetters();
   }
 }

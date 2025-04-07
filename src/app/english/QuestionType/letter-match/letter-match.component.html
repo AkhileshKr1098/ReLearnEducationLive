@@ -1,13 +1,16 @@
 <div class="canvas-container">
     <canvas #matchCanvas width="800" height="400"
-      (mousedown)="onCanvasDown($event)"
-      (mousemove)="onCanvasMove($event)"
-      (mouseup)="onCanvasUp($event)">
+      (mousedown)="startDrawing($event)"
+      (mousemove)="drawTempLine($event)"
+      (mouseup)="endDrawing($event)"
+      (touchstart)="startDrawing($event)"
+      (touchmove)="drawTempLine($event)"
+      (touchend)="endDrawing($event)">
     </canvas>
   </div>
   
-  <div class="btn-group">
-    <button (click)="clearCanvasM()">Clear</button>
-    <button (click)="drawLettersMAgain()">Reset Letters</button>
+  <div class="controls">
+    <button (click)="clearCanvas()">Clear</button>
+    <button (click)="drawLetters()">Reset Letters</button>
   </div>
   
