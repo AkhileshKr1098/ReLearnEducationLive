@@ -1,1 +1,18 @@
-<p>letter-tracking works!</p>
+
+<div *ngIf="QuestionType == 'LetterTracing'" id="LetterTracing">
+    <div class="letter-selector">
+        <span>🎨 {{CurrentQuestion?.Question}} 🖍️</span>
+    </div>
+
+    <div class="canvas-container">
+        <canvas #letterCanvas width="400" height="400" (mousedown)="startDrawing($event)"
+            (mouseup)="stopDrawing()" (mousemove)="paintCharacter($event)" (touchstart)="startDrawing($event)"
+            (touchend)="stopDrawing()" (touchmove)="paintCharacter($event)">
+        </canvas>
+    </div>
+
+    <div class="button-container">
+        <button class="reset-btn" (click)="startPainting()">🔄 Reset</button>
+        <button class="save-btn" [disabled]="!isSaveVisible" (click)="saveCanvas()">✅ Save & Next</button>
+    </div>
+</div>

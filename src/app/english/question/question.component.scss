@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('../../../assets/icon/bgc.jpg');
+  // background-image: url('../../../assets/icon/bgc.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -16,7 +16,6 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    padding: 10px;
 
     .topicsarea {
       width: 100%;
@@ -376,50 +375,11 @@
 // for letter match 
 
 #LetterMatch {
-  padding: 20px;
   max-width: 100%;
   width: 100%;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   border: 2px solid greenyellow;
-
-  .canvas-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-  }
-
-  canvas {
-    border-radius: 15px;
-    border: 5px solid #4caf50;
-    background-color: white;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  td {
-    padding: 10px;
-    border: 1px solid black;
-    text-align: center;
-    font-size: 18px;
-    cursor: pointer;
-  }
-
-  .left-option {
-    background-color: lightblue;
-  }
-
-  .right-option {
-    background-color: lightgreen;
-  }
-
-
-
 }
 
 .letter-selector {

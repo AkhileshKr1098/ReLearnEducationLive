@@ -1,50 +1,19 @@
 <div id="wrapper">
     <div class="leftarea">
-        <div class="topicsarea">
+        <!-- <div class="topicsarea">
             <button type="button">Level/Week2/day5</button>
             <span>{{CurrentQuestion?.topics}}</span>
             <span></span>
-        </div>
+        </div> -->
 
         <div *ngIf="QuestionType == 'LetterTracing'" id="LetterTracing">
-            <div class="letter-selector">
-                <span>🎨 {{CurrentQuestion?.Question}} 🖍️</span>
-            </div>
-
-            <div class="canvas-container">
-                <canvas #letterCanvas width="400" height="400" (mousedown)="startDrawing($event)"
-                    (mouseup)="stopDrawing()" (mousemove)="paintCharacter($event)" (touchstart)="startDrawing($event)"
-                    (touchend)="stopDrawing()" (touchmove)="paintCharacter($event)">
-                </canvas>
-            </div>
-
-            <div class="button-container">
-                <button class="reset-btn" (click)="startPainting()">🔄 Reset</button>
-                <button class="save-btn" [disabled]="!isSaveVisible" (click)="saveCanvas()">✅ Save & Next</button>
-            </div>
+            <app-letter-tracking></app-letter-tracking>
         </div>
 
-        <div *ngIf="QuestionType == 'LetterMatch'" id="LetterMatch">
-            <div class="letter-selector">
-                <span>🎨 {{CurrentQuestion?.Question}} 🖍️</span>
-            </div>
-            <div class="canvas-container">
-                <canvas #matchCanvas width="800" height="300" (mousedown)="startDrawingM($event)"
-                    (mouseup)="stopDrawingM($event)" (mousemove)="paintCharacterM($event)"
-                    (touchstart)="startDrawingM($event)" (touchend)="stopDrawingM($event)"
-                    (touchmove)="paintCharacterM($event)">
-                </canvas>
-            </div>
+        <div id="LetterMatch">
 
-            <!-- <button (click)="clearCanvasM()">Clear</button>
-            <button (click)="drawLettersM()">Reset Letters</button>
- -->
+            <app-letter-match></app-letter-match>
 
-
-            <div class="button-container">
-                <button class="reset-btn" (click)="startPainting()">🔄 Reset</button>
-                <button class="save-btn" [disabled]="!isSaveVisible" (click)="saveCanvas()">✅ Save & Next</button>
-            </div>
         </div>
 
 

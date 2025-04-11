@@ -12,7 +12,7 @@ import { ListenWordsComponent } from './QuestionType/listen-words/listen-words.c
 import { QTypeComponent } from './QuestionType/qtype/qtype.component';
 
 const routes: Routes = [
-  { path: '', component: LetterMatchComponent },
+  // { path: '', component: LetterMatchComponent },
 
   {
     path: '', component: HomeComponent, children: [
