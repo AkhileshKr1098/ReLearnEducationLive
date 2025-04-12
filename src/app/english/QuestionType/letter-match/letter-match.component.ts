@@ -23,17 +23,16 @@ interface Match {
 })
 export class LetterMatchComponent implements AfterViewInit {
   rightvalue = ['ball', 'sun', 'water', 'fly', 'elephant'];
-  leftValue = ['ba', 'sun', 'water', 'fly', 'elephant'];
+  leftValue = ['ball', 'sun', 'water', 'fly', 'elephant'];
   leftWords: any[] = [];
   rightWords: any[] = [];
-
   matchedPairs: Match[] = [];
 
   isDragging = false;
   dragLine = { start: { x: 0, y: 0 }, end: { x: 0, y: 0 } };
 
   selectedItem: { side: 'left' | 'right', item: any, element: HTMLElement } | null = null;
-
+  outputMessage: number = 0
   constructor(private dialog: MatDialog) { }
 
   ngAfterViewInit() {
@@ -168,15 +167,16 @@ export class LetterMatchComponent implements AfterViewInit {
   saveMatches(type: string) {
     if (type === 'submit') {
       this.isSave = false;
-
       if (this.TotalPercentage === 100) {
-        // alert('Excellent');
+        this.outputMessage = 100
+        console.log(this.outputMessage);
+
       } else if (this.TotalPercentage > 75) {
-        alert('Awesome');
+        this.outputMessage = 75
       } else if (this.TotalPercentage > 50) {
-        alert('Good work');
+        this.outputMessage = 50
       } else if (this.TotalPercentage > 0) {
-        alert('Practice More');
+        this.outputMessage = 0
       } else {
         alert('No correct matches. Try again!');
       }
