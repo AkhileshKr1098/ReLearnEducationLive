@@ -1,5 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { BehaviorSubject } from 'rxjs';
 
 interface Point {
   x: number;
@@ -32,7 +33,8 @@ export class LetterMatchComponent implements AfterViewInit {
   dragLine = { start: { x: 0, y: 0 }, end: { x: 0, y: 0 } };
 
   selectedItem: { side: 'left' | 'right', item: any, element: HTMLElement } | null = null;
-  outputMessage: number = 0
+  outputMessage = new BehaviorSubject<number>(0)
+
   constructor(private dialog: MatDialog) { }
 
   ngAfterViewInit() {
@@ -167,22 +169,12 @@ export class LetterMatchComponent implements AfterViewInit {
   saveMatches(type: string) {
     if (type === 'submit') {
       this.isSave = false;
-      if (this.TotalPercentage === 100) {
-        this.outputMessage = 100
-        console.log(this.outputMessage);
 
-      } else if (this.TotalPercentage > 75) {
-        this.outputMessage = 75
-      } else if (this.TotalPercentage > 50) {
-        this.outputMessage = 50
-      } else if (this.TotalPercentage > 0) {
-        this.outputMessage = 0
-      } else {
-        alert('No correct matches. Try again!');
-      }
     }
 
     if (type === 'save') {
+
+
       this.isSave = true;
       this.playAudio('../../../../assets/audio/answersavetime.wav');
 
@@ -212,6 +204,25 @@ export class LetterMatchComponent implements AfterViewInit {
 
       const total = correctCount + incorrectCount;
       this.TotalPercentage = total > 0 ? (correctCount / total) * 100 : 0;
+      console.log(this.TotalPercentage, 'total')
+      if (this.TotalPercentage === 100) {
+        this.outputMessage.next(100)
+      } else if (this.TotalPercentage >= 75) {
+        this.outputMessage.next(75)
+        alert('75 to 100')
+
+      } else if (this.TotalPercentage >= 50) {
+        this.outputMessage.next(50)
+        alert('50 to 75')
+      } else if (this.TotalPercentage >= 0) {
+        this.outputMessage.next(0)
+        alert('0 to 50')
+
+      } else {
+        alert('No correct matches. Try again!');
+      }
+
+      console.log('action  value',this.outputMessage.getValue())
     }
   }
 

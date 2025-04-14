@@ -40,27 +40,27 @@
 </div>
 
 
-
 <div *ngIf="isSave">
 
-  <div class="Excellent" *ngIf="outputMessage == 100">
+  <div class="Excellent" *ngIf="outputMessage.getValue() == 100">
     <img class="img1" src="../../../../assets/icon/01.gif" alt="" width="">
   </div>
 
-  <div class="Awesome" *ngIf="outputMessage == 75">
+  <div class="Awesome" *ngIf="outputMessage.getValue() == 75">
     <img class="img1" src="../../../../assets/icon/75.gif" alt="">
   </div>
 
 
 
-  <div *ngIf="outputMessage == 50">
-    <h1 class=" animated-text">Good work</h1>
-    <img src="../../../../assets/icon/75.gif" alt="">
+
+  <div id="resulttext" *ngIf="outputMessage.getValue() == 50">
+    <h1 class="animated-text">Good Work</h1>
   </div>
 
-  <div *ngIf="outputMessage == 0">
+
+  <div id="resulttext" *ngIf="outputMessage.getValue() == 0">
     <h1 class="animated-text">Practice More</h1>
-    <img src="../../../../assets/icon/100.gif" alt="">
+
   </div>
 
 
