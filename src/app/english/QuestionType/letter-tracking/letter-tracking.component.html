@@ -1,13 +1,12 @@
-
-<div *ngIf="QuestionType == 'LetterTracing'" id="LetterTracing">
+<div id="LetterTracing">
     <div class="letter-selector">
-        <span>🎨 {{CurrentQuestion?.Question}} 🖍️</span>
+        <span>🎨 {{ 'Drag the letter' }} 🖍️</span>
     </div>
 
     <div class="canvas-container">
-        <canvas #letterCanvas width="400" height="400" (mousedown)="startDrawing($event)"
-            (mouseup)="stopDrawing()" (mousemove)="paintCharacter($event)" (touchstart)="startDrawing($event)"
-            (touchend)="stopDrawing()" (touchmove)="paintCharacter($event)">
+        <canvas #letterCanvas width="400" height="400" (mousedown)="startDrawing($event)" (mouseup)="stopDrawing()"
+            (mousemove)="paintCharacter($event)" (touchstart)="startDrawing($event)" (touchend)="stopDrawing()"
+            (touchmove)="paintCharacter($event)">
         </canvas>
     </div>
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CRUDService } from 'src/app/crud.service';
 import { QuestionData } from 'src/app/interface/Question.interface';
@@ -11,46 +11,37 @@ import { OppsBoxComponent } from '../../opps-box/opps-box.component';
   templateUrl: './letter-tracking.component.html',
   styleUrls: ['./letter-tracking.component.scss']
 })
-export class LetterTrackingComponent {
+export class LetterTrackingComponent implements AfterViewInit {
   @ViewChild('letterCanvas', { static: false }) canvasRef!: ElementRef;
-  currentCharacter = new BehaviorSubject<string>('A')
+  currentCharacter = new BehaviorSubject<string>('A');
   ctx!: CanvasRenderingContext2D;
   characters: string[] = [];
   colors: string[] = ['#FF5733', '#33FF57', '#3357FF', '#F0FF33', '#9B33FF', '#FF33B5', '#33FFF7'];
   isDrawing: boolean = false;
   paintedArea: Set<string> = new Set();
   paintedPixels = 0;
-  showSaveButton = false;
-
   isSaveVisible = false;
-  QuestionType: string = ''
-  AllQuestion: QuestionData[] = []
-  CurrentQuestion: any
-  base_url: string = ''
+  QuestionType: string = 'LetterTracing';
+  AllQuestion: QuestionData[] = [];
+  base_url: string = '';
   filledWord: string = '';
   audio: HTMLAudioElement | null = null;
+  imageData: string = '';
+  i = 0;
 
   constructor(
     private _crud: CRUDService,
     private dialog: MatDialog
-  ) {
+  ) { }
 
-  }
   ngOnInit() {
-    this._crud.getQuestion().subscribe(
-      (res: QuestionData) => {
-        console.log(res);
-        if (Array.isArray(res)) {
-          this.AllQuestion = res
-          this.NextQuestion()
-        }
-      }
-    )
-
-    this.startPainting()
+    this.populateCharacters();
   }
 
-  // for letter tracking 
+  ngAfterViewInit() {
+    this.startPainting();
+  }
+
   populateCharacters() {
     for (let i = 65; i <= 90; i++) this.characters.push(String.fromCharCode(i));
     for (let i = 97; i <= 122; i++) this.characters.push(String.fromCharCode(i));
@@ -61,7 +52,7 @@ export class LetterTrackingComponent {
     this.paintedPixels = 0;
     this.paintedArea.clear();
     this.drawCharacter();
-    this.showSaveButton = false;
+    this.isSaveVisible = false;
   }
 
   drawCharacter() {
@@ -76,23 +67,26 @@ export class LetterTrackingComponent {
   }
 
   startDrawing(event: MouseEvent | TouchEvent) {
+    event.preventDefault();
     this.isDrawing = true;
     this.paintCharacter(event);
   }
 
-  stopDrawing() {
+  stopDrawing(event?: MouseEvent | TouchEvent) {
+    if (event) event.preventDefault();
     this.isDrawing = false;
   }
 
   paintCharacter(event: MouseEvent | TouchEvent) {
     if (!this.isDrawing) return;
+    event.preventDefault();
 
     const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
     const rect = canvas.getBoundingClientRect();
     const mouseX = 'touches' in event ? event.touches[0].clientX - rect.left : event.clientX - rect.left;
     const mouseY = 'touches' in event ? event.touches[0].clientY - rect.top : event.clientY - rect.top;
+    const position = `${Math.floor(mouseX)},${Math.floor(mouseY)}`;
 
-    const position = `${mouseX},${mouseY}`;
     if (!this.paintedArea.has(position)) {
       this.paintedArea.add(position);
       this.paintedPixels++;
@@ -102,148 +96,75 @@ export class LetterTrackingComponent {
       this.ctx.fill();
     }
 
-    if (this.paintedPixels >= 100) this.isSaveVisible = true;
+    if (this.paintedPixels >= 100) {
+      this.isSaveVisible = true;
+    }
   }
 
-  imageData: string = ''
   saveCanvas() {
     const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
     this.imageData = canvas.toDataURL("image/png");
-
-    console.log("Captured Image:", this.imageData);
-
     this.uploadToServer(this.imageData);
     this.onCorrect();
   }
 
   uploadToServer(imageBase64: string) {
-    const payload = {
-      character: this.currentCharacter,
-      image: imageBase64
-    };
-
     const byteCharacters = atob(imageBase64.split(',')[1]);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
+    const byteNumbers = Array.from(byteCharacters).map(c => c.charCodeAt(0));
     const byteArray = new Uint8Array(byteNumbers);
-    const imageBlob = new Blob([byteArray], { type: 'image/png' }); // Adjust type if necessary
+    const imageBlob = new Blob([byteArray], { type: 'image/png' });
     const file = new File([imageBlob], 'uploaded_image.png', { type: 'image/png' });
 
     const formData = new FormData();
     formData.append('std_id', '123');
     formData.append('question_id', '456');
     formData.append('answer_status', '1');
-    formData.append('answer_image', file); // Attach as a file
+    formData.append('answer_image', file);
 
     this._crud.Add_answers_api(formData).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      (error) => {
-        console.error('Error uploading the image:', error);
-      }
+      (res) => console.log(res),
+      (error) => console.error('Error uploading the image:', error)
     );
   }
 
-  ngAfterViewInit() {
-
-    if (this.QuestionType == "LetterTracing") {
-      this.populateCharacters();
-      this.startPainting();
-    }
-
-
-
-
-  }
-
-  i = 0
-
-
   selectOption(option: string) {
     this.filledWord = option;
-    console.log(this.filledWord)
-    this.isSaveVisible = true
+    this.isSaveVisible = true;
   }
 
   resetSelection() {
     this.filledWord = '';
   }
 
-
-
-
-  NextQuestion() {
-    this.filledWord = ''
-    if (this.i < this.AllQuestion.length - 1) {
-      this.i++;
-    } else {
-      this.i = 0;
-    }
-    this.CurrentQuestion = this.AllQuestion[this.i];
-    this.QuestionType = this.CurrentQuestion.question_type
-    console.log(this.CurrentQuestion)
-    this.currentCharacter.next(this.CurrentQuestion.OptionA)
-    this.startPainting()
-  }
-
   CheckCorrect() {
-    this.isSaveVisible = false
-    if (this.QuestionType == 'BlendWords') {
-      if (this.CurrentQuestion?.Answer == this.filledWord) {
-        this.onCorrect()
-      } else {
-        this.onOops()
-      }
-    }
-
-    if (this.QuestionType == 'MCQ') {
-      if (this.CurrentQuestion?.Answer == this.filledWord) {
-        this.onCorrect()
-      } else {
-        this.onOops()
-      }
-    }
-
+    this.isSaveVisible = false;
   }
 
+  onCorrect() {
+    const dilogclosed = this.dialog.open(CorrectBoxComponent, {
+      disableClose: true,
+      width: "40vw",
+      height: "90vh"
+    });
 
+    dilogclosed.afterClosed().subscribe((res) => {
+      if (res == 'next') {
+        // this.NextQuestion();
+      }
+    });
+  }
 
-    onCorrect() {
-      const dilogclosed = this.dialog.open(CorrectBoxComponent, {
-        disableClose: true,
-        width: "40vw",
-        height: "90vh"
-      });
-  
-      dilogclosed.afterClosed().subscribe(
-        (res) => {
-          console.log(res)
-          if (res == 'next') {
-            this.NextQuestion()
-          }
-        }
-      )
-    }
-  
-    onOops() {
-      const oopsDilog = this.dialog.open(OppsBoxComponent, {
-        disableClose: true,
-        width: "40vw",
-        height: "90vh"
-      });
-      oopsDilog.afterClosed().subscribe(
-        (res) => {
-          console.log(res)
-          if (res == 'next') {
-            this.NextQuestion()
-          }
-  
-        }
-      )
-  
-    }
-  
+  onOops() {
+    const oopsDilog = this.dialog.open(OppsBoxComponent, {
+      disableClose: true,
+      width: "40vw",
+      height: "90vh"
+    });
+
+    oopsDilog.afterClosed().subscribe((res) => {
+      if (res == 'next') {
+        // this.NextQuestion();
+      }
+    });
+  }
 }
