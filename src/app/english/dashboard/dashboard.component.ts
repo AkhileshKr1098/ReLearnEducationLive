@@ -1,67 +1,29 @@
-import { Component } from '@angular/core';
-import { Chart, ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
-import { LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from 'chart.js'
+import { Component, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
+import { isArray } from 'chart.js/dist/helpers/helpers.core';
+import { CRUDService } from 'src/app/crud.service';
+import { Topics, Week } from 'src/app/interface/Question.interface';
+import { SharedService } from 'src/app/shared.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  callStatics: any = [1, 15, 0, 8, 1, 14, 0, 0, 40, 0, 25, 0]
-  percent: number = 50;  // Ensure it's a number
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
 
-  public chartOptions: ChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        grid: {
-          display: false
-        }
-      },
-      y: {
-        grid: {
-          color: 'rgba(200, 200, 200, 0.2)'
-        }
-      }
-    },
-    plugins: {
-      legend: {
-        labels: {
-          font: {
-            size: 14
-          },
-          color: "#333"
-        }
-      }
-    }
-  };
-
-  public chartType: ChartType = 'line';
-
-  public chartData: ChartConfiguration['data'] = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-
-    datasets: [
-      {
-        data: this.callStatics,
-        label: 'Report',
-        borderColor: '#FF3B30',
-        backgroundColor: 'rgba(255, 59, 48, 0.3)',
-        fill: true,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        pointBackgroundColor: '#FF3B30',
-        tension: 0.4
-      },
-
-    ],
-  };
-
-  constructor() {
-    Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
-
+  weeksList: Week[] = []
+  TopicsList: Topics[] = []
+  percent: number = 50;
+  userLoginData = {
+    name: 'MR. Json',
+    age: 11,
+    class: 'LKG',
+    country: 'USA',
+    profile_img: '../../../assets/icon/profile.jpeg',
+    currentPoint: 350
   }
+
   days = [
     { name: 'Day 1', gradient: 'radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)' },
     { name: 'Day 2', gradient: 'radial-gradient(circle, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 100%)' },
@@ -71,9 +33,39 @@ export class DashboardComponent {
     { name: 'Day 6', gradient: 'radial-gradient(circle, rgba(144,238,144,1) 0%, rgba(0,128,0,1) 100%)' },
   ];
 
+
+
+  constructor(
+    private _crud: CRUDService,
+    private _shared: SharedService
+  ) { }
+
+
   ngOnInit() {
-    setTimeout(() => {
-      this.percent = 50;
-    }, 100);
+    this.getWeeks()
+  }
+
+  getWeeks() {
+    this._crud.getWeek().subscribe(
+      (res) => {
+        console.log(res);
+        if (Array.isArray(res.data)) {
+          this.weeksList = res.data
+        }
+      }
+    )
+  }
+
+  getTopics(week: number) {
+    this._crud.getTopics().subscribe(
+      (res) => {
+        console.log(res)
+        if (Array.isArray(res.data)) {
+          this.TopicsList = res.data
+        }
+      }
+    )
   }
 }
+
+

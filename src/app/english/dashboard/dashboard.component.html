@@ -1,309 +1,47 @@
 <div id="wrapper">
-  <div class="mobile_size_sidebar">
-
-    <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExamples"
-      aria-controls="offcanvasExample">
-      <mat-icon>apps</mat-icon>
-      <!-- <mat-icon>menu</mat-icon> -->
-    </button>
-
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExamples" aria-labelledby="offcanvasExampleLabel">
-      <div class="offcanvas-header">
-
-        <!-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">RELEARN &nbsp;MENU</h5> -->
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body" style="width: 500px; height: auto; overflow: auto;">
-
-        <div id="header_area" class="side_boxes">
-          <h1>
-            <b>Hello,</b> Mr. John Doe
-          </h1>
-          <p>
-            Nice to have you back. what exciting today!<br>
-            Get ready and contribute your lessons today.
-          </p>
-        </div>
-
-        <div id="course" class="side_boxes">
-          <div class="title">Today's Course</div>
-          <div class="course_area">
-
-            <div class="box">
-              <div class="progress_bar_area">
-                <circle-progress [percent]="40" [radius]="50" [outerStrokeWidth]="12" [innerStrokeWidth]="5"
-                  [outerStrokeColor]="'orange'" [innerStrokeColor]="'lightgray'" [animation]="true"
-                  [animationDuration]="1000">
-                </circle-progress>
-                <!-- <img src="assets/icon/progress.png" alt=""> -->
-              </div>
-              <div class="course_title">
-                English Grammer
-              </div>
-              <div class="optisons">
-                <div class="opt">
-                  <h4>
-                    <mat-icon>library_books</mat-icon>20 lessions
-                  </h4>
-                  <h4 style="margin-left: 82px;">
-                    <mat-icon>timer</mat-icon>52 min
-                  </h4>
-                </div>
-                <div class="opt">
-                  <h4>
-                    <mat-icon>assignment</mat-icon>4 assignment
-                  </h4>
-                  <h4 style="margin-left: 70px;">
-                    <mat-icon>people</mat-icon> Class 10 Days
-                  </h4>
-                </div>
-              </div>
-              <div class="buttons_area">
-                <button>Skip</button>
-                <button>Continue</button>
-              </div>
-            </div>
-
-            <div class="box">
-              <div class="progress_bar_area">
-                <circle-progress [percent]="80" [radius]="50" [outerStrokeWidth]="12" [innerStrokeWidth]="5"
-                  [outerStrokeColor]="'orange'" [innerStrokeColor]="'lightgray'" [animation]="true"
-                  [animationDuration]="1000">
-                </circle-progress>
-                <!-- <img src="assets/icon/progress.png" alt=""> -->
-              </div>
-              <div class="course_title">
-                Spoken English
-              </div>
-              <div class="optisons">
-                <div class="opt">
-                  <h4>
-                    <mat-icon>library_books</mat-icon>20 lessions
-                  </h4>
-                  <h4 style="margin-left: 82px;">
-                    <mat-icon>timer</mat-icon>52 min
-                  </h4>
-                </div>
-                <div class="opt">
-                  <h4>
-                    <mat-icon>assignment</mat-icon>4 assignment
-                  </h4>
-                  <h4 style="margin-left: 70px;">
-                    <mat-icon>people</mat-icon>class 10 Day
-                  </h4>
-                </div>
-              </div>
-              <div class="buttons_area">
-                <button>Skip</button>
-                <button>Continue</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div id="class_area" class="side_boxes" style="margin-top: 50px;">
-          <div class="title">Your Class</div>
-          <div class="menu">
-            <ul>
-              <li>All</li>
-              <li>Design</li>
-              <li>Service</li>
-              <li>Coding</li>
-              <li><mat-icon>filter_list</mat-icon></li>
-              <li><mat-icon> local_bar</mat-icon></li>
-            </ul>
-          </div>
-
-          <div class="box">
-            <div class="progress_bar_area">
-              <img src="assets/icon/images.jpg" alt="">
-            </div>
-            <div class="course_title">
-              English Grammer
-            </div>
-            <div class="optisons">
-              <div class="opt">
-                <h4>
-                  <mat-icon>library_books</mat-icon>20 lessions
-                </h4>
-                <h4 style="margin-left: 82px;">
-                  <mat-icon>timer</mat-icon>52 min
-                </h4>
-              </div>
-              <div class="opt">
-                <h4>
-                  <mat-icon>assignment</mat-icon>4 assignment
-                </h4>
-                <h4 style="margin-left: 70px;">
-                  <mat-icon>people</mat-icon> 5 Day Class
-                </h4>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
   <div class="side">
-    <div id="header_area" class="side_boxes">
-      <h1>
-        <b>Hello,</b> Mr. John Doe
-      </h1>
-      <p>
-        Nice to have you back. what exciting today!<br>
-        Get ready and contribute your lessons today.
-      </p>
+    <div class="header">
+      <span> My Course</span>
     </div>
+    <div id="scrollarea">
+      <mat-accordion *ngFor="let weeks of weeksList" class="example-headers-align" (click)="getTopics(weeks.id)">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Week {{weeks.week_num}} 
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <!-- for topics  -->
+          <mat-accordion *ngFor="let topic of TopicsList" class="example-headers-align" (click)="getTopics(topic.id)">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{topic.topics}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
 
-    <div id="course" class="side_boxes">
-      <div class="title">Today's Course</div>
-      <div class="course_area">
+            </mat-expansion-panel>
+          </mat-accordion>
+          <!-- for topics  -->
+        </mat-expansion-panel>
+      </mat-accordion>
 
-        <div class="box">
-          <div class="progress_bar_area">
-            <circle-progress [percent]="40" [radius]="50" [outerStrokeWidth]="12" [innerStrokeWidth]="5"
-              [outerStrokeColor]="'orange'" [innerStrokeColor]="'lightgray'" [animation]="true"
-              [animationDuration]="1000">
-            </circle-progress>
-            <!-- <img src="assets/icon/progress.png" alt=""> -->
-          </div>
-          <div class="course_title">
-            English Grammer
-          </div>
-          <div class="optisons">
-            <div class="opt">
-              <h4>
-                <mat-icon>library_books</mat-icon>20 lessions
-              </h4>
-              <h4 style="margin-left: 82px;">
-                <mat-icon>timer</mat-icon>52 min
-              </h4>
-            </div>
-            <div class="opt">
-              <h4>
-                <mat-icon>assignment</mat-icon>4 assignment
-              </h4>
-              <h4 style="margin-left: 70px;">
-                <mat-icon>people</mat-icon> Class 10 Days
-              </h4>
-            </div>
-          </div>
-          <div class="buttons_area">
-            <button>Skip</button>
-            <button>Continue</button>
-          </div>
-        </div>
-
-        <div class="box">
-          <div class="progress_bar_area">
-            <circle-progress [percent]="90" [radius]="50" [outerStrokeWidth]="12" [innerStrokeWidth]="5"
-              [outerStrokeColor]="'orange'" [innerStrokeColor]="'lightgray'" [animation]="true"
-              [animationDuration]="1000">
-            </circle-progress>
-            <!-- <img src="assets/icon/progress.png" alt=""> -->
-          </div>
-          <div class="course_title">
-            Spoken English
-          </div>
-          <div class="optisons">
-            <div class="opt">
-              <h4>
-                <mat-icon>library_books</mat-icon>20 lessions
-              </h4>
-              <h4 style="margin-left: 82px;">
-                <mat-icon>timer</mat-icon>52 min
-              </h4>
-            </div>
-            <div class="opt">
-              <h4>
-                <mat-icon>assignment</mat-icon>4 assignment
-              </h4>
-              <h4 style="margin-left: 70px;">
-                <mat-icon>people</mat-icon>class 10 Day
-              </h4>
-            </div>
-          </div>
-          <div class="buttons_area">
-            <button>Skip</button>
-            <button>Continue</button>
-          </div>
-        </div>
-
-      </div>
     </div>
-
-    <div id="class_area" class="side_boxes">
-      <div class="title">Your Class</div>
-      <div class="menu">
-        <ul>
-          <li>All</li>
-          <li>Design</li>
-          <li>Service</li>
-          <li>Coding</li>
-          <li><mat-icon>filter_list</mat-icon></li>
-          <li><mat-icon> local_bar</mat-icon></li>
-        </ul>
-      </div>
-      <div class="box">
-        <div class="progress_bar_area">
-          <img src="assets/icon/images.jpg" alt="">
-        </div>
-        <div class="course_title">
-          English Grammer
-        </div>
-        <div class="optisons">
-          <div class="opt">
-            <h4>
-              <mat-icon>library_books</mat-icon>20 lessions
-            </h4>
-            <h4 style="margin-left: 82px;">
-              <mat-icon>timer</mat-icon>52 min
-            </h4>
-          </div>
-          <div class="opt">
-            <h4>
-              <mat-icon>assignment</mat-icon>4 assignment
-            </h4>
-            <h4 style="margin-left: 70px;">
-              <mat-icon>people</mat-icon>6 day class
-            </h4>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
   <div class="main">
     <div class="uppar_section">
       <div class="profile_section">
         <div class="profile_box">
-          <div class="cover_img">
-            <img src="assets/icon/profilebgc.jpeg" alt="">
+          <div class="profileimg">
+            <img [src]="userLoginData.profile_img" alt="">
           </div>
-          <div class="profile_img">
-            <img src="assets/icon/profile.jpeg" alt="">
+          <div class="profiledeatils">
+            <div class="row"><b>Name:</b> {{userLoginData.name}}</div>
+            <div class="row"><b>Age:</b> {{userLoginData.age}}</div>
+            <div class="row"><b>Class:</b> {{userLoginData.class}}</div>
+            <div class="row"><b>Country:</b> {{userLoginData.country}}</div>
           </div>
-          <div class="name">
-            <h1>Mr. John Doe</h1>
-            <p> New York, NY 10001, USA</p>
-          </div>
-          <!-- <div class="client_details">
-            <div class="corse_boxes">
-              <h5>
-                <mat-icon>assignment</mat-icon>
-              </h5>
-              <h2>54</h2>
-              <p>Course</p>
-            </div>
-            <div class="corse_boxes">
-              <h5>
-                <mat-icon>assignment</mat-icon>
-              </h5>
-              <h2>04</h2>
-              <p>Certifications</p>
-            </div>
-          </div> -->
+
         </div>
       </div>
       <div class="point_area">
@@ -312,26 +50,14 @@
             <img src="assets/icon/star.png" alt="">
           </div>
           <div class="point_title">
-            <h1>2400 XP</h1>
-            <p>Point</p>
-          </div>
-          <div class="point_btns">
-            <button>Redeem</button>
-            <button>Collect Points</button>
+            <h1>ReLearn Points</h1>
+            <div class="pointnumber">{{userLoginData.currentPoint}}</div>
           </div>
         </div>
 
       </div>
     </div>
-    <div class="chart_section">
-      <div class="mainline"></div>
+    <div class="lower_section">
       
-      <div class="timeline">
-        <div *ngFor="let day of days; let i = index" class="day-container">
-          <div class="number">{{ i + 1 }}</div>
-          <div class="line"></div>
-          <div class="circle" [ngStyle]="{'background': day.gradient}">{{ day.name }}</div>
-        </div>
-      </div>
     </div>
   </div>

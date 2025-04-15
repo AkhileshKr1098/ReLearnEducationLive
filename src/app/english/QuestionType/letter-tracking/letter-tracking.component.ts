@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CRUDService } from 'src/app/crud.service';
 import { QuestionData } from 'src/app/interface/Question.interface';
@@ -12,6 +12,7 @@ import { OppsBoxComponent } from '../../opps-box/opps-box.component';
   styleUrls: ['./letter-tracking.component.scss']
 })
 export class LetterTrackingComponent implements AfterViewInit {
+  @Input() CurrentQyt!: QuestionData;
   @ViewChild('letterCanvas', { static: false }) canvasRef!: ElementRef;
   currentCharacter = new BehaviorSubject<string>('A');
   ctx!: CanvasRenderingContext2D;
@@ -40,6 +41,7 @@ export class LetterTrackingComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.startPainting();
+    this.currentCharacter.next(String(this.CurrentQyt.OptionA))
   }
 
   populateCharacters() {

@@ -5,15 +5,13 @@
             <span>{{CurrentQuestion?.topics}}</span>
             <span></span>
         </div> -->
-<!-- 
-        <div  id="LetterTracing">
-            <app-letter-tracking></app-letter-tracking>
-        </div> -->
 
-        <div id="LetterMatch">
+        <div *ngIf="QuestionType == 'LetterTracing'" id="LetterTracing">
+            <app-letter-tracking [CurrentQyt]="CurrentQuestion"></app-letter-tracking>
+        </div>
 
-            <app-letter-match></app-letter-match>
-
+        <div *ngIf="QuestionType == 'LetterMatch'" id="LetterMatch">
+            <app-letter-match [CurrentQyt]="CurrentQuestion"></app-letter-match>
         </div>
 
 

@@ -39,6 +39,9 @@ import { ConfirmDialogComponent } from './QuestionType/confirm-dialog/confirm-di
 import { CorrectBoxComponent } from './correct-box/correct-box.component';
 import { OppsBoxComponent } from './opps-box/opps-box.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import {  MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -82,7 +85,10 @@ import { MatDialogModule } from '@angular/material/dialog';
       animationDuration: 300,
     }),
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule,
+    MatInputModule,
+    MatFormFieldModule
 
   ],
 

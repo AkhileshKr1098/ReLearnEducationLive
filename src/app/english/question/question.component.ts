@@ -6,6 +6,7 @@ import { CorrectBoxComponent } from '../correct-box/correct-box.component';
 import { OppsBoxComponent } from '../opps-box/opps-box.component';
 import { BehaviorSubject } from 'rxjs';
 import { QuestionData } from 'src/app/interface/Question.interface';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-question',
@@ -29,7 +30,8 @@ export class QuestionComponent implements OnInit, AfterViewInit {
 
   constructor(
     private _crud: CRUDService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private shared: SharedService
   ) {
     this._crud.img_base_url.subscribe(
       (res) => {
@@ -39,23 +41,30 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    // this._crud.getQuestion().subscribe(
-    //   (res: QuestionData) => {
-    //     console.log(res);
-    //     if (Array.isArray(res)) {
-    //       this.AllQuestion = res
-    //       this.NextQuestion()
-    //     }
-    //   }
-    // )
+    this._crud.getQuestion().subscribe(
+      (res: QuestionData) => {
+        console.log(res);
+        if (Array.isArray(res)) {
+          this.AllQuestion = res.reverse()
+          this.NextQuestion()
+        }
+      }
+    )
 
 
+    this.shared.CurrentQuestionStatus.subscribe(
+      (res) => {
+        console.log(res);
+        if (res ===  true) {
+            this.NextQuestion()
+        }
+      }
+    )
   }
 
 
   ngAfterViewInit() {
-
-
+    console.log('afterviewunit call');
 
   }
 

@@ -1,6 +1,8 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
+import { QuestionData } from 'src/app/interface/Question.interface';
+import { SharedService } from 'src/app/shared.service';
 
 interface Point {
   x: number;
@@ -23,6 +25,8 @@ interface Match {
   styleUrls: ['./letter-match.component.scss']
 })
 export class LetterMatchComponent implements AfterViewInit {
+  @Input() CurrentQyt!: QuestionData;
+
   rightvalue = ['ball', 'sun', 'water', 'fly', 'elephant'];
   leftValue = ['ball', 'sun', 'water', 'fly', 'elephant'];
   leftWords: any[] = [];
@@ -35,9 +39,14 @@ export class LetterMatchComponent implements AfterViewInit {
   selectedItem: { side: 'left' | 'right', item: any, element: HTMLElement } | null = null;
   outputMessage = new BehaviorSubject<number>(0)
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog,
+    private shared: SharedService
+  ) { }
 
   ngAfterViewInit() {
+    console.log(this.CurrentQyt);
+
     setTimeout(() => {
       this.resetWords();
     });
@@ -51,10 +60,20 @@ export class LetterMatchComponent implements AfterViewInit {
   }
 
   resetWords() {
-    this.leftWords = this.shuffleArray(this.leftValue.map(word => ({ word })));
-    this.rightWords = this.shuffleArray(this.rightvalue.map(word => ({ word })));
+    if (!this.CurrentQyt || !this.CurrentQyt.OptionA || !this.CurrentQyt.OptionB) {
+      console.warn('CurrentQyt or its properties are null/undefined');
+      return;
+    }
+
+    const leftValue = this.CurrentQyt.OptionA.split(',').map(word => word.trim());
+    const rightValue = this.CurrentQyt.OptionB.split(',').map(word => word.trim());
+
+    this.leftWords = this.shuffleArray(leftValue.map(word => ({ word })));
+    this.rightWords = this.shuffleArray(rightValue.map(word => ({ word })));
+
     this.clearMatches();
   }
+
 
   clearMatches() {
     this.matchedPairs = [];
@@ -158,6 +177,7 @@ export class LetterMatchComponent implements AfterViewInit {
     this.resetDrag();
   }
 
+
   resetDrag() {
     this.isDragging = false;
     this.selectedItem = null;
@@ -169,12 +189,10 @@ export class LetterMatchComponent implements AfterViewInit {
   saveMatches(type: string) {
     if (type === 'submit') {
       this.isSave = false;
-
+      this.shared.CurrentQuestionStatus.next(true)
     }
 
     if (type === 'save') {
-
-
       this.isSave = true;
       this.playAudio('../../../../assets/audio/answersavetime.wav');
 
@@ -209,20 +227,15 @@ export class LetterMatchComponent implements AfterViewInit {
         this.outputMessage.next(100)
       } else if (this.TotalPercentage >= 75) {
         this.outputMessage.next(75)
-        alert('75 to 100')
-
       } else if (this.TotalPercentage >= 50) {
         this.outputMessage.next(50)
-        alert('50 to 75')
       } else if (this.TotalPercentage >= 0) {
         this.outputMessage.next(0)
-        alert('0 to 50')
-
       } else {
         alert('No correct matches. Try again!');
       }
 
-      console.log('action  value',this.outputMessage.getValue())
+      console.log('action  value', this.outputMessage.getValue())
     }
   }
 
@@ -234,4 +247,5 @@ export class LetterMatchComponent implements AfterViewInit {
   onCheck() {
     alert('Check feature not implemented yet.');
   }
+
 }
