@@ -5,6 +5,7 @@ import { QuestionData } from 'src/app/interface/Question.interface';
 import { CorrectBoxComponent } from '../../correct-box/correct-box.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OppsBoxComponent } from '../../opps-box/opps-box.component';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-letter-tracking',
@@ -32,7 +33,8 @@ export class LetterTrackingComponent implements AfterViewInit {
 
   constructor(
     private _crud: CRUDService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _shared: SharedService
   ) { }
 
   ngOnInit() {
@@ -151,7 +153,7 @@ export class LetterTrackingComponent implements AfterViewInit {
 
     dilogclosed.afterClosed().subscribe((res) => {
       if (res == 'next') {
-        // this.NextQuestion();
+        this._shared.CurrentQuestionStatus.next(true)
       }
     });
   }

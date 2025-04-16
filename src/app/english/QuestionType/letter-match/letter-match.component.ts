@@ -32,7 +32,7 @@ export class LetterMatchComponent implements AfterViewInit {
   leftWords: any[] = [];
   rightWords: any[] = [];
   matchedPairs: Match[] = [];
-
+  totalQuestionMark: number = 0
   isDragging = false;
   dragLine = { start: { x: 0, y: 0 }, end: { x: 0, y: 0 } };
 
@@ -193,6 +193,20 @@ export class LetterMatchComponent implements AfterViewInit {
     }
 
     if (type === 'save') {
+      if (!this.CurrentQyt.OptionA) {
+        return;
+      }
+      const leftValue = this.CurrentQyt.OptionA.split(',').map(word => word.trim());
+      if (leftValue.length > 0) {
+        console.log('total q', leftValue.length);
+        console.log('total !', );
+
+        if (this.totalQuestionMark !== leftValue.length) {
+          alert('please completd the all ')
+          return
+        }
+      }
+
       this.isSave = true;
       this.playAudio('../../../../assets/audio/answersavetime.wav');
 
@@ -207,12 +221,14 @@ export class LetterMatchComponent implements AfterViewInit {
 
         if (correct) {
           correctCount++;
+          this.totalQuestionMark++;
           match.leftElement.style.backgroundColor = '#affab0';
           match.leftElement.style.color = '#000';
           match.rightElement.style.backgroundColor = '#affab0';
           match.rightElement.style.color = '#000';
         } else {
           incorrectCount++;
+          this.totalQuestionMark++;
           match.leftElement.style.backgroundColor = '#fcb1b1';
           match.leftElement.style.color = '#000';
           match.rightElement.style.backgroundColor = '#fcb1b1';
@@ -221,6 +237,7 @@ export class LetterMatchComponent implements AfterViewInit {
       }
 
       const total = correctCount + incorrectCount;
+
       this.TotalPercentage = total > 0 ? (correctCount / total) * 100 : 0;
       console.log(this.TotalPercentage, 'total')
       if (this.TotalPercentage === 100) {

@@ -4,22 +4,22 @@
       <span> My Course</span>
     </div>
     <div id="scrollarea">
-      <mat-accordion *ngFor="let weeks of weeksList" class="example-headers-align" (click)="getTopics(weeks.id)">
+      <mat-accordion *ngFor="let weeks of weeksList" class="example-headers-align"
+        (click)="getSections(weeks.week_num)">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Week {{weeks.week_num}} 
+              Week {{weeks.week_num}}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <!-- for topics  -->
-          <mat-accordion *ngFor="let topic of TopicsList" class="example-headers-align" (click)="getTopics(topic.id)">
-            <mat-expansion-panel>
+          <mat-accordion *ngFor="let sec of SectionsList" class="example-headers-align">
+            <mat-expansion-panel [hideToggle]="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  {{topic.topics}}
+                  {{sec.sections_name}}- &nbsp;<span style="font-weight: normal;"> {{this.allTopics}}</span>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-
             </mat-expansion-panel>
           </mat-accordion>
           <!-- for topics  -->
@@ -36,10 +36,11 @@
             <img [src]="userLoginData.profile_img" alt="">
           </div>
           <div class="profiledeatils">
-            <div class="row"><b>Name:</b> {{userLoginData.name}}</div>
-            <div class="row"><b>Age:</b> {{userLoginData.age}}</div>
-            <div class="row"><b>Class:</b> {{userLoginData.class}}</div>
-            <div class="row"><b>Country:</b> {{userLoginData.country}}</div>
+            <div class="row name" >{{userLoginData.name}}</div>
+            <div class="row">{{userLoginData.age}}</div>
+            <div class="row">{{userLoginData.class}}</div>
+            <div class="row">{{userLoginData.school}}</div>
+            <div class="row">{{userLoginData.country}}</div>
           </div>
 
         </div>
@@ -58,6 +59,6 @@
       </div>
     </div>
     <div class="lower_section">
-      
+
     </div>
   </div>
