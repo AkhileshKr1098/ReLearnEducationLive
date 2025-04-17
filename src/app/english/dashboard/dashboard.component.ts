@@ -11,6 +11,7 @@ import { SharedService } from 'src/app/shared.service';
 })
 export class DashboardComponent {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
+  current_day = 5
 
   weeksList: Week[] = []
   TopicsList: Topics[] = []
@@ -27,13 +28,18 @@ export class DashboardComponent {
     currentPoint: 350
   }
 
-  days = [
-    { name: 'Day 1', gradient: 'radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)' },
-    { name: 'Day 2', gradient: 'radial-gradient(circle, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 100%)' },
-    { name: 'Day 3', gradient: 'radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)' },
-    { name: 'Day 4', gradient: 'radial-gradient(circle, rgba(238,130,238,1) 0%, rgba(75,0,130,1) 100%)' },
-    { name: 'Day 5', gradient: 'radial-gradient(circle, rgba(255,165,0,1) 0%, rgba(255,69,0,1) 100%)' },
-    { name: 'Day 6', gradient: 'radial-gradient(circle, rgba(144,238,144,1) 0%, rgba(0,128,0,1) 100%)' },
+  days1 = [
+    { name: 'Day 1', url: '../../../assets/icon/day1.png' },
+    { name: 'Day 2', url: '../../../assets/icon/day2.png' },
+    { name: 'Day 3', url: '../../../assets/icon/day3.png' }
+
+  ];
+
+  days2 = [
+    { name: 'Day 4', url: '../../../assets/icon/day4.png' },
+    { name: 'Day 5', url: '../../../assets/icon/day5.png' },
+    { name: 'Day 6', url: '../../../assets/icon/day6.png' },
+
   ];
 
 

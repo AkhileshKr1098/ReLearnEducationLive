@@ -36,7 +36,7 @@
             <img [src]="userLoginData.profile_img" alt="">
           </div>
           <div class="profiledeatils">
-            <div class="row name" >{{userLoginData.name}}</div>
+            <div class="row name">{{userLoginData.name}}</div>
             <div class="row">{{userLoginData.age}}</div>
             <div class="row">{{userLoginData.class}}</div>
             <div class="row">{{userLoginData.school}}</div>
@@ -59,6 +59,19 @@
       </div>
     </div>
     <div class="lower_section">
+      <div class="timeline">
+        <div *ngFor="let day of days1; let i = index" class="day-container"
+          [ngClass]="{ activeClass: i + 1 === current_day }">
+          <img [src]="day.url" alt="">
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div *ngFor="let day of days2; let i = index" class="day-container"
+          [ngClass]="{ activeClass: i + 1 === current_day }">
+          <img [src]="day.url" alt="">
+        </div>
+      </div>
 
     </div>
   </div>
