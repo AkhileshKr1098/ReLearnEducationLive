@@ -24,7 +24,7 @@
 }
 
 .side {
-  width: 385px;
+  width: 268px;
   height: 100%;
   float: left;
   background-color: rgb(255, 255, 255);
@@ -70,7 +70,7 @@
 }
 
 .main {
-  width: calc(100% - 385px);
+  width: calc(100% - 268px);
   height: 100%;
   background-color: rgba(205, 218, 244, 0.251);
   float: left;
@@ -87,7 +87,7 @@
 
 .uppar_section {
   width: 100%;
-  height: 300px;
+  height: 221px;
 }
 
 
@@ -231,7 +231,7 @@
 // for day css starting 
 .lower_section {
   width: 100%;
-  height: calc(100% - 300px);
+  height: calc(100% - 221px);
   background-image: url(../../../assets/icon/bgc07.jpeg);
   background-size: 100%;
   background-size: cover;
@@ -249,10 +249,9 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-
   img {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
   }
 
 }
@@ -261,41 +260,69 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 8px;
+  margin: 5px;
   position: relative;
   transition: transform 0.3s ease-in-out;
   border: 5px solid #b5d01f;
   border-radius: 100%;
-  padding: 10px;
+  padding: 25px;
+}
+.day-container2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  border: 5px solid #b5d01f;
+  border-radius: 100%;
+  padding: 25px;
 }
 
 .day-container:nth-child(1) {
   position: relative;
-  top: -50px;
+  top: -60px;
 }
 
 .day-container:nth-child(2) {
   position: relative;
-  top: 50px;
+  top: 60px;
 }
 
 .day-container:nth-child(3) {
   position: relative;
-  top: -50px;
+  top: -60px;
+  right: -20px;
 }
 
-.day-container:nth-child(4) {
+.day-container2:nth-child(1) {
   position: relative;
-  top: 50px;
+  top: 60px;
+  left: -10px;
 }
 
-.day-container:nth-child(5) {
+.day-container2:nth-child(2) {
   position: relative;
-  top: -50px;
+  top: -60px;
+}
+.day-container2:nth-child(3) {
+  position: relative;
+  top: 60px;
 }
 
 
 .day-container:hover {
+  img {
+    transform: scale(1.2) rotate(10deg);
+    filter: brightness(1.2);
+  }
+
+  transform: scale(1.1) rotate(10deg);
+  filter: brightness(1.1);
+
+}
+
+.day-container2:hover {
   img {
     transform: scale(1.2) rotate(10deg);
     filter: brightness(1.2);
