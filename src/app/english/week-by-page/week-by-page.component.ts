@@ -15,13 +15,12 @@ export class WeekByPageComponent {
 
   }
   days = [
-    { name: 'Day 1', url: '../../../assets/icon/Seal Day 1 (1).png' },
-    { name: 'Day 2', url: '../../../assets/icon/Day 2 without bg.png' },
-    { name: 'Day 3', url: '../../../assets/icon/Day 3 without bg.png' },
-    { name: 'Day 4', url: '../../../assets/icon/Day_1_New-removebg-preview.png' },
-    { name: 'Day 5', url: '../../../assets/icon/Day_3-removebg-preview.png' },
-    { name: 'Day 6', url: '../../../assets/icon/Day 1 Final (1).png' },
-
+    { name: 'Day 1', url: '../../../assets/icon/day1.png' },
+    { name: 'Day 2', url: '../../../assets/icon/day2.png' },
+    { name: 'Day 3', url: '../../../assets/icon/day3.png' },
+    { name: 'Day 4', url: '../../../assets/icon/day4.png' },
+    { name: 'Day 5', url: '../../../assets/icon/day5.png' },
+    { name: 'Day 6', url: '../../../assets/icon/day6.png' },
   ];
 
   onQuestion(day: any) {
