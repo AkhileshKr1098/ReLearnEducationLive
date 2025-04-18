@@ -11,9 +11,7 @@ export class WeekByPageComponent {
   current_day = 5
   constructor(
     private _router: Router,
-  ) {
-
-  }
+  ) { }
   days = [
     { name: 'Day 1', url: '../../../assets/icon/day1.png' },
     { name: 'Day 2', url: '../../../assets/icon/day2.png' },
@@ -27,4 +25,5 @@ export class WeekByPageComponent {
     console.log(day)
     this._router.navigate(['/english/topics'])
   }
+  
 }
